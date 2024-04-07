@@ -9,7 +9,6 @@ function RatingForm({ question = INITIAL.RATING_QUESTION }) {
     const checkedRating = Array(index + 1).fill(true);
     const uncheckedRating = Array(RATING_LENGTH - index - 1).fill(false);
     setRatings([...checkedRating, ...uncheckedRating]);
-
     if (index === 0 && ratings.filter((rating) => rating).length === 1) {
       setRatings([!ratings[0], ...ratings.slice(1)]);
     }
