@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import MovingButton from "./component/MovingButton";
+import MovingButton from "./MovingButton";
 import "./style/Form.css";
-import { INITIAL } from "./utils/constant";
+import { INITIAL } from "../utils/constant";
 
-function YesNoForm({
+function YesNoQuestion({
   question = INITIAL.YES_NO_QUESTION,
   yesLabel = INITIAL.YES_BUTTON,
   noLabel = INITIAL.NO_BUTTON,
@@ -24,4 +24,4 @@ function YesNoForm({
   );
 }
 
-export default YesNoForm;
+export default YesNoQuestion;

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import SVGIcon from "./component/SVGIcon";
-import { INITIAL } from "./utils/constant";
+import SVGIcon from "./SVGIcon";
+import { INITIAL } from "../utils/constant";
 const RATING_LENGTH = 5;
-function RatingForm({ question = INITIAL.RATING_QUESTION }) {
+function RatingInput({ question = INITIAL.RATING_QUESTION }) {
   const [ratings, setRatings] = useState(Array(RATING_LENGTH).fill(false));
 
   const handleClickStar = (index) => {
@@ -28,4 +28,4 @@ function RatingForm({ question = INITIAL.RATING_QUESTION }) {
   );
 }
 
-export default RatingForm;
+export default RatingInput;
