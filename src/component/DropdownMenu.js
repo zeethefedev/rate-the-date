@@ -14,12 +14,12 @@ function DropdownMenu({ options }) {
   };
 
   return (
-    <div class="dropdown">
-      <button class="dropbtn" onClick={handleShowDropdown}>
+    <div className="dropdown">
+      <button className="dropbtn" onClick={handleShowDropdown}>
         Dropdown
       </button>
       {showDropdown && (
-        <div class="dropdown-content">
+        <div className="dropdown-content">
           {options.map((option, index) => (
             <button key={index} onClick={() => handleClickOption(option)}>
               {option.displayName}
