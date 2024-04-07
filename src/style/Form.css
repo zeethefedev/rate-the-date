@@ -1,5 +1,18 @@
+/* rating form */
+.star-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+}
+
 /* yes no form */
 .form-wrapper {
-  margin: 100px;
-  /* position: relative; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button-wrapper {
+  display: flex;
+  gap: 4px;
 }

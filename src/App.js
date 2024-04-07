@@ -1,14 +1,12 @@
 import "./App.css";
-import RatingInput from "./component/RatingInput";
 import SetupForm from "./SetupForm";
-import YesNoQuestion from "./component/YesNoQuestion";
+import ResponseForm from "./ResponseForm";
 
 function App() {
   return (
     <div className="App">
       <SetupForm />
-      <RatingInput />
-      <YesNoQuestion />
+      {/* <ResponseForm /> */}
     </div>
   );
 }

@@ -1,27 +1,20 @@
 import React from "react";
+import { INITIAL } from "../utils/constant";
 
-function TextInput({ question, required }) {
-  //   const [question, setQuestion] = useState({
-  //     value: "",
-  //     touched: false,
-  //     valid: false,
-  //   });
-
-  //   const handleChangeQuestion = (event) => {
-  //     setQuestion({
-  //       value: event.target.value,
-  //       question,
-  //     });
-  //   };
+function TextInput({
+  questionValue = INITIAL.TEXT_QUESTION,
+  required,
+  index,
+  editInput,
+}) {
   return (
-    <label>
-      Enter your question:
-      <input
-        type="text"
-        value={question.value}
-        // onChange={handleChangeQuestion}
-      />
-    </label>
+    <div key={index} className="field-wrapper">
+      {editInput}
+      <label>
+        <h1>{questionValue}</h1>
+        <input type="text" disabled></input>
+      </label>
+    </div>
   );
 }
 

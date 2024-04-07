@@ -7,6 +7,7 @@ const randomCoordinates = () => {
   return { x, y };
 };
 function MovingButton({ label }) {
+  const [position, setPosition] = useState("relative");
   const [coordinates, setCoordinates] = useState({
     x: "auto",
     y: "auto",
@@ -14,6 +15,10 @@ function MovingButton({ label }) {
   const [count, setCount] = useState(0);
 
   const changeCoordinates = () => {
+    //change position
+    setPosition("absolute");
+
+    //change coordinates
     setCoordinates(randomCoordinates());
     setCount(count + 1);
     // console.log(coordinates, count);
@@ -23,7 +28,7 @@ function MovingButton({ label }) {
     <button
       className="moving-button"
       style={{
-        position: "absolute",
+        position: position,
         top: (coordinates.y / 150) * window.innerHeight,
         left: (coordinates.x / 150) * window.innerWidth,
       }}
