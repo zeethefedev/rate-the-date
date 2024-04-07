@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import SVGIcon from "./SVGIcon";
-import { FORM_MODE, INITIAL } from "../utils/constant";
+import { INITIAL } from "../utils/constant";
 
 const RATING_LENGTH = 5;
 function RatingInput({
-  mode = FORM_MODE.QUESTION,
   questionValue = INITIAL.RATING_QUESTION,
   index,
   editInput,
