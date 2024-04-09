@@ -7,9 +7,27 @@ export const INITIAL = {
 };
 
 export const SETUP_FORM_INITIAL = [
-  { index: 0, type: "text", value: INITIAL.TEXT_QUESTION },
-  { index: 1, type: "rating", value: "rating question" },
-  { index: 2, type: "yesno", value: "yes no question" },
+  {
+    index: 0,
+    type: "text",
+    value: INITIAL.TEXT_QUESTION,
+    required: false,
+    rigged: false,
+  },
+  {
+    index: 1,
+    type: "rating",
+    value: "rating question",
+    required: false,
+    rigged: false,
+  },
+  {
+    index: 2,
+    type: "yesno",
+    value: "yes no question",
+    required: false,
+    rigged: false,
+  },
 ];
 
 export const FORM_MODE = {

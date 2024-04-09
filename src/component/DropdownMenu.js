@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addQuestion } from "../store/questionReducer";
+import "../style/Form.css";
 function DropdownMenu({ options }) {
   const dispatch = useDispatch();
   const [showDropdown, setShowDropdown] = useState(false);
@@ -16,7 +17,7 @@ function DropdownMenu({ options }) {
   return (
     <div className="dropdown">
       <button className="dropbtn" onClick={handleShowDropdown}>
-        Dropdown
+        Add question
       </button>
       {showDropdown && (
         <div className="dropdown-content">

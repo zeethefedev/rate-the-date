@@ -6,7 +6,7 @@ const randomCoordinates = () => {
   const y = Math.floor(Math.random() * 101);
   return { x, y };
 };
-function MovingButton({ label }) {
+function MovingButton({ label, disabled }) {
   const [position, setPosition] = useState("relative");
   const [coordinates, setCoordinates] = useState({
     x: "auto",
@@ -14,14 +14,15 @@ function MovingButton({ label }) {
   });
   const [count, setCount] = useState(0);
 
-  const changeCoordinates = () => {
-    //change position
-    setPosition("absolute");
-
-    //change coordinates
-    setCoordinates(randomCoordinates());
-    setCount(count + 1);
-    // console.log(coordinates, count);
+  const changeCoordinates = (event) => {
+    event.preventDefault();
+    if (!disabled) {
+      //change position
+      setPosition("absolute");
+      //change coordinates
+      setCoordinates(randomCoordinates());
+      setCount(count + 1);
+    }
   };
 
   return (

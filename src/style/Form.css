@@ -1,3 +1,21 @@
+/* setup-form */
+.setup-form-wrapper {
+  display: flex;
+}
+
+.form-editor {
+  width: 25%;
+}
+
+.question-editor {
+  width: 100%;
+}
+
+.dropdown-content {
+  display: flex;
+  flex-direction: column;
+}
+
 /* rating form */
 .star-wrapper {
   display: flex;
