@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import TextInput from "./TextInput";
 import YesNoQuestion from "./YesNoQuestion";
 import RatingInput from "./RatingInput";
@@ -80,6 +80,21 @@ function Question({
     (state) => state.reducer.questions
   ).length;
 
+  const [preview, setPreview] = useState({
+    value: "",
+    touched: false,
+  });
+
+  const handleInputChange = (event, ratings) => {
+    let newInput = preview;
+    if (question.type === "text") {
+      newInput = { value: event.target.value, touched: true };
+    } else if (question.type === "rating") {
+      newInput = { value: ratings, touched: true };
+    }
+    setPreview(newInput);
+  };
+
   const handleChangeQuestion = (event, mode) => {
     const questionData = {
       ...question,
@@ -90,10 +105,12 @@ function Question({
 
   const handleYesClicked = (event) => {
     event.preventDefault();
+    setPreview({ value: "true", touched: true });
   };
 
   const handleNoClicked = (event) => {
     event.preventDefault();
+    setPreview({ value: "false", touched: true });
   };
 
   const editInput = mode === FORM_MODE.QUESTION && (
@@ -118,7 +135,10 @@ function Question({
           mode={mode}
           required={question.required}
           questionValue={question.value}
+          inputValue={preview.value}
+          handleInputChange={handleInputChange}
           editInput={editInput}
+          error={question.required && !preview.value && preview.touched}
         />
       )}
       {question.type === "rating" && (
@@ -126,7 +146,11 @@ function Question({
           mode={mode}
           required={question.required}
           questionValue={question.value}
+          handleInputChange={handleInputChange}
           editInput={editInput}
+          error={
+            question.required && preview.value === "0/5" && preview.touched
+          }
         />
       )}
       {question.type === "yesno" && (
@@ -138,6 +162,7 @@ function Question({
           editInput={editInput}
           handleYesClicked={handleYesClicked}
           handleNoClicked={handleNoClicked}
+          error={question.required && !preview.value && preview.touched}
         />
       )}
     </div>

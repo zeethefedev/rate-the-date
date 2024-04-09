@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SVGIcon from "./SVGIcon";
 import { FORM_MODE, INITIAL } from "../utils/constant";
 
@@ -6,10 +6,13 @@ const RATING_LENGTH = 5;
 function RatingInput(props) {
   const {
     questionValue = INITIAL.RATING_QUESTION,
+    handleInputChange,
     required,
     index,
     editInput,
     mode,
+    error,
+    errorMessage = "please enter a valid answer",
   } = props;
   const [ratings, setRatings] = useState(Array(RATING_LENGTH).fill(false));
 
@@ -23,6 +26,16 @@ function RatingInput(props) {
       }
     }
   };
+
+  useEffect(
+    (event) => {
+      const ratingScore = `${
+        ratings.filter((rating) => rating).length
+      }/${RATING_LENGTH}`;
+      handleInputChange(event, ratingScore);
+    },
+    [ratings]
+  );
 
   return (
     <div key={index} className="field-wrapper">
@@ -42,6 +55,7 @@ function RatingInput(props) {
           </div>
         ))}
       </div>
+      {error && mode === FORM_MODE.RESPONSE && <div>{errorMessage}</div>}
     </div>
   );
 }

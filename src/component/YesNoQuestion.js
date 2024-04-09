@@ -6,15 +6,17 @@ import { FORM_MODE, INITIAL } from "../utils/constant";
 function YesNoQuestion(props) {
   const {
     questionValue = INITIAL.YES_NO_QUESTION,
-    yesLabel = INITIAL.YES_BUTTON,
-    noLabel = INITIAL.NO_BUTTON,
-    yesResponse = "Come Closer",
     required,
     editInput,
     mode,
     rigged,
     handleYesClicked,
     handleNoClicked,
+    error,
+    errorMessage = "please enter a valid answer",
+    yesLabel = INITIAL.YES_BUTTON,
+    noLabel = INITIAL.NO_BUTTON,
+    yesResponse = "Come Closer",
   } = props;
   const [yesClicked, setYesClicked] = useState(false);
 
@@ -61,6 +63,7 @@ function YesNoQuestion(props) {
         </div>
       )}
       {yesClicked && <div>{yesResponse}</div>}
+      {error && <div>{errorMessage}</div>}
     </div>
   );
 }

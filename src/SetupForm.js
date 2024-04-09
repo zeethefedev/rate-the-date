@@ -7,6 +7,7 @@ import {
   moveQuestionDown,
   moveQuestionUp,
   removeQuestion,
+  setPreview,
 } from "./store/questionReducer";
 import Question from "./component/Question";
 import "./style/Form.css";
@@ -19,6 +20,7 @@ function SetupForm() {
   const handleChangeViewMode = () => {
     if (viewMode === FORM_MODE.QUESTION) {
       setViewMode(FORM_MODE.RESPONSE);
+      dispatch(setPreview());
     } else {
       setViewMode(FORM_MODE.QUESTION);
     }

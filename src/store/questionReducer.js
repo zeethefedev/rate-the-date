@@ -4,6 +4,7 @@ import { SETUP_FORM_INITIAL } from "../utils/constant";
 const initialState = {
   value: 0,
   questions: SETUP_FORM_INITIAL,
+  preview: [],
 };
 
 export const questionSlice = createSlice({
@@ -104,6 +105,12 @@ export const questionSlice = createSlice({
 
       state.questions = newQuestionsReplace;
     },
+    setPreview: (state) => {
+      state.preview = state.questions.map((question) => ({
+        ...question,
+        answer: "",
+      }));
+    },
   },
 });
 
@@ -114,6 +121,7 @@ export const {
   removeQuestion,
   moveQuestionUp,
   moveQuestionDown,
+  setPreview,
 } = questionSlice.actions;
 
 export default questionSlice.reducer;
