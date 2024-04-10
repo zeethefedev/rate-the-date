@@ -55,7 +55,9 @@ function RatingInput(props) {
           </div>
         ))}
       </div>
-      {error && mode === FORM_MODE.RESPONSE && <div>{errorMessage}</div>}
+      {error && mode === FORM_MODE.RESPONSE && (
+        <div>{errorMessage || INITIAL.ERROR_MESSAGE}</div>
+      )}
     </div>
   );
 }

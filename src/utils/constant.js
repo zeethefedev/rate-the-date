@@ -4,6 +4,7 @@ export const INITIAL = {
   YES_NO_QUESTION: "Would you like a kiss?",
   YES_BUTTON: "Yes",
   NO_BUTTON: "No",
+  ERROR_MESSAGE: "Please enter a valid answer",
 };
 
 export const SETUP_FORM_INITIAL = [
@@ -13,6 +14,7 @@ export const SETUP_FORM_INITIAL = [
     value: INITIAL.TEXT_QUESTION,
     required: false,
     rigged: false,
+    preview: { answer: "", touched: false },
   },
   {
     index: 1,
@@ -20,6 +22,7 @@ export const SETUP_FORM_INITIAL = [
     value: "rating question",
     required: false,
     rigged: false,
+    preview: { answer: "", touched: false },
   },
   {
     index: 2,
@@ -27,6 +30,7 @@ export const SETUP_FORM_INITIAL = [
     value: "yes no question",
     required: false,
     rigged: false,
+    preview: { answer: "", touched: false },
   },
 ];
 

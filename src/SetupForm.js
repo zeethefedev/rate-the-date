@@ -7,7 +7,7 @@ import {
   moveQuestionDown,
   moveQuestionUp,
   removeQuestion,
-  setPreview,
+  validatePreview,
 } from "./store/questionReducer";
 import Question from "./component/Question";
 import "./style/Form.css";
@@ -20,7 +20,6 @@ function SetupForm() {
   const handleChangeViewMode = () => {
     if (viewMode === FORM_MODE.QUESTION) {
       setViewMode(FORM_MODE.RESPONSE);
-      dispatch(setPreview());
     } else {
       setViewMode(FORM_MODE.QUESTION);
     }
@@ -47,6 +46,11 @@ function SetupForm() {
     }
   };
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    dispatch(validatePreview());
+  };
+
   return (
     <div className="setup-form-wrapper">
       <div className="form-editor">
@@ -67,6 +71,7 @@ function SetupForm() {
           {questions.map((question, index) => (
             <div key={index}>
               <Question
+                index={index}
                 mode={viewMode}
                 question={question}
                 handleRemoveQuestion={(event) =>
@@ -81,6 +86,9 @@ function SetupForm() {
               />
             </div>
           ))}
+          {viewMode === FORM_MODE.RESPONSE && (
+            <button onClick={handleSubmit}>Submit Answers</button>
+          )}
         </form>
       </div>
     </div>

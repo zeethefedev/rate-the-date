@@ -7,13 +7,14 @@ function YesNoQuestion(props) {
   const {
     questionValue = INITIAL.YES_NO_QUESTION,
     required,
+    index,
     editInput,
     mode,
     rigged,
     handleYesClicked,
     handleNoClicked,
     error,
-    errorMessage = "please enter a valid answer",
+    errorMessage,
     yesLabel = INITIAL.YES_BUTTON,
     noLabel = INITIAL.NO_BUTTON,
     yesResponse = "Come Closer",
@@ -21,7 +22,7 @@ function YesNoQuestion(props) {
   const [yesClicked, setYesClicked] = useState(false);
 
   const handleYesClickedRigged = (event) => {
-    event.preventDefault();
+    event?.preventDefault();
     setYesClicked(true);
   };
 
@@ -42,6 +43,7 @@ function YesNoQuestion(props) {
             {yesLabel}
           </button>
           <MovingButton
+            questionIndex={index}
             disabled={mode === FORM_MODE.QUESTION}
             label={noLabel}
           />
@@ -63,7 +65,9 @@ function YesNoQuestion(props) {
         </div>
       )}
       {yesClicked && <div>{yesResponse}</div>}
-      {error && <div>{errorMessage}</div>}
+      {error && mode === FORM_MODE.RESPONSE && (
+        <div>{errorMessage || INITIAL.ERROR_MESSAGE}</div>
+      )}
     </div>
   );
 }

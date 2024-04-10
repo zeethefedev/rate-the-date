@@ -20,6 +20,7 @@ export const questionSlice = createSlice({
               value: questionData.value,
               required: questionData.required,
               rigged: questionData.rigged,
+              errorMessage: questionData.errorMessage,
             }
           : question
       );
@@ -105,11 +106,45 @@ export const questionSlice = createSlice({
 
       state.questions = newQuestionsReplace;
     },
-    setPreview: (state) => {
-      state.preview = state.questions.map((question) => ({
+    changePreview: (state, action) => {
+      const previewData = action.payload;
+      const newQuestions = state.questions.map((question) =>
+        question.index === previewData.index
+          ? {
+              ...question,
+              preview: {
+                answer: previewData.answer,
+                touched: true,
+              },
+            }
+          : question
+      );
+      state.questions = newQuestions;
+    },
+    setNoClickedCount: (state, action) => {
+      const questionData = action.payload;
+      const newQuestions = state.questions.map((question) =>
+        question.index === questionData.index
+          ? {
+              ...question,
+              noClickedCount: questionData.noClickedCount,
+            }
+          : question
+      );
+      state.questions = newQuestions;
+      console.log(newQuestions);
+    },
+    validatePreview: (state) => {
+      //set touched = true
+      const newQuestions = state.questions.map((question) => ({
         ...question,
-        answer: "",
+        preview: {
+          ...question.preview,
+          touched: true,
+        },
       }));
+      state.questions = newQuestions;
+      console.log(newQuestions);
     },
   },
 });
@@ -121,7 +156,9 @@ export const {
   removeQuestion,
   moveQuestionUp,
   moveQuestionDown,
-  setPreview,
+  changePreview,
+  setNoClickedCount,
+  validatePreview,
 } = questionSlice.actions;
 
 export default questionSlice.reducer;

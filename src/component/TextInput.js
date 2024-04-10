@@ -12,6 +12,7 @@ function TextInput(props) {
     mode,
     error,
     errorMessage = "please enter a valid answer",
+    placeholder,
   } = props;
   return (
     <div key={index} className="field-wrapper">
@@ -27,9 +28,12 @@ function TextInput(props) {
           required={required}
           value={inputValue}
           onChange={handleInputChange}
+          placeholder={placeholder}
         ></input>
       </label>
-      {error && <div>{errorMessage}</div>}
+      {error && mode === FORM_MODE.RESPONSE && (
+        <div>{errorMessage || INITIAL.ERROR_MESSAGE}</div>
+      )}
     </div>
   );
 }

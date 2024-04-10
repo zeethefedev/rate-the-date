@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import TextInput from "./TextInput";
 import YesNoQuestion from "./YesNoQuestion";
 import RatingInput from "./RatingInput";
 import { useSelector, useDispatch } from "react-redux";
 import { FORM_MODE } from "../utils/constant";
-import { changeQuestion } from "../store/questionReducer";
+import { changePreview, changeQuestion } from "../store/questionReducer";
 
 function ButtonGroup({
   showMoveUp,
@@ -31,6 +31,7 @@ function EditQuestionComponent(props) {
     questionType,
     questionRigged,
     handleChangeQuestion,
+    errorMessage,
   } = props;
   return (
     <div>
@@ -52,6 +53,15 @@ function EditQuestionComponent(props) {
         />
         Required
       </label>
+      <label>
+        Enter your error message:{" "}
+        <input
+          type="text"
+          value={errorMessage}
+          placeholder="enter your error message"
+          onChange={(event) => handleChangeQuestion(event, "errorMessage")}
+        />
+      </label>
       {questionType === "yesno" && (
         <label>
           <input
@@ -69,8 +79,10 @@ function EditQuestionComponent(props) {
 }
 
 function Question({
+  index,
   question,
   mode = FORM_MODE.QUESTION,
+  inputPlaceholder,
   handleRemoveQuestion,
   handleMoveQuestionUp,
   handleMoveQuestionDown,
@@ -80,10 +92,9 @@ function Question({
     (state) => state.reducer.questions
   ).length;
 
-  const [preview, setPreview] = useState({
-    value: "",
-    touched: false,
-  });
+  const preview = useSelector(
+    (state) => state.reducer.questions[index].preview
+  );
 
   const handleInputChange = (event, ratings) => {
     let newInput = preview;
@@ -92,25 +103,28 @@ function Question({
     } else if (question.type === "rating") {
       newInput = { value: ratings, touched: true };
     }
-    setPreview(newInput);
+    dispatch(changePreview({ index: index, answer: newInput.value }));
   };
 
   const handleChangeQuestion = (event, mode) => {
     const questionData = {
       ...question,
-      [mode]: event.target[mode === "value" ? "value" : "checked"],
+      [mode]:
+        event.target[
+          mode === "value" || mode === "errorMessage" ? "value" : "checked"
+        ],
     };
     dispatch(changeQuestion(questionData));
   };
 
   const handleYesClicked = (event) => {
     event.preventDefault();
-    setPreview({ value: "true", touched: true });
+    dispatch(changePreview({ index: index, answer: "true" }));
   };
 
   const handleNoClicked = (event) => {
     event.preventDefault();
-    setPreview({ value: "false", touched: true });
+    dispatch(changePreview({ index: index, answer: "false" }));
   };
 
   const editInput = mode === FORM_MODE.QUESTION && (
@@ -119,6 +133,7 @@ function Question({
       questionRequired={question.required}
       questionType={question.type}
       questionRigged={question.rigged}
+      errorMessage={question.errorMessage}
       handleChangeQuestion={handleChangeQuestion}
       showMoveUp={question.index > 0}
       showMoveDown={question.index < questionsLength - 1}
@@ -135,10 +150,12 @@ function Question({
           mode={mode}
           required={question.required}
           questionValue={question.value}
-          inputValue={preview.value}
+          inputValue={preview.answer}
           handleInputChange={handleInputChange}
           editInput={editInput}
-          error={question.required && !preview.value && preview.touched}
+          error={question.required && !preview.answer && preview.touched}
+          errorMessage={question.errorMessage}
+          placeholder={inputPlaceholder}
         />
       )}
       {question.type === "rating" && (
@@ -149,12 +166,14 @@ function Question({
           handleInputChange={handleInputChange}
           editInput={editInput}
           error={
-            question.required && preview.value === "0/5" && preview.touched
+            question.required && preview.answer === "0/5" && preview.touched
           }
+          errorMessage={question.errorMessage}
         />
       )}
       {question.type === "yesno" && (
         <YesNoQuestion
+          index={index}
           mode={mode}
           required={question.required}
           rigged={question.rigged}
@@ -162,7 +181,8 @@ function Question({
           editInput={editInput}
           handleYesClicked={handleYesClicked}
           handleNoClicked={handleNoClicked}
-          error={question.required && !preview.value && preview.touched}
+          error={question.required && !preview.answer && preview.touched}
+          errorMessage={question.errorMessage}
         />
       )}
     </div>
