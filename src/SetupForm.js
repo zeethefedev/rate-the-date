@@ -11,10 +11,14 @@ import {
 } from "./store/questionReducer";
 import Question from "./component/Question";
 import "./style/Form.css";
+import Result from "./component/Result";
+import { postForm } from "./api/question.thunk";
 
 function SetupForm() {
   const dispatch = useDispatch();
   const questions = useSelector((state) => state.reducer.questions);
+  const formLoading = useSelector((state) => state.reducer.loading);
+  const formSubmitted = useSelector((state) => state.reducer.submitted);
   const [viewMode, setViewMode] = useState(FORM_MODE.QUESTION);
 
   const handleChangeViewMode = () => {
@@ -51,46 +55,58 @@ function SetupForm() {
     dispatch(validatePreview());
   };
 
+  const handleTest = () => {
+    dispatch(postForm(questions));
+  };
+
   return (
-    <div className="setup-form-wrapper">
-      <div className="form-editor">
-        <DropdownMenu options={MENU_OPTIONS} />
-        <label>
-          <input
-            type="checkbox"
-            id="required"
-            checked={viewMode === FORM_MODE.RESPONSE}
-            onChange={handleChangeViewMode}
-          />
-          View as User
-        </label>
-      </div>
-      <div className="question-editor">
-        <h1>Set Up</h1>
-        <form>
-          {questions.map((question, index) => (
-            <div key={index}>
-              <Question
-                index={index}
-                mode={viewMode}
-                question={question}
-                handleRemoveQuestion={(event) =>
-                  handleRemoveQuestion(event, index)
-                }
-                handleMoveQuestionUp={(event) =>
-                  handleMoveQuestionUp(event, index)
-                }
-                handleMoveQuestionDown={(event) =>
-                  handleMoveQuestionDown(event, index)
-                }
+    <div>
+      {formSubmitted ? (
+        <Result />
+      ) : (
+        <div className="setup-form-wrapper">
+          <div className="form-editor">
+            <DropdownMenu options={MENU_OPTIONS} />
+            <label>
+              <input
+                type="checkbox"
+                id="required"
+                checked={viewMode === FORM_MODE.RESPONSE}
+                onChange={handleChangeViewMode}
               />
-            </div>
-          ))}
-          {viewMode === FORM_MODE.RESPONSE && (
-            <button onClick={handleSubmit}>Submit Answers</button>
-          )}
-        </form>
-      </div>
+              View as User
+            </label>
+            <button onClick={handleTest}>Submit Form</button>
+            {formLoading && <div>Loading...</div>}
+          </div>
+          <div className="question-editor">
+            <h1>Set Up</h1>
+            <form>
+              {questions.map((question, index) => (
+                <div key={index}>
+                  <Question
+                    index={index}
+                    mode={viewMode}
+                    question={question}
+                    handleRemoveQuestion={(event) =>
+                      handleRemoveQuestion(event, index)
+                    }
+                    handleMoveQuestionUp={(event) =>
+                      handleMoveQuestionUp(event, index)
+                    }
+                    handleMoveQuestionDown={(event) =>
+                      handleMoveQuestionDown(event, index)
+                    }
+                  />
+                </div>
+              ))}
+              {viewMode === FORM_MODE.RESPONSE && (
+                <button onClick={handleSubmit}>Submit Answers</button>
+              )}
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

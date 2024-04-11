@@ -1,10 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { SETUP_FORM_INITIAL } from "../utils/constant";
+import { postForm } from "../api/question.thunk";
 
 const initialState = {
   value: 0,
   questions: SETUP_FORM_INITIAL,
   preview: [],
+  loading: false,
+  submitted: false,
 };
 
 export const questionSlice = createSlice({
@@ -146,6 +149,21 @@ export const questionSlice = createSlice({
       state.questions = newQuestions;
       console.log(newQuestions);
     },
+    resetForm: (state) => {
+      state.loading = false;
+      state.submitted = false;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      //POST
+      .addCase(postForm.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(postForm.fulfilled, (state) => {
+        state.loading = false;
+        state.submitted = true;
+      });
   },
 });
 
@@ -159,6 +177,7 @@ export const {
   changePreview,
   setNoClickedCount,
   validatePreview,
+  resetForm,
 } = questionSlice.actions;
 
 export default questionSlice.reducer;

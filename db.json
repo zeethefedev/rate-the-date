@@ -1,0 +1,41 @@
+{
+  "forms": [
+    {
+      "id": "0",
+      "questions": [
+        {
+          "type": "text",
+          "value": "",
+          "required": false,
+          "rigged": false,
+          "errorMessage": " ",
+          "answer": ""
+        }
+      ]
+    },
+    {
+      "id": "4848",
+      "questions": [
+        {
+          "type": "text",
+          "value": "What's on your mind?",
+          "required": true,
+          "rigged": false
+        },
+        {
+          "type": "rating",
+          "value": "rating question",
+          "required": true,
+          "rigged": false,
+          "errorMessage": "Error message test"
+        },
+        {
+          "type": "yesno",
+          "value": "Question test",
+          "required": true,
+          "rigged": true
+        }
+      ]
+    }
+  ]
+}
