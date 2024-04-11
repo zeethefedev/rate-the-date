@@ -10,3 +10,24 @@ export function replaceItem(array, index, newItem) {
   array[index] = newItem;
   return array;
 }
+
+export const getFromStorage = () => {
+  const item = window.sessionStorage.getItem("FORM");
+  if (item) {
+    return JSON.parse(item);
+  }
+};
+
+export const saveToStorage = (key, value) => {
+  const form = window.sessionStorage.getItem("FORM");
+  let newForm;
+  if (form) {
+    newForm = {
+      ...JSON.parse(form),
+      [key]: value,
+    };
+  } else {
+    newForm = { [key]: value };
+  }
+  window.sessionStorage.setItem("FORM", JSON.stringify(newForm));
+};

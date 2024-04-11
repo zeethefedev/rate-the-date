@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FORM_MODE, MENU_OPTIONS } from "./utils/constant";
 import { useSelector } from "react-redux";
 import DropdownMenu from "./component/DropdownMenu";
@@ -7,19 +7,28 @@ import {
   moveQuestionDown,
   moveQuestionUp,
   removeQuestion,
+  setQuestions,
   validatePreview,
 } from "./store/questionReducer";
 import Question from "./component/Question";
 import "./style/Form.css";
 import Result from "./component/Result";
 import { postForm } from "./api/question.thunk";
+import { getFromStorage } from "./utils/methods";
 
 function SetupForm() {
   const dispatch = useDispatch();
+  const savedData = getFromStorage();
   const questions = useSelector((state) => state.reducer.questions);
   const formLoading = useSelector((state) => state.reducer.loading);
   const formSubmitted = useSelector((state) => state.reducer.submitted);
   const [viewMode, setViewMode] = useState(FORM_MODE.QUESTION);
+
+  useEffect(() => {
+    if (savedData && savedData.questions) {
+      dispatch(setQuestions(savedData.questions));
+    }
+  }, []);
 
   const handleChangeViewMode = () => {
     if (viewMode === FORM_MODE.QUESTION) {
