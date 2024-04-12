@@ -5,6 +5,7 @@ import RatingInput from "./RatingInput";
 import { useSelector, useDispatch } from "react-redux";
 import { FORM_MODE } from "../utils/constant";
 import { changePreview, changeQuestion } from "../store/questionReducer";
+import { changeAnswers } from "../store/responseReducer";
 
 function ButtonGroup({
   showMoveUp,
@@ -89,12 +90,18 @@ function Question({
 }) {
   const dispatch = useDispatch();
   const questionsLength = useSelector(
-    (state) => state.reducer.questions
+    (state) => state.questionReducer.questions
   ).length;
 
   const preview = useSelector(
-    (state) => state.reducer.questions[index].preview
+    (state) => state.questionReducer.questions[index].preview
   );
+
+  const answer = useSelector(
+    (state) => state.responseReducer.responses[index].response
+  );
+
+  const inputValue = mode === FORM_MODE.QUESTION ? preview.answer : answer;
 
   const handleInputChange = (event, ratings) => {
     let newInput = preview;
@@ -103,7 +110,12 @@ function Question({
     } else if (question.type === "rating") {
       newInput = { value: ratings, touched: true };
     }
-    dispatch(changePreview({ index: index, answer: newInput.value }));
+    if (mode === FORM_MODE.QUESTION) {
+      dispatch(changePreview({ index: index, answer: newInput.value }));
+    } else {
+      //response mode
+      dispatch(changeAnswers({ index: index, value: newInput.value }));
+    }
   };
 
   const handleChangeQuestion = (event, mode) => {
@@ -119,12 +131,22 @@ function Question({
 
   const handleYesClicked = (event) => {
     event.preventDefault();
-    dispatch(changePreview({ index: index, answer: "true" }));
+    if (mode === FORM_MODE.QUESTION) {
+      dispatch(changePreview({ index: index, answer: "true" }));
+    } else {
+      //response mode
+      dispatch(changeAnswers({ index: index, value: "true" }));
+    }
   };
 
   const handleNoClicked = (event) => {
     event.preventDefault();
-    dispatch(changePreview({ index: index, answer: "false" }));
+    if (mode === FORM_MODE.QUESTION) {
+      dispatch(changePreview({ index: index, answer: "false" }));
+    } else {
+      //response mode
+      dispatch(changeAnswers({ index: index, value: "false" }));
+    }
   };
 
   const editInput = mode === FORM_MODE.QUESTION && (
@@ -150,7 +172,7 @@ function Question({
           mode={mode}
           required={question.required}
           questionValue={question.value}
-          inputValue={preview.answer}
+          inputValue={inputValue}
           handleInputChange={handleInputChange}
           editInput={editInput}
           error={question.required && !preview.answer && preview.touched}
@@ -163,6 +185,7 @@ function Question({
           mode={mode}
           required={question.required}
           questionValue={question.value}
+          inputValue={inputValue}
           handleInputChange={handleInputChange}
           editInput={editInput}
           error={

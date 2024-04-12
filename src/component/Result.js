@@ -26,11 +26,7 @@ function ResponseFormResult({ handleMakeClick }) {
   );
 }
 
-function Result({
-  mode = FORM_MODE.QUESTION,
-  heading,
-  formLink = "https://example.com",
-}) {
+function Result({ mode = FORM_MODE.QUESTION, heading, formLink }) {
   const dispatch = useDispatch();
   const handleMakeAnotherClick = () => {
     //set forsubmitted = false

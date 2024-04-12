@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import SVGIcon from "./SVGIcon";
 import { FORM_MODE, INITIAL } from "../utils/constant";
+import { useSelector } from "react-redux";
 
 const RATING_LENGTH = 5;
 function RatingInput(props) {
   const {
     questionValue = INITIAL.RATING_QUESTION,
+    inputValue,
     handleInputChange,
     required,
     index,
@@ -14,7 +16,21 @@ function RatingInput(props) {
     error,
     errorMessage = "please enter a valid answer",
   } = props;
+
   const [ratings, setRatings] = useState(Array(RATING_LENGTH).fill(false));
+  const [assignedSaved, setAssignedSaved] = useState(false);
+
+  useEffect(() => {
+    if (inputValue && !assignedSaved) {
+      const savedResponse = inputValue && Number(inputValue[0]);
+      const savedRatings = [
+        ...Array(savedResponse).fill(true),
+        ...Array(RATING_LENGTH - savedResponse).fill(false),
+      ];
+      setRatings(savedRatings);
+      setAssignedSaved(true);
+    }
+  }, [inputValue]);
 
   const handleClickStar = (index) => {
     if (mode === FORM_MODE.RESPONSE) {

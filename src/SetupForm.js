@@ -18,10 +18,13 @@ import { getFromStorage } from "./utils/methods";
 
 function SetupForm() {
   const dispatch = useDispatch();
-  const savedData = getFromStorage();
-  const questions = useSelector((state) => state.reducer.questions);
-  const formLoading = useSelector((state) => state.reducer.loading);
-  const formSubmitted = useSelector((state) => state.reducer.submitted);
+  const savedData = getFromStorage(FORM_MODE.QUESTION);
+  const questions = useSelector((state) => state.questionReducer.questions);
+  const formLoading = useSelector((state) => state.questionReducer.loading);
+  const formSubmitted = useSelector((state) => state.questionReducer.submitted);
+  const responseFormLink = useSelector(
+    (state) => state.questionReducer.responseFormLink
+  );
   const [viewMode, setViewMode] = useState(FORM_MODE.QUESTION);
 
   useEffect(() => {
@@ -71,7 +74,7 @@ function SetupForm() {
   return (
     <div>
       {formSubmitted ? (
-        <Result />
+        <Result formLink={responseFormLink} />
       ) : (
         <div className="setup-form-wrapper">
           <div className="form-editor">

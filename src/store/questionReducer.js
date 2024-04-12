@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { SETUP_FORM_INITIAL } from "../utils/constant";
 import { postForm } from "../api/question.thunk";
-import { saveToQuestionsToStorage } from "./method.reducer";
+import { saveQuestionsToStorage } from "./method.reducer";
 
 const initialState = {
   value: 0,
@@ -9,6 +9,7 @@ const initialState = {
   preview: [],
   loading: false,
   submitted: false,
+  responseFormLink: "",
 };
 
 export const questionSlice = createSlice({
@@ -32,7 +33,7 @@ export const questionSlice = createSlice({
           : question
       );
       state.questions = newQuestions;
-      saveToQuestionsToStorage(newQuestions);
+      saveQuestionsToStorage(newQuestions);
     },
     addQuestion: (state, action) => {
       const newQuestion = {
@@ -43,7 +44,7 @@ export const questionSlice = createSlice({
       };
       const newQuestions = [...state.questions, newQuestion];
       state.questions = newQuestions;
-      saveToQuestionsToStorage(state.questions);
+      saveQuestionsToStorage(state.questions);
     },
     removeQuestion: (state, action) => {
       const newQuestions = state.questions.filter(
@@ -56,7 +57,7 @@ export const questionSlice = createSlice({
       }));
 
       state.questions = newQuestionIndex;
-      saveToQuestionsToStorage(state.questions);
+      saveQuestionsToStorage(state.questions);
     },
     moveQuestionUp: (state, action) => {
       const currentQuestion = state.questions.find(
@@ -85,7 +86,7 @@ export const questionSlice = createSlice({
         );
 
       state.questions = newQuestionsReplace;
-      saveToQuestionsToStorage(state.questions);
+      saveQuestionsToStorage(state.questions);
     },
     moveQuestionDown: (state, action) => {
       const currentQuestion = state.questions.find(
@@ -114,7 +115,7 @@ export const questionSlice = createSlice({
         );
 
       state.questions = newQuestionsReplace;
-      saveToQuestionsToStorage(state.questions);
+      saveQuestionsToStorage(state.questions);
     },
     changePreview: (state, action) => {
       const previewData = action.payload;
@@ -130,7 +131,7 @@ export const questionSlice = createSlice({
           : question
       );
       state.questions = newQuestions;
-      saveToQuestionsToStorage(state.questions);
+      saveQuestionsToStorage(state.questions);
     },
     setNoClickedCount: (state, action) => {
       const questionData = action.payload;
@@ -143,7 +144,7 @@ export const questionSlice = createSlice({
           : question
       );
       state.questions = newQuestions;
-      saveToQuestionsToStorage(state.questions);
+      saveQuestionsToStorage(state.questions);
     },
     validatePreview: (state) => {
       //set touched = true
@@ -155,7 +156,7 @@ export const questionSlice = createSlice({
         },
       }));
       state.questions = newQuestions;
-      saveToQuestionsToStorage(state.questions);
+      saveQuestionsToStorage(state.questions);
     },
     resetForm: (state) => {
       state.loading = false;
@@ -168,7 +169,9 @@ export const questionSlice = createSlice({
       .addCase(postForm.pending, (state) => {
         state.loading = true;
       })
-      .addCase(postForm.fulfilled, (state) => {
+      .addCase(postForm.fulfilled, (state, action) => {
+        const formId = action.payload.id;
+        state.responseFormLink = `/response/${formId}`;
         state.loading = false;
         state.submitted = true;
       });

@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-import reducer from "./questionReducer";
+import questionReducer from "./questionReducer";
+import responseReducer from "./responseReducer";
 
 export const store = configureStore({
-  reducer: { reducer },
+  reducer: { questionReducer: questionReducer, responseReducer },
 });
