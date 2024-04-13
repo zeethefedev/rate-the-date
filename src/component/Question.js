@@ -201,6 +201,7 @@ function Question({
           required={question.required}
           rigged={question.rigged}
           questionValue={question.value}
+          inputValue={inputValue}
           editInput={editInput}
           handleYesClicked={handleYesClicked}
           handleNoClicked={handleNoClicked}

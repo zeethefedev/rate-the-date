@@ -36,6 +36,52 @@
           "rigged": true
         }
       ]
+    },
+    {
+      "id": "25ab",
+      "questions": [
+        {
+          "type": "text",
+          "value": "What's on your mind?",
+          "required": false,
+          "rigged": false
+        },
+        {
+          "type": "rating",
+          "value": "rating question",
+          "required": false,
+          "rigged": false
+        },
+        {
+          "type": "yesno",
+          "value": "yes no question",
+          "required": false,
+          "rigged": false
+        }
+      ]
+    },
+    {
+      "id": "cbff",
+      "questions": [
+        {
+          "type": "text",
+          "value": "What's on your mind?",
+          "required": false,
+          "rigged": false
+        },
+        {
+          "type": "rating",
+          "value": "rating question",
+          "required": false,
+          "rigged": false
+        },
+        {
+          "type": "yesno",
+          "value": "yes no question",
+          "required": false,
+          "rigged": false
+        }
+      ]
     }
   ]
 }

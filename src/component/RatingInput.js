@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import SVGIcon from "./SVGIcon";
 import { FORM_MODE, INITIAL } from "../utils/constant";
-import { useSelector } from "react-redux";
 
 const RATING_LENGTH = 5;
 function RatingInput(props) {
@@ -22,7 +21,7 @@ function RatingInput(props) {
 
   useEffect(() => {
     if (inputValue && !assignedSaved) {
-      const savedResponse = inputValue && Number(inputValue[0]);
+      const savedResponse = Number(inputValue[0]);
       const savedRatings = [
         ...Array(savedResponse).fill(true),
         ...Array(RATING_LENGTH - savedResponse).fill(false),

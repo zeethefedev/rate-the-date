@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "../style/Form.css";
-import { setNoClickedCount } from "../store/questionReducer";
+import { setNoClickedCount } from "../store/responseReducer";
 
 const MAX_CLICK = 10;
 const randomCoordinates = (width, height) => {
@@ -9,7 +9,7 @@ const randomCoordinates = (width, height) => {
   const y = (Math.floor(Math.random() * 101) / 150) * width;
   return { x, y };
 };
-function MovingButton({ questionIndex, label, disabled }) {
+function MovingButton({ inputValue, questionIndex, label, disabled }) {
   const dispatch = useDispatch();
   const [position, setPosition] = useState("relative");
   const [display, setDisplay] = useState("block");
@@ -18,6 +18,18 @@ function MovingButton({ questionIndex, label, disabled }) {
     y: "auto",
   });
   const [count, setCount] = useState(0);
+  const [assignedSaved, setAssignedSaved] = useState(false);
+  const noClickedCount = useSelector(
+    (state) => state.responseReducer.responses[questionIndex].noClickedCount
+  );
+
+  useEffect(() => {
+    if (noClickedCount && !assignedSaved) {
+      setCount(noClickedCount);
+      setAssignedSaved(true);
+    }
+    console.log(count);
+  }, [noClickedCount]);
 
   const handleClick = (event) => {
     event.preventDefault();
@@ -41,6 +53,7 @@ function MovingButton({ questionIndex, label, disabled }) {
         setDisplay("none");
       }
     }
+    // debugger;
   };
 
   return (

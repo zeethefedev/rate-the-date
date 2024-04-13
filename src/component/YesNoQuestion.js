@@ -6,6 +6,7 @@ import { FORM_MODE, INITIAL } from "../utils/constant";
 function YesNoQuestion(props) {
   const {
     questionValue = INITIAL.YES_NO_QUESTION,
+    inputValue,
     required,
     index,
     editInput,
@@ -43,6 +44,7 @@ function YesNoQuestion(props) {
             {yesLabel}
           </button>
           <MovingButton
+            inputValue
             questionIndex={index}
             disabled={mode === FORM_MODE.QUESTION}
             label={noLabel}

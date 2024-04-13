@@ -30,6 +30,19 @@ export const responseSlice = createSlice({
       state.responses = newResponses;
       saveResponsesToStorage(state.responses);
     },
+    setNoClickedCount: (state, action) => {
+      const answerData = action.payload;
+      const newResponses = state.responses.map((response) =>
+        response.index === answerData.index
+          ? {
+              ...response,
+              noClickedCount: answerData.noClickedCount,
+            }
+          : response
+      );
+      state.responses = newResponses;
+      saveResponsesToStorage(state.responses);
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -46,6 +59,7 @@ export const responseSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setAnswers, changeAnswers } = responseSlice.actions;
+export const { setAnswers, changeAnswers, setNoClickedCount } =
+  responseSlice.actions;
 
 export default responseSlice.reducer;
