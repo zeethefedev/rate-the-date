@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchFormById } from "../api/response.thunk";
+import { fetchFormById, updateForm } from "../api/response.thunk";
 import { saveResponsesToStorage } from "./method.reducer";
 
 const initialState = {
@@ -24,6 +24,7 @@ export const responseSlice = createSlice({
           ? {
               ...response,
               response: answerData.value,
+              touched: true,
             }
           : response
       );
@@ -43,6 +44,19 @@ export const responseSlice = createSlice({
       state.responses = newResponses;
       saveResponsesToStorage(state.responses);
     },
+    validateAnswers: (state) => {
+      const newResponses = state.responses.map((response) => ({
+        ...response,
+        touched: true,
+        error:
+          response.require &&
+          !response.response &&
+          response.touched &&
+          !response.rigged,
+      }));
+      state.responses = newResponses;
+      saveResponsesToStorage(state.responses);
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -54,12 +68,16 @@ export const responseSlice = createSlice({
           index: index,
         }));
         // state.loading = true;
+      })
+      .addCase(updateForm.fulfilled, (state, action) => {
+        console.log("updated");
+        console.log(action.payload);
       });
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setAnswers, changeAnswers, setNoClickedCount } =
+export const { setAnswers, changeAnswers, setNoClickedCount, validateAnswers } =
   responseSlice.actions;
 
 export default responseSlice.reducer;

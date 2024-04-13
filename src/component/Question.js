@@ -97,14 +97,19 @@ function Question({
     (state) => state.questionReducer.questions[index].preview
   );
 
-  const answer = useSelector(
-    (state) => state.responseReducer.responses[index].response
-  );
+  const answer = useSelector((state) => state.responseReducer.responses[index]);
 
-  const inputValue = mode === FORM_MODE.QUESTION ? preview.answer : answer;
+  const inputValue =
+    mode === FORM_MODE.QUESTION ? preview.answer : answer.response;
+  const inputError =
+    mode === FORM_MODE.QUESTION
+      ? question.type === "rating"
+        ? preview.answer === "0/5" && preview.touched
+        : !preview.answer && preview.touched
+      : answer.error;
 
   const handleInputChange = (event, ratings) => {
-    let newInput = preview;
+    let newInput = mode === FORM_MODE.QUESTION ? preview : answer;
     if (question.type === "text") {
       newInput = { value: event.target.value, touched: true };
     } else if (question.type === "rating") {
@@ -175,7 +180,7 @@ function Question({
           inputValue={inputValue}
           handleInputChange={handleInputChange}
           editInput={editInput}
-          error={question.required && !preview.answer && preview.touched}
+          error={question.required && inputError}
           errorMessage={question.errorMessage}
           placeholder={inputPlaceholder}
         />
@@ -188,9 +193,7 @@ function Question({
           inputValue={inputValue}
           handleInputChange={handleInputChange}
           editInput={editInput}
-          error={
-            question.required && preview.answer === "0/5" && preview.touched
-          }
+          error={question.required && inputError}
           errorMessage={question.errorMessage}
         />
       )}
@@ -205,7 +208,7 @@ function Question({
           editInput={editInput}
           handleYesClicked={handleYesClicked}
           handleNoClicked={handleNoClicked}
-          error={question.required && !preview.answer && preview.touched}
+          error={question.required && inputError}
           errorMessage={question.errorMessage}
         />
       )}

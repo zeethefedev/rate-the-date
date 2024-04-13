@@ -20,20 +20,26 @@
           "type": "text",
           "value": "What's on your mind?",
           "required": true,
-          "rigged": false
+          "rigged": false,
+          "index": 0,
+          "response": "4r34r34"
         },
         {
           "type": "rating",
           "value": "rating question",
           "required": true,
           "rigged": false,
-          "errorMessage": "Error message test"
+          "errorMessage": "Error message test",
+          "index": 1,
+          "response": "4/5"
         },
         {
           "type": "yesno",
           "value": "Question test",
           "required": true,
-          "rigged": true
+          "rigged": true,
+          "index": 2,
+          "noClickedCount": 4
         }
       ]
     },

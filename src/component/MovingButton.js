@@ -28,7 +28,6 @@ function MovingButton({ inputValue, questionIndex, label, disabled }) {
       setCount(noClickedCount);
       setAssignedSaved(true);
     }
-    console.log(count);
   }, [noClickedCount]);
 
   const handleClick = (event) => {

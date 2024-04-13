@@ -7,5 +7,9 @@ const fetchFormApi = (Id) => {
 };
 
 //PATCH
+const updateFormApi = (form) => {
+  console.log(form);
+  return axios.patch(`${BASE_URL}/${form.id}`, { questions: form.answers });
+};
 
-export { fetchFormApi };
+export { fetchFormApi, updateFormApi };
