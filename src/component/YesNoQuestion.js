@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import MovingButton from "./MovingButton";
 import "../style/Form.css";
 import { FORM_MODE, INITIAL } from "../utils/constant";
+import { useDispatch } from "react-redux";
+import { changeAnswers } from "../store/responseReducer";
 
 function YesNoQuestion(props) {
   const {
@@ -20,10 +22,12 @@ function YesNoQuestion(props) {
     noLabel = INITIAL.NO_BUTTON,
     yesResponse = "Come Closer",
   } = props;
+  const dispatch = useDispatch();
   const [yesClicked, setYesClicked] = useState(false);
 
   const handleYesClickedRigged = (event) => {
     event?.preventDefault();
+    dispatch(changeAnswers({ index: index, value: "yes" }));
     setYesClicked(true);
   };
 

@@ -1,10 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { SETUP_FORM_INITIAL } from "../utils/constant";
 import { postForm } from "../api/question.thunk";
-import { saveQuestionsToStorage } from "./method.reducer";
+import { getNoClickedCount, saveQuestionsToStorage } from "./method.reducer";
 
 const initialState = {
-  value: 0,
   questions: SETUP_FORM_INITIAL,
   preview: [],
   loading: false,
@@ -135,14 +134,7 @@ export const questionSlice = createSlice({
     },
     setNoClickedCount: (state, action) => {
       const questionData = action.payload;
-      const newQuestions = state.questions.map((question) =>
-        question.index === questionData.index
-          ? {
-              ...question,
-              noClickedCount: questionData.noClickedCount,
-            }
-          : question
-      );
+      const newQuestions = getNoClickedCount(state.questions, questionData);
       state.questions = newQuestions;
       saveQuestionsToStorage(state.questions);
     },
@@ -158,7 +150,7 @@ export const questionSlice = createSlice({
       state.questions = newQuestions;
       saveQuestionsToStorage(state.questions);
     },
-    resetForm: (state) => {
+    resetQuestionForm: (state) => {
       state.loading = false;
       state.submitted = false;
     },
@@ -189,7 +181,7 @@ export const {
   changePreview,
   setNoClickedCount,
   validatePreview,
-  resetForm,
+  resetQuestionForm,
 } = questionSlice.actions;
 
 export default questionSlice.reducer;

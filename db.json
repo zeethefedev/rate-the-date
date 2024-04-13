@@ -21,8 +21,7 @@
           "value": "What's on your mind?",
           "required": true,
           "rigged": false,
-          "index": 0,
-          "response": "4r34r34"
+          "response": "new repsonse 23"
         },
         {
           "type": "rating",
@@ -30,16 +29,15 @@
           "required": true,
           "rigged": false,
           "errorMessage": "Error message test",
-          "index": 1,
-          "response": "4/5"
+          "response": "0/5"
         },
         {
           "type": "yesno",
           "value": "Question test",
           "required": true,
           "rigged": true,
-          "index": 2,
-          "noClickedCount": 4
+          "noClickedCount": 10,
+          "response": "yes"
         }
       ]
     },
@@ -49,7 +47,7 @@
         {
           "type": "text",
           "value": "What's on your mind?",
-          "required": false,
+          "required": true,
           "rigged": false
         },
         {

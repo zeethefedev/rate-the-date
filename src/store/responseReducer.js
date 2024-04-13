@@ -1,11 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchFormById, updateForm } from "../api/response.thunk";
-import { saveResponsesToStorage } from "./method.reducer";
+import { saveResponsesToStorage, getNoClickedCount } from "./method.reducer";
 
 const initialState = {
-  form: "",
   responses: [],
-  preview: [],
   loading: false,
   submitted: false,
 };
@@ -33,14 +31,7 @@ export const responseSlice = createSlice({
     },
     setNoClickedCount: (state, action) => {
       const answerData = action.payload;
-      const newResponses = state.responses.map((response) =>
-        response.index === answerData.index
-          ? {
-              ...response,
-              noClickedCount: answerData.noClickedCount,
-            }
-          : response
-      );
+      const newResponses = getNoClickedCount(state.responses, answerData);
       state.responses = newResponses;
       saveResponsesToStorage(state.responses);
     },
@@ -48,36 +39,50 @@ export const responseSlice = createSlice({
       const newResponses = state.responses.map((response) => ({
         ...response,
         touched: true,
-        error:
-          response.require &&
-          !response.response &&
-          response.touched &&
-          !response.rigged,
       }));
       state.responses = newResponses;
       saveResponsesToStorage(state.responses);
     },
+    resetResponseForm: (state) => {
+      state.loading = false;
+      state.submitted = false;
+    },
   },
   extraReducers: (builder) => {
     builder
-      //POST
+      //GET
+      .addCase(fetchFormById.pending, (state) => {
+        state.loading = true;
+      })
       .addCase(fetchFormById.fulfilled, (state, action) => {
-        state.form = action.payload;
-        state.responses = state.form.questions.map((question, index) => ({
+        state.responses = action.payload.questions.map((question, index) => ({
           ...question,
           index: index,
         }));
-        // state.loading = true;
+        state.loading = false;
+      })
+      .addCase(fetchFormById.rejected, (state, action) => {
+        console.log("failed");
+      })
+      //PATCH
+      .addCase(updateForm.pending, (state) => {
+        state.loading = true;
       })
       .addCase(updateForm.fulfilled, (state, action) => {
-        console.log("updated");
-        console.log(action.payload);
+        state.loading = false;
+        state.submitted = true;
+        console.log("updated", action.payload);
       });
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setAnswers, changeAnswers, setNoClickedCount, validateAnswers } =
-  responseSlice.actions;
+export const {
+  setAnswers,
+  changeAnswers,
+  setNoClickedCount,
+  validateAnswers,
+  resetResponseForm,
+} = responseSlice.actions;
 
 export default responseSlice.reducer;

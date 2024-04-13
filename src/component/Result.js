@@ -2,7 +2,9 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { FORM_MODE } from "../utils/constant";
 import "../style/Result.css";
-import { resetForm } from "../store/questionReducer";
+import { resetQuestionForm } from "../store/questionReducer";
+import { resetResponseForm } from "../store/responseReducer";
+import { useNavigate } from "react-router-dom";
 
 function QuestionFormResult({ formLink, handleMakeAnotherClick }) {
   return (
@@ -18,22 +20,30 @@ function QuestionFormResult({ formLink, handleMakeAnotherClick }) {
   );
 }
 
-function ResponseFormResult({ handleMakeClick }) {
+function ResponseFormResult({ handleEdit, handleMakeClick }) {
   return (
     <div>
+      <button onClick={handleEdit}>Go back and edit your answer</button>
       <button onClick={handleMakeClick}>Make a form</button>
     </div>
   );
 }
 
 function Result({ mode = FORM_MODE.QUESTION, heading, formLink }) {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const handleMakeAnotherClick = () => {
-    //set forsubmitted = false
-    dispatch(resetForm());
+    dispatch(resetQuestionForm());
   };
 
-  const handleMakeClick = () => {};
+  const handleEdit = () => {
+    dispatch(resetResponseForm());
+  };
+
+  const handleMakeClick = () => {
+    navigate("/question");
+  };
 
   return (
     <div className="result-wrapper">
@@ -44,7 +54,10 @@ function Result({ mode = FORM_MODE.QUESTION, heading, formLink }) {
           handleMakeAnotherClick={handleMakeAnotherClick}
         />
       ) : (
-        <ResponseFormResult handleMakeClick={handleMakeClick} />
+        <ResponseFormResult
+          handleEdit={handleEdit}
+          handleMakeClick={handleMakeClick}
+        />
       )}
     </div>
   );

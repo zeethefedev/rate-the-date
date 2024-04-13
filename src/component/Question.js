@@ -106,7 +106,7 @@ function Question({
       ? question.type === "rating"
         ? preview.answer === "0/5" && preview.touched
         : !preview.answer && preview.touched
-      : answer.error;
+      : !answer.response && answer.touched;
 
   const handleInputChange = (event, ratings) => {
     let newInput = mode === FORM_MODE.QUESTION ? preview : answer;
@@ -137,20 +137,20 @@ function Question({
   const handleYesClicked = (event) => {
     event.preventDefault();
     if (mode === FORM_MODE.QUESTION) {
-      dispatch(changePreview({ index: index, answer: "true" }));
+      dispatch(changePreview({ index: index, answer: "yes" }));
     } else {
       //response mode
-      dispatch(changeAnswers({ index: index, value: "true" }));
+      dispatch(changeAnswers({ index: index, value: "yes" }));
     }
   };
 
   const handleNoClicked = (event) => {
     event.preventDefault();
     if (mode === FORM_MODE.QUESTION) {
-      dispatch(changePreview({ index: index, answer: "false" }));
+      dispatch(changePreview({ index: index, answer: "no" }));
     } else {
       //response mode
-      dispatch(changeAnswers({ index: index, value: "false" }));
+      dispatch(changeAnswers({ index: index, value: "no" }));
     }
   };
 

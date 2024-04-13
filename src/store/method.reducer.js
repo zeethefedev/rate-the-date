@@ -17,7 +17,20 @@ export const getFormData = (rawData) => {
       required: question.required,
       rigged: question.rigged,
       errorMessage: question.errorMessage,
+      noClickedCount: question.noClickedCount,
+      response: question.response,
     })),
   };
   return formattedData;
+};
+
+export const getNoClickedCount = (questions, data) => {
+  return questions.map((question) =>
+    question.index === data.index
+      ? {
+          ...question,
+          noClickedCount: data.noClickedCount,
+        }
+      : question
+  );
 };
