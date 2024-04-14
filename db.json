@@ -21,7 +21,7 @@
           "value": "What's on your mind?",
           "required": true,
           "rigged": false,
-          "response": "new repsonse 23"
+          "response": "response 23 new edit"
         },
         {
           "type": "rating",

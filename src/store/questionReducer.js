@@ -1,7 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { SETUP_FORM_INITIAL } from "../utils/constant";
 import { postForm } from "../api/question.thunk";
-import { getNoClickedCount, saveQuestionsToStorage } from "./method.reducer";
+import {
+  getNoClickedCount,
+  replaceQuestion,
+  saveQuestionsToStorage,
+} from "./method.reducer";
 
 const initialState = {
   questions: SETUP_FORM_INITIAL,
@@ -66,23 +70,11 @@ export const questionSlice = createSlice({
         (question) => question.index === action.payload - 1
       );
 
-      const newQuestionsReplace = state.questions
-        .map((question) =>
-          question.index === action.payload
-            ? {
-                ...aboveQuestion,
-                index: question.index,
-              }
-            : question
-        )
-        .map((question) =>
-          question.index === action.payload - 1
-            ? {
-                ...currentQuestion,
-                index: question.index,
-              }
-            : question
-        );
+      const newQuestionsReplace = replaceQuestion(
+        replaceQuestion(state.questions, action.payload, aboveQuestion),
+        action.payload - 1,
+        currentQuestion
+      );
 
       state.questions = newQuestionsReplace;
       saveQuestionsToStorage(state.questions);
@@ -95,23 +87,11 @@ export const questionSlice = createSlice({
         (question) => question.index === action.payload + 1
       );
 
-      const newQuestionsReplace = state.questions
-        .map((question) =>
-          question.index === action.payload
-            ? {
-                ...belowQuestion,
-                index: question.index,
-              }
-            : question
-        )
-        .map((question) =>
-          question.index === action.payload + 1
-            ? {
-                ...currentQuestion,
-                index: question.index,
-              }
-            : question
-        );
+      const newQuestionsReplace = replaceQuestion(
+        replaceQuestion(state.questions, action.payload, belowQuestion),
+        action.payload + 1,
+        currentQuestion
+      );
 
       state.questions = newQuestionsReplace;
       saveQuestionsToStorage(state.questions);

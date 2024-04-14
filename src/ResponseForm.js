@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { fetchFormById, updateForm } from "./api/response.thunk";
 import Question from "./component/Question";
 import { FORM_MODE } from "./utils/constant";
 import { getFromStorage } from "./utils/methods";
 import { setAnswers, validateAnswers } from "./store/responseReducer";
 import Result from "./component/Result";
+import LoadingOverlay from "./component/LoadingOverlay";
 
 function ResponseForm() {
   //response/4848
   const { id } = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const savedData = getFromStorage(FORM_MODE.RESPONSE);
   const answers = useSelector((state) => state.responseReducer.responses);
@@ -25,6 +27,9 @@ function ResponseForm() {
         if (savedData && savedData.responses) {
           dispatch(setAnswers(savedData.responses));
         }
+      })
+      .catch((error) => {
+        navigate("/error");
       });
   }, []);
 
@@ -54,6 +59,7 @@ function ResponseForm() {
         <Result mode={FORM_MODE.RESPONSE} />
       ) : (
         <div>
+          <LoadingOverlay open={formLoading} />
           <h1>Response Form</h1>
           <form>
             {answers && (

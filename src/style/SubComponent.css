@@ -1,0 +1,11 @@
+.loading-overlay-wrapper {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+
+.loading-message {
+  display: flex;
+}

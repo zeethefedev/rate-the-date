@@ -34,3 +34,14 @@ export const getNoClickedCount = (questions, data) => {
       : question
   );
 };
+
+export const replaceQuestion = (questionsArray, index, newQuestion) => {
+  return questionsArray.map((question) =>
+    question.index === index
+      ? {
+          ...newQuestion,
+          index: question.index,
+        }
+      : question
+  );
+};

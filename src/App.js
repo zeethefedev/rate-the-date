@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import SetupForm from "./SetupForm";
 import ResponseForm from "./ResponseForm";
 import Landing from "./Landing";
+import Error from "./Error";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Route exact path="/" element={<Landing />} />
         <Route path="question" element={<SetupForm />} />
         <Route path="response/:id" element={<ResponseForm />} />
+        <Route path="error" element={<Error />} />
       </Routes>
     </div>
   );

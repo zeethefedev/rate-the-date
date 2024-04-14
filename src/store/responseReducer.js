@@ -6,6 +6,7 @@ const initialState = {
   responses: [],
   loading: false,
   submitted: false,
+  errorMessage: "",
 };
 
 export const responseSlice = createSlice({
@@ -61,7 +62,7 @@ export const responseSlice = createSlice({
         }));
         state.loading = false;
       })
-      .addCase(fetchFormById.rejected, (state, action) => {
+      .addCase(fetchFormById.rejected, (state) => {
         console.log("failed");
       })
       //PATCH

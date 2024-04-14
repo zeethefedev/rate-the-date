@@ -15,6 +15,7 @@ import "./style/Form.css";
 import Result from "./component/Result";
 import { postForm } from "./api/question.thunk";
 import { getFromStorage } from "./utils/methods";
+import LoadingOverlay from "./component/LoadingOverlay";
 
 function SetupForm() {
   const dispatch = useDispatch();
@@ -76,46 +77,49 @@ function SetupForm() {
       {formSubmitted ? (
         <Result formLink={responseFormLink} />
       ) : (
-        <div className="setup-form-wrapper">
-          <div className="form-editor">
-            <DropdownMenu options={MENU_OPTIONS} />
-            <label>
-              <input
-                type="checkbox"
-                id="required"
-                checked={viewMode === FORM_MODE.RESPONSE}
-                onChange={handleChangeViewMode}
-              />
-              View as User
-            </label>
-            <button onClick={handleTest}>Submit Form</button>
-            {formLoading && <div>Loading...</div>}
-          </div>
-          <div className="question-editor">
-            <h1>Set Up</h1>
-            <form>
-              {questions.map((question, index) => (
-                <div key={index}>
-                  <Question
-                    index={index}
-                    mode={viewMode}
-                    question={question}
-                    handleRemoveQuestion={(event) =>
-                      handleRemoveQuestion(event, index)
-                    }
-                    handleMoveQuestionUp={(event) =>
-                      handleMoveQuestionUp(event, index)
-                    }
-                    handleMoveQuestionDown={(event) =>
-                      handleMoveQuestionDown(event, index)
-                    }
-                  />
-                </div>
-              ))}
-              {viewMode === FORM_MODE.RESPONSE && (
-                <button onClick={handleSubmit}>Submit Answers</button>
-              )}
-            </form>
+        <div>
+          <LoadingOverlay open={formLoading} />
+          <div className="setup-form-wrapper">
+            <div className="form-editor">
+              <DropdownMenu options={MENU_OPTIONS} />
+              <label>
+                <input
+                  type="checkbox"
+                  id="required"
+                  checked={viewMode === FORM_MODE.RESPONSE}
+                  onChange={handleChangeViewMode}
+                />
+                View as User
+              </label>
+              <button onClick={handleTest}>Submit Form</button>
+              {formLoading && <div>Loading...</div>}
+            </div>
+            <div className="question-editor">
+              <h1>Set Up</h1>
+              <form>
+                {questions.map((question, index) => (
+                  <div key={index}>
+                    <Question
+                      index={index}
+                      mode={viewMode}
+                      question={question}
+                      handleRemoveQuestion={(event) =>
+                        handleRemoveQuestion(event, index)
+                      }
+                      handleMoveQuestionUp={(event) =>
+                        handleMoveQuestionUp(event, index)
+                      }
+                      handleMoveQuestionDown={(event) =>
+                        handleMoveQuestionDown(event, index)
+                      }
+                    />
+                  </div>
+                ))}
+                {viewMode === FORM_MODE.RESPONSE && (
+                  <button onClick={handleSubmit}>Submit Answers</button>
+                )}
+              </form>
+            </div>
           </div>
         </div>
       )}
