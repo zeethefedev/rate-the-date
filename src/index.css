@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--background);
 }
 
 code {
@@ -13,5 +14,133 @@ code {
 }
 
 .field-wrapper {
-  border: 1px solid black;
+}
+
+:root {
+  --red: #ff5151;
+  --yellow: #ffc900;
+  --green: #0eb219;
+  --red-text: #c41d1d;
+  --yellow-text: #dea30d;
+  --green-text: #0b9114;
+  --background: #fff1ce;
+  --disabled: #b1b1b1;
+  --disabled-text: #676767;
+}
+
+h1 {
+  font-size: 32px;
+  line-height: 1em;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+h2 {
+  font-size: 32px;
+  line-height: 1em;
+  font-weight: 800;
+}
+
+h3 {
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 800;
+}
+
+.bodytext-l {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+}
+
+.bodytext-m {
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 500;
+}
+
+.caption {
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 300;
+}
+
+.input-text {
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: 500;
+}
+
+.helpertext {
+  font-size: 12px;
+  line-height: 12px;
+  font-weight: 100;
+}
+
+.button-text {
+  font-size: 16px;
+  line-height: 16px;
+  font-weight: 800;
+}
+
+button {
+  font-size: 16px;
+  line-height: 16px;
+  font-weight: 800;
+  padding: 8px;
+  border: 2px black solid;
+  border-radius: 4px;
+}
+
+button:hover,
+button:focus {
+  filter: drop-shadow(2px 2px black);
+}
+
+button:disabled {
+  border: 2px var(--disabled-text) solid;
+  background-color: var(--disabled);
+  color: var(--disabled-text);
+}
+
+input {
+  padding: 8px;
+  border: 2px black solid;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: 500;
+  background-color: inherit;
+}
+
+input:hover,
+input:focus {
+  filter: drop-shadow(2px 2px black);
+  background-color: var(--background);
+  border: 2px black solid;
+  outline: 0px;
+}
+
+input:disabled {
+  border: 2px var(--disabled) solid;
+}
+
+input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  appearance: none;
+}
+
+input[type="checkbox"]:checked {
+  background-color: black;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  /* text */
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
 }

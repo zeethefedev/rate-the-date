@@ -36,7 +36,7 @@ function SetupForm() {
 
   const handleChangeViewMode = () => {
     if (viewMode === FORM_MODE.QUESTION) {
-      setViewMode(FORM_MODE.RESPONSE);
+      setViewMode(FORM_MODE.PREVIEW);
     } else {
       setViewMode(FORM_MODE.QUESTION);
     }
@@ -86,7 +86,7 @@ function SetupForm() {
                 <input
                   type="checkbox"
                   id="required"
-                  checked={viewMode === FORM_MODE.RESPONSE}
+                  checked={viewMode === FORM_MODE.PREVIEW}
                   onChange={handleChangeViewMode}
                 />
                 View as User
@@ -115,7 +115,7 @@ function SetupForm() {
                     />
                   </div>
                 ))}
-                {viewMode === FORM_MODE.RESPONSE && (
+                {viewMode === FORM_MODE.PREVIEW && (
                   <button onClick={handleSubmit}>Submit Answers</button>
                 )}
               </form>

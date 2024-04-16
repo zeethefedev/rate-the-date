@@ -32,48 +32,50 @@ function YesNoQuestion(props) {
   };
 
   return (
-    <div className="form-wrapper field-wrapper">
+    <div className="field-wrapper">
       {editInput}
-      <h1>
-        {questionValue}
-        {required && <span>*</span>}
-        {rigged && <span>#</span>}
-      </h1>
-      {rigged ? (
-        <div className="button-wrapper">
-          <button
-            disabled={mode === FORM_MODE.QUESTION}
-            onClick={handleYesClickedRigged}
-          >
-            {yesLabel}
-          </button>
-          <MovingButton
-            inputValue
-            questionIndex={index}
-            disabled={mode === FORM_MODE.QUESTION}
-            label={noLabel}
-          />
-        </div>
-      ) : (
-        <div className="button-wrapper">
-          <button
-            disabled={mode === FORM_MODE.QUESTION}
-            onClick={handleYesClicked}
-          >
-            {yesLabel}
-          </button>
-          <button
-            disabled={mode === FORM_MODE.QUESTION}
-            onClick={handleNoClicked}
-          >
-            {noLabel}
-          </button>
-        </div>
-      )}
-      {yesClicked && <div>{yesResponse}</div>}
-      {error && mode === FORM_MODE.RESPONSE && (
-        <div>{errorMessage || INITIAL.ERROR_MESSAGE}</div>
-      )}
+      <div className="form-wrapper ">
+        <h1>
+          {questionValue}
+          {required && <span>*</span>}
+          {rigged && <span>#</span>}
+        </h1>
+        {rigged ? (
+          <div className="button-wrapper">
+            <button
+              disabled={mode === FORM_MODE.QUESTION}
+              onClick={handleYesClickedRigged}
+            >
+              {yesLabel}
+            </button>
+            <MovingButton
+              inputValue
+              questionIndex={index}
+              disabled={mode === FORM_MODE.QUESTION}
+              label={noLabel}
+            />
+          </div>
+        ) : (
+          <div className="button-wrapper">
+            <button
+              disabled={mode === FORM_MODE.QUESTION}
+              onClick={handleYesClicked}
+            >
+              {yesLabel}
+            </button>
+            <button
+              disabled={mode === FORM_MODE.QUESTION}
+              onClick={handleNoClicked}
+            >
+              {noLabel}
+            </button>
+          </div>
+        )}
+        {yesClicked && <div>{yesResponse}</div>}
+        {error && mode === FORM_MODE.RESPONSE && (
+          <div>{errorMessage || INITIAL.ERROR_MESSAGE}</div>
+        )}
+      </div>
     </div>
   );
 }

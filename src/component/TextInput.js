@@ -17,23 +17,26 @@ function TextInput(props) {
   return (
     <div key={index} className="field-wrapper">
       {editInput}
-      <label>
-        <h1>
-          {questionValue}
-          {required && <span>*</span>}
-        </h1>
-        <input
-          type="text"
-          disabled={mode === FORM_MODE.QUESTION}
-          required={required}
-          value={inputValue}
-          onChange={handleInputChange}
-          placeholder={placeholder}
-        ></input>
-      </label>
-      {error && mode === FORM_MODE.RESPONSE && (
-        <div>{errorMessage || INITIAL.ERROR_MESSAGE}</div>
-      )}
+      <div className="form-wrapper">
+        <label>
+          <h1>
+            {questionValue}
+            {required && <span>*</span>}
+          </h1>
+          <input
+            type="text"
+            disabled={mode === FORM_MODE.QUESTION}
+            required={required}
+            value={inputValue}
+            onChange={handleInputChange}
+            placeholder={placeholder}
+          ></input>
+        </label>
+        {error &&
+          (mode === FORM_MODE.RESPONSE || mode === FORM_MODE.PREVIEW) && (
+            <div>{errorMessage || INITIAL.ERROR_MESSAGE}</div>
+          )}
+      </div>
     </div>
   );
 }

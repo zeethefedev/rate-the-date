@@ -7,6 +7,9 @@ import { FORM_MODE } from "../utils/constant";
 import { changePreview, changeQuestion } from "../store/questionReducer";
 import { changeAnswers } from "../store/responseReducer";
 
+import "../style/Question.css";
+import SVGIcon from "./SVGIcon";
+
 function ButtonGroup({
   showMoveUp,
   showMoveDown,
@@ -16,10 +19,18 @@ function ButtonGroup({
 }) {
   return (
     <div>
-      <button onClick={handleRemoveQuestion}>Remove Question</button>
-      {showMoveUp && <button onClick={handleMoveQuestionUp}>Move Up</button>}
+      <button onClick={handleRemoveQuestion}>
+        <SVGIcon icon="delete" />
+      </button>
+      {showMoveUp && (
+        <button onClick={handleMoveQuestionUp}>
+          <SVGIcon icon="up" />
+        </button>
+      )}
       {showMoveDown && (
-        <button onClick={handleMoveQuestionDown}>Move Down</button>
+        <button onClick={handleMoveQuestionDown}>
+          <SVGIcon icon="down" />
+        </button>
       )}
     </div>
   );
@@ -35,10 +46,11 @@ function EditQuestionComponent(props) {
     errorMessage,
   } = props;
   return (
-    <div>
+    <div className="edit-question-wrapper">
       <label>
         Enter your question:{" "}
         <input
+          className="input-text"
           type="text"
           value={questionValue}
           placeholder="enter your question"
@@ -99,23 +111,37 @@ function Question({
 
   const answer = useSelector((state) => state.responseReducer.responses[index]);
 
-  const inputValue =
-    mode === FORM_MODE.QUESTION ? preview.answer : answer.response;
-  const inputError =
-    mode === FORM_MODE.QUESTION
-      ? question.type === "rating"
-        ? preview.answer === "0/5" && preview.touched
-        : !preview.answer && preview.touched
-      : !answer.response && answer.touched;
+  const inputValue = () => {
+    if (mode === FORM_MODE.QUESTION || mode === FORM_MODE.PREVIEW) {
+      return preview.answer;
+    } else {
+      return answer.response;
+    }
+  };
+
+  const inputError = () => {
+    if (mode === FORM_MODE.QUESTION || mode === FORM_MODE.PREVIEW) {
+      if (question.type === "rating") {
+        return preview.answer === "0/5" && preview.touched;
+      } else {
+        return !preview.answer && preview.touched;
+      }
+    } else {
+      return !answer.response && answer.touched;
+    }
+  };
 
   const handleInputChange = (event, ratings) => {
-    let newInput = mode === FORM_MODE.QUESTION ? preview : answer;
+    let newInput =
+      mode === FORM_MODE.QUESTION || mode === FORM_MODE.PREVIEW
+        ? preview
+        : answer;
     if (question.type === "text") {
       newInput = { value: event.target.value, touched: true };
     } else if (question.type === "rating") {
       newInput = { value: ratings, touched: true };
     }
-    if (mode === FORM_MODE.QUESTION) {
+    if (mode === FORM_MODE.QUESTION || mode === FORM_MODE.PREVIEW) {
       dispatch(changePreview({ index: index, answer: newInput.value }));
     } else {
       //response mode
@@ -136,7 +162,7 @@ function Question({
 
   const handleYesClicked = (event) => {
     event.preventDefault();
-    if (mode === FORM_MODE.QUESTION) {
+    if (mode === FORM_MODE.QUESTION || mode === FORM_MODE.PREVIEW) {
       dispatch(changePreview({ index: index, answer: "yes" }));
     } else {
       //response mode
@@ -146,7 +172,7 @@ function Question({
 
   const handleNoClicked = (event) => {
     event.preventDefault();
-    if (mode === FORM_MODE.QUESTION) {
+    if (mode === FORM_MODE.QUESTION || mode === FORM_MODE.PREVIEW) {
       dispatch(changePreview({ index: index, answer: "no" }));
     } else {
       //response mode
@@ -177,10 +203,10 @@ function Question({
           mode={mode}
           required={question.required}
           questionValue={question.value}
-          inputValue={inputValue}
+          inputValue={inputValue()}
           handleInputChange={handleInputChange}
           editInput={editInput}
-          error={question.required && inputError}
+          error={question.required && inputError()}
           errorMessage={question.errorMessage}
           placeholder={inputPlaceholder}
         />
@@ -190,10 +216,10 @@ function Question({
           mode={mode}
           required={question.required}
           questionValue={question.value}
-          inputValue={inputValue}
+          inputValue={inputValue()}
           handleInputChange={handleInputChange}
           editInput={editInput}
-          error={question.required && inputError}
+          error={question.required && inputError()}
           errorMessage={question.errorMessage}
         />
       )}
@@ -204,11 +230,11 @@ function Question({
           required={question.required}
           rigged={question.rigged}
           questionValue={question.value}
-          inputValue={inputValue}
+          inputValue={inputValue()}
           editInput={editInput}
           handleYesClicked={handleYesClicked}
           handleNoClicked={handleNoClicked}
-          error={question.required && inputError}
+          error={question.required && inputError()}
           errorMessage={question.errorMessage}
         />
       )}

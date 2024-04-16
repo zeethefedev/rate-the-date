@@ -37,6 +37,7 @@ export const SETUP_FORM_INITIAL = [
 export const FORM_MODE = {
   QUESTION: "question",
   RESPONSE: "response",
+  PREVIEW: "preview",
 };
 
 export const MENU_OPTIONS = [
