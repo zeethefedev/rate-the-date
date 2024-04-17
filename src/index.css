@@ -83,56 +83,93 @@ h3 {
   font-weight: 800;
 }
 
-button {
+.clickable {
+  cursor: pointer;
+}
+
+/* element */
+button,
+fieldset,
+input,
+legend,
+select,
+textarea,
+option {
+  border-radius: 4px;
+  border: 2px black solid;
+  background-color: var(--background);
+  padding: 8px;
+  outline: 0px;
+}
+
+button,
+fieldset,
+input,
+legend,
+textarea,
+option {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+button,
+select,
+option {
   font-size: 16px;
   line-height: 16px;
   font-weight: 800;
-  padding: 8px;
-  border: 2px black solid;
-  border-radius: 4px;
+}
+
+select {
+  background: url("/public/icon/down.svg") no-repeat center right 0.75rem;
+}
+
+input {
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: 500;
 }
 
 button:hover,
-button:focus {
-  filter: drop-shadow(2px 2px black);
+button:focus,
+input:hover,
+input:focus,
+select:hover,
+select:focus {
+  box-shadow: 2px 2px black;
+  transform: translate(-2px, -2px);
+}
+
+option:hover,
+option:focus {
+  background-color: var(--yellow);
+}
+
+button:disabled,
+input:disabled {
+  box-shadow: none;
+  transform: none;
 }
 
 button:disabled {
-  border: 2px var(--disabled-text) solid;
+  border-color: var(--disabled-text);
   background-color: var(--disabled);
   color: var(--disabled-text);
 }
 
-input {
-  padding: 8px;
-  border: 2px black solid;
-  border-radius: 4px;
-  font-size: 14px;
-  line-height: 16px;
-  font-weight: 500;
-  background-color: inherit;
-}
-
-input:hover,
-input:focus {
-  filter: drop-shadow(2px 2px black);
-  background-color: var(--background);
-  border: 2px black solid;
-  outline: 0px;
-}
-
 input:disabled {
-  border: 2px var(--disabled) solid;
+  border-color: var(--disabled);
 }
 
 input[type="checkbox"] {
   width: 18px;
   height: 18px;
-  appearance: none;
 }
 
 input[type="checkbox"]:checked {
-  background-color: black;
+  background: url("/public/icon/check.svg") no-repeat center / 100% auto;
+  background-color: var(--green);
 }
 
 label {
@@ -143,4 +180,25 @@ label {
   font-size: 16px;
   line-height: 24px;
   font-weight: 500;
+}
+
+/* custom button */
+.primary-button-red {
+  background-color: var(--red);
+}
+
+.secondary-button-red {
+  border-color: var(--red-text);
+  color: var(--red-text);
+}
+
+.primary-button:disabled {
+  background: var(--disabled);
+  border-color: var(--disabled-text);
+  color: var(--disabled-text);
+}
+
+.secondary-button:disabled {
+  border-color: var(--disabled);
+  color: var(--disabled);
 }

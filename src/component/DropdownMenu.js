@@ -20,13 +20,17 @@ function DropdownMenu({ options }) {
         Add question
       </button>
       {showDropdown && (
-        <div className="dropdown-content">
+        <ul className="dropdown-content">
           {options.map((option, index) => (
-            <button key={index} onClick={() => handleClickOption(option)}>
+            <li
+              key={index}
+              className="clickable"
+              onClick={() => handleClickOption(option)}
+            >
               {option.displayName}
-            </button>
+            </li>
           ))}
-        </div>
+        </ul>
       )}
     </div>
   );

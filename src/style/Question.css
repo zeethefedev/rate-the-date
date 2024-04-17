@@ -1,3 +1,7 @@
 .edit-question-wrapper {
   display: flex;
 }
+
+.checkbox-label {
+  flex-direction: row;
+}

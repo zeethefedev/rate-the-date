@@ -20,7 +20,7 @@ function MovingButton({ inputValue, questionIndex, label, disabled }) {
   const [count, setCount] = useState(0);
   const [assignedSaved, setAssignedSaved] = useState(false);
   const noClickedCount = useSelector(
-    (state) => state.responseReducer.responses[questionIndex].noClickedCount
+    (state) => state.responseReducer.responses[questionIndex]?.noClickedCount
   );
 
   useEffect(() => {

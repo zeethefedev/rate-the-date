@@ -32,7 +32,7 @@ function RatingInput(props) {
   }, [inputValue]);
 
   const handleClickStar = (index) => {
-    if (mode === FORM_MODE.RESPONSE) {
+    if (mode === FORM_MODE.RESPONSE || mode === FORM_MODE.PREVIEW) {
       const checkedRating = Array(index + 1).fill(true);
       const uncheckedRating = Array(RATING_LENGTH - index - 1).fill(false);
       setRatings([...checkedRating, ...uncheckedRating]);

@@ -11,11 +11,13 @@ import {
   validatePreview,
 } from "./store/questionReducer";
 import Question from "./component/Question";
-import "./style/Form.css";
 import Result from "./component/Result";
 import { postForm } from "./api/question.thunk";
 import { getFromStorage } from "./utils/methods";
 import LoadingOverlay from "./component/LoadingOverlay";
+
+import "./style/Form.css";
+import "./style/Question.css";
 
 function SetupForm() {
   const dispatch = useDispatch();
@@ -82,7 +84,7 @@ function SetupForm() {
           <div className="setup-form-wrapper">
             <div className="form-editor">
               <DropdownMenu options={MENU_OPTIONS} />
-              <label>
+              <label className="checkbox-label">
                 <input
                   type="checkbox"
                   id="required"
@@ -91,7 +93,9 @@ function SetupForm() {
                 />
                 View as User
               </label>
-              <button onClick={handleTest}>Submit Form</button>
+              <button className="primary-button-red" onClick={handleTest}>
+                Submit Form
+              </button>
               {formLoading && <div>Loading...</div>}
             </div>
             <div className="question-editor">

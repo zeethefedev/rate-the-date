@@ -7,8 +7,8 @@ import { FORM_MODE } from "../utils/constant";
 import { changePreview, changeQuestion } from "../store/questionReducer";
 import { changeAnswers } from "../store/responseReducer";
 
-import "../style/Question.css";
 import SVGIcon from "./SVGIcon";
+import "../style/Question.css";
 
 function ButtonGroup({
   showMoveUp,
@@ -22,16 +22,12 @@ function ButtonGroup({
       <button onClick={handleRemoveQuestion}>
         <SVGIcon icon="delete" />
       </button>
-      {showMoveUp && (
-        <button onClick={handleMoveQuestionUp}>
-          <SVGIcon icon="up" />
-        </button>
-      )}
-      {showMoveDown && (
-        <button onClick={handleMoveQuestionDown}>
-          <SVGIcon icon="down" />
-        </button>
-      )}
+      <button onClick={handleMoveQuestionUp} disabled={!showMoveUp}>
+        <SVGIcon icon="up" />
+      </button>
+      <button onClick={handleMoveQuestionDown} disabled={!showMoveDown}>
+        <SVGIcon icon="down" />
+      </button>
     </div>
   );
 }
@@ -57,15 +53,28 @@ function EditQuestionComponent(props) {
           onChange={(event) => handleChangeQuestion(event, "value")}
         />
       </label>
-      <label>
-        <input
-          type="checkbox"
-          id="required"
-          checked={questionRequired}
-          onChange={(event) => handleChangeQuestion(event, "required")}
-        />
-        Required
-      </label>
+      <div>
+        <label className="checkbox-label">
+          <input
+            type="checkbox"
+            id="required"
+            checked={questionRequired}
+            onChange={(event) => handleChangeQuestion(event, "required")}
+          />
+          Required
+        </label>
+        {questionType === "yesno" && (
+          <label className="checkbox-label">
+            <input
+              type="checkbox"
+              id="rigged"
+              checked={questionRigged}
+              onChange={(event) => handleChangeQuestion(event, "rigged")}
+            />
+            Rigged
+          </label>
+        )}
+      </div>
       <label>
         Enter your error message:{" "}
         <input
@@ -75,17 +84,6 @@ function EditQuestionComponent(props) {
           onChange={(event) => handleChangeQuestion(event, "errorMessage")}
         />
       </label>
-      {questionType === "yesno" && (
-        <label>
-          <input
-            type="checkbox"
-            id="rigged"
-            checked={questionRigged}
-            onChange={(event) => handleChangeQuestion(event, "rigged")}
-          />
-          Rigged
-        </label>
-      )}
       <ButtonGroup {...props} />
     </div>
   );
