@@ -63,17 +63,16 @@ function EditQuestionComponent(props) {
           />
           Required
         </label>
-        {questionType === "yesno" && (
-          <label className="checkbox-label">
-            <input
-              type="checkbox"
-              id="rigged"
-              checked={questionRigged}
-              onChange={(event) => handleChangeQuestion(event, "rigged")}
-            />
-            Rigged
-          </label>
-        )}
+        <label className="checkbox-label">
+          <input
+            type="checkbox"
+            id="rigged"
+            checked={questionRigged}
+            disabled={questionType !== "yesno"}
+            onChange={(event) => handleChangeQuestion(event, "rigged")}
+          />
+          Rigged
+        </label>
       </div>
       <label>
         Enter your error message:{" "}

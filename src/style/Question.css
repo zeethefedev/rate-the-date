@@ -1,5 +1,7 @@
 .edit-question-wrapper {
   display: flex;
+  align-items: flex-end;
+  /* gap: 8px; */
 }
 
 .checkbox-label {
