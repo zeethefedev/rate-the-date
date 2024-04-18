@@ -54,25 +54,27 @@ function RatingInput(props) {
 
   return (
     <div key={index} className="field-wrapper">
-      {editInput}
-      <h1>
-        {questionValue}
-        {required && <span>*</span>}
-      </h1>
-      <div className="star-wrapper">
-        {ratings.map((rating, index) => (
-          <div key={index} onClick={() => handleClickStar(index)}>
-            <SVGIcon
-              icon="star"
-              checked={rating}
-              disabled={mode === FORM_MODE.QUESTION}
-            />
-          </div>
-        ))}
+      <div>
+        <h1>
+          {questionValue}
+          {required && <span>*</span>}
+        </h1>
+        <div className="star-wrapper">
+          {ratings.map((rating, index) => (
+            <div key={index} onClick={() => handleClickStar(index)}>
+              <SVGIcon
+                icon="star"
+                checked={rating}
+                disabled={mode === FORM_MODE.QUESTION}
+              />
+            </div>
+          ))}
+        </div>
+        {error && mode === FORM_MODE.RESPONSE && (
+          <div>{errorMessage || INITIAL.ERROR_MESSAGE}</div>
+        )}
       </div>
-      {error && mode === FORM_MODE.RESPONSE && (
-        <div>{errorMessage || INITIAL.ERROR_MESSAGE}</div>
-      )}
+      {editInput}
     </div>
   );
 }

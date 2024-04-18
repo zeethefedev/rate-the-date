@@ -16,7 +16,6 @@ function TextInput(props) {
   } = props;
   return (
     <div key={index} className="field-wrapper">
-      {editInput}
       <div className="form-wrapper">
         <label>
           <h1>
@@ -37,6 +36,7 @@ function TextInput(props) {
             <div>{errorMessage || INITIAL.ERROR_MESSAGE}</div>
           )}
       </div>
+      {editInput}
     </div>
   );
 }

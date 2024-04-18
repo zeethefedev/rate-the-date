@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import TextInput from "./TextInput";
 import YesNoQuestion from "./YesNoQuestion";
 import RatingInput from "./RatingInput";
@@ -9,6 +9,7 @@ import { changeAnswers } from "../store/responseReducer";
 
 import SVGIcon from "./SVGIcon";
 import "../style/Question.css";
+import EditQuestionDialog from "./EditQuestionDialog";
 
 function ButtonGroup({
   showMoveUp,
@@ -16,6 +17,7 @@ function ButtonGroup({
   handleRemoveQuestion,
   handleMoveQuestionUp,
   handleMoveQuestionDown,
+  handleOpenEditDialog,
 }) {
   return (
     <div>
@@ -28,61 +30,24 @@ function ButtonGroup({
       <button onClick={handleMoveQuestionDown} disabled={!showMoveDown}>
         <SVGIcon icon="down" />
       </button>
+      <button onClick={handleOpenEditDialog}>
+        <SVGIcon icon="edit" />
+      </button>
     </div>
   );
 }
 
 function EditQuestionComponent(props) {
-  const {
-    questionValue,
-    questionRequired,
-    questionType,
-    questionRigged,
-    handleChangeQuestion,
-    errorMessage,
-  } = props;
+  const { openDialog, question, handleChangeQuestion, handleCloseEditDialog } =
+    props;
   return (
     <div className="edit-question-wrapper">
-      <label>
-        Enter your question:{" "}
-        <input
-          className="input-text"
-          type="text"
-          value={questionValue}
-          placeholder="enter your question"
-          onChange={(event) => handleChangeQuestion(event, "value")}
-        />
-      </label>
-      <div>
-        <label className="checkbox-label">
-          <input
-            type="checkbox"
-            id="required"
-            checked={questionRequired}
-            onChange={(event) => handleChangeQuestion(event, "required")}
-          />
-          Required
-        </label>
-        <label className="checkbox-label">
-          <input
-            type="checkbox"
-            id="rigged"
-            checked={questionRigged}
-            disabled={questionType !== "yesno"}
-            onChange={(event) => handleChangeQuestion(event, "rigged")}
-          />
-          Rigged
-        </label>
-      </div>
-      <label>
-        Enter your error message:{" "}
-        <input
-          type="text"
-          value={errorMessage}
-          placeholder="enter your error message"
-          onChange={(event) => handleChangeQuestion(event, "errorMessage")}
-        />
-      </label>
+      <EditQuestionDialog
+        open={openDialog}
+        question={question}
+        handleChangeQuestion={handleChangeQuestion}
+        handleCloseEditDialog={handleCloseEditDialog}
+      />
       <ButtonGroup {...props} />
     </div>
   );
@@ -167,6 +132,16 @@ function Question({
     }
   };
 
+  const [openDialog, setOpenDialog] = useState(false);
+  const handleOpenEditDialog = (event) => {
+    event.preventDefault();
+    setOpenDialog(true);
+  };
+
+  const handleCloseEditDialog = () => {
+    setOpenDialog(false);
+  };
+
   const handleNoClicked = (event) => {
     event.preventDefault();
     if (mode === FORM_MODE.QUESTION || mode === FORM_MODE.PREVIEW) {
@@ -179,17 +154,16 @@ function Question({
 
   const editInput = mode === FORM_MODE.QUESTION && (
     <EditQuestionComponent
-      questionValue={question.value}
-      questionRequired={question.required}
-      questionType={question.type}
-      questionRigged={question.rigged}
-      errorMessage={question.errorMessage}
+      question={question}
+      openDialog={openDialog}
       handleChangeQuestion={handleChangeQuestion}
       showMoveUp={question.index > 0}
       showMoveDown={question.index < questionsLength - 1}
       handleRemoveQuestion={handleRemoveQuestion}
       handleMoveQuestionUp={handleMoveQuestionUp}
       handleMoveQuestionDown={handleMoveQuestionDown}
+      handleOpenEditDialog={handleOpenEditDialog}
+      handleCloseEditDialog={handleCloseEditDialog}
     />
   );
 

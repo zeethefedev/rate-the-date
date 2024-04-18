@@ -33,7 +33,6 @@ function YesNoQuestion(props) {
 
   return (
     <div className="field-wrapper">
-      {editInput}
       <div className="form-wrapper ">
         <h1>
           {questionValue}
@@ -76,6 +75,7 @@ function YesNoQuestion(props) {
           <div>{errorMessage || INITIAL.ERROR_MESSAGE}</div>
         )}
       </div>
+      {editInput}
     </div>
   );
 }
