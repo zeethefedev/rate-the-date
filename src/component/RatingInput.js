@@ -63,8 +63,8 @@ function RatingInput(props) {
           {ratings.map((rating, index) => (
             <div key={index} onClick={() => handleClickStar(index)}>
               <SVGIcon
-                icon="star"
-                checked={rating}
+                icon={rating ? "star-checked" : "star-unchecked"}
+                // checked={rating}
                 disabled={mode === FORM_MODE.QUESTION}
               />
             </div>
