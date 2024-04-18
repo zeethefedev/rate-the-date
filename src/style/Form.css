@@ -1,13 +1,17 @@
 /* setup-form */
 .setup-form-wrapper {
   display: flex;
+  gap: 24px;
 }
 
 .form-editor {
   width: 25%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
-.question-editor {
+.dropdown-button {
   width: 100%;
 }
 
@@ -16,19 +20,24 @@
   flex-direction: column;
 }
 
-/* rating form */
+.question-editor {
+  width: 75%;
+}
+
+.setup-form-question {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* rating question */
 .star-wrapper {
   display: flex;
   justify-content: center;
   gap: 4px;
 }
 
-/* yes no form */
-.form-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+/* yes no question */
 
 .button-wrapper {
   display: flex;

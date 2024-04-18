@@ -1,6 +1,8 @@
 import React from "react";
 import { FORM_MODE, INITIAL } from "../utils/constant";
 
+import "../style/Question.css";
+
 function TextInput(props) {
   const {
     questionValue = INITIAL.TEXT_QUESTION,

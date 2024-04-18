@@ -1,9 +1,25 @@
-.edit-question-wrapper {
-  display: flex;
-  align-items: flex-end;
-  /* gap: 8px; */
-}
-
 .checkbox-label {
   flex-direction: row;
+  gap: 8px;
+}
+
+.field-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 70%;
+}
+
+.edit-question-wrapper {
+  display: flex;
+  /* gap: 8px; */
+  flex-wrap: nowrap;
+  width: 30%;
+  align-items: center;
+  justify-content: flex-end;
 }

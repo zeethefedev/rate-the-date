@@ -12,12 +12,13 @@ import {
 } from "./store/questionReducer";
 import Question from "./component/Question";
 import Result from "./component/Result";
-import { fetchForms, postForm } from "./api/question.thunk";
+import { postForm } from "./api/question.thunk";
 import { getFromStorage } from "./utils/methods";
 import LoadingOverlay from "./component/LoadingOverlay";
 
 import "./style/Form.css";
 import "./style/Question.css";
+import "./style/SetupForm.css";
 
 function SetupForm() {
   const dispatch = useDispatch();
@@ -86,7 +87,7 @@ function SetupForm() {
         <div>
           <LoadingOverlay open={formLoading} />
           <div className="setup-form-wrapper">
-            <div className="form-editor">
+            <div className="container form-editor">
               {/* <button onClick={handleTest}>Test api</button> */}
               <DropdownMenu options={MENU_OPTIONS} />
               <label className="checkbox-label">
@@ -103,9 +104,9 @@ function SetupForm() {
               </button>
               {formLoading && <div>Loading...</div>}
             </div>
-            <div className="question-editor">
+            <div className="container question-editor">
               <h1>Set Up</h1>
-              <form>
+              <form className="setup-form-question">
                 {questions.map((question, index) => (
                   <div key={index}>
                     <Question

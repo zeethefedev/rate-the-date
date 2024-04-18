@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import MovingButton from "./MovingButton";
-import "../style/Form.css";
 import { FORM_MODE, INITIAL } from "../utils/constant";
 import { useDispatch } from "react-redux";
 import { changeAnswers } from "../store/responseReducer";
+
+import "../style/Question.css";
 
 function YesNoQuestion(props) {
   const {
@@ -33,7 +34,7 @@ function YesNoQuestion(props) {
 
   return (
     <div className="field-wrapper">
-      <div className="form-wrapper ">
+      <div className="form-wrapper">
         <h1>
           {questionValue}
           {required && <span>*</span>}

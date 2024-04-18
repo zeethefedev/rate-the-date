@@ -1,0 +1,26 @@
+.landing-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+  margin: 100px 0;
+}
+
+.landing-button-group {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.form-id-input-wrapper {
+  margin: auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 8px;
+}
+
+.form-id-input-wrapper h1 {
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 800;
+}

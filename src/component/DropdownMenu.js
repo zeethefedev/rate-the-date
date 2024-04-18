@@ -16,7 +16,7 @@ function DropdownMenu({ options }) {
 
   return (
     <div className="dropdown">
-      <button className="dropbtn" onClick={handleShowDropdown}>
+      <button className="dropdown-button" onClick={handleShowDropdown}>
         Add question
       </button>
       {showDropdown && (

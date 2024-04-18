@@ -56,7 +56,7 @@ function RatingInput(props) {
 
   return (
     <div key={index} className="field-wrapper">
-      <div>
+      <div className="form-wrapper">
         <h1>
           {questionValue}
           {required && <span>*</span>}
