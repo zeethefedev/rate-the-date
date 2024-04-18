@@ -12,7 +12,7 @@ import {
 } from "./store/questionReducer";
 import Question from "./component/Question";
 import Result from "./component/Result";
-import { postForm } from "./api/question.thunk";
+import { fetchForms, postForm } from "./api/question.thunk";
 import { getFromStorage } from "./utils/methods";
 import LoadingOverlay from "./component/LoadingOverlay";
 
@@ -70,7 +70,11 @@ function SetupForm() {
     dispatch(validatePreview());
   };
 
-  const handleTest = () => {
+  // const handleTest = () => {
+  //   dispatch(fetchForms());
+  // };
+
+  const handlePostForm = () => {
     dispatch(postForm(questions));
   };
 
@@ -83,6 +87,7 @@ function SetupForm() {
           <LoadingOverlay open={formLoading} />
           <div className="setup-form-wrapper">
             <div className="form-editor">
+              {/* <button onClick={handleTest}>Test api</button> */}
               <DropdownMenu options={MENU_OPTIONS} />
               <label className="checkbox-label">
                 <input
@@ -93,7 +98,7 @@ function SetupForm() {
                 />
                 View as User
               </label>
-              <button className="primary-button-red" onClick={handleTest}>
+              <button className="primary-button-red" onClick={handlePostForm}>
                 Submit Form
               </button>
               {formLoading && <div>Loading...</div>}

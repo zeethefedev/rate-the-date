@@ -1,14 +1,11 @@
 import axios from "axios";
+import { BASE_URL } from "./constant.api";
 
-const BASE_URL = "http://localhost:3001/forms";
-
-const fetchFormsApi = () => {
-  return axios.get(BASE_URL);
+export const fetchFormsApi = () => {
+  return axios.get(`${BASE_URL}/all-forms`);
 };
 
 //POST
-const postFormApi = (form) => {
-  return axios.post(BASE_URL, form);
+export const postFormApi = (form) => {
+  return axios.post(`${BASE_URL}/add-form`, form);
 };
-
-export { fetchFormsApi, postFormApi };

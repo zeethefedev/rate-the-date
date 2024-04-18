@@ -61,6 +61,7 @@ export const responseSlice = createSlice({
           index: index,
         }));
         state.loading = false;
+        saveResponsesToStorage(state.responses);
       })
       .addCase(fetchFormById.rejected, (state) => {
         console.log("failed");

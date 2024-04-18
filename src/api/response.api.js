@@ -1,14 +1,14 @@
 import axios from "axios";
+import { BASE_URL } from "./constant.api";
 
-const BASE_URL = "http://localhost:3001/forms";
-
-const fetchFormApi = (Id) => {
-  return axios.get(`${BASE_URL}/${Id}`);
+//GET BY ID
+export const fetchFormApi = (Id) => {
+  return axios.get(`${BASE_URL}/form/${Id}`);
 };
 
 //PATCH
-const updateFormApi = (form) => {
-  return axios.patch(`${BASE_URL}/${form.id}`, { questions: form.questions });
+export const updateFormApi = (form) => {
+  return axios.patch(`${BASE_URL}/edit-form/${form.id}`, {
+    questions: form.questions,
+  });
 };
-
-export { fetchFormApi, updateFormApi };

@@ -9,7 +9,7 @@ const randomCoordinates = (width, height) => {
   const y = (Math.floor(Math.random() * 101) / 150) * width;
   return { x, y };
 };
-function MovingButton({ inputValue, questionIndex, label, disabled }) {
+function MovingButton({ questionIndex, label, disabled, autoFocus }) {
   const dispatch = useDispatch();
   const [position, setPosition] = useState("relative");
   const [display, setDisplay] = useState("block");
@@ -29,6 +29,15 @@ function MovingButton({ inputValue, questionIndex, label, disabled }) {
       setAssignedSaved(true);
     }
   }, [noClickedCount]);
+
+  useEffect(() => {
+    if (disabled) {
+      //change position
+      setPosition("relative");
+      //change coordinates
+      setCoordinates({ x: "auto", y: "auto" });
+    }
+  }, [disabled]);
 
   const handleClick = (event) => {
     event.preventDefault();
@@ -52,7 +61,6 @@ function MovingButton({ inputValue, questionIndex, label, disabled }) {
         setDisplay("none");
       }
     }
-    // debugger;
   };
 
   return (
@@ -66,6 +74,7 @@ function MovingButton({ inputValue, questionIndex, label, disabled }) {
       }}
       onClick={handleClick}
       disabled={disabled}
+      autoFocus={autoFocus}
     >
       {label}
     </button>

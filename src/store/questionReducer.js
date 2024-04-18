@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { SETUP_FORM_INITIAL } from "../utils/constant";
-import { postForm } from "../api/question.thunk";
+import { fetchForms, postForm } from "../api/question.thunk";
 import {
   getNoClickedCount,
   replaceQuestion,
@@ -137,12 +137,17 @@ export const questionSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      //GET - test
+      .addCase(fetchForms.fulfilled, (state, action) => {
+        console.log(action.payload);
+      })
       //POST
       .addCase(postForm.pending, (state) => {
         state.loading = true;
       })
       .addCase(postForm.fulfilled, (state, action) => {
-        const formId = action.payload.id;
+        console.log(action.payload);
+        const formId = action.payload._id;
         state.responseFormLink = `/response/${formId}`;
         state.loading = false;
         state.submitted = true;

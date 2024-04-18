@@ -44,10 +44,12 @@ function RatingInput(props) {
 
   useEffect(
     (event) => {
-      const ratingScore = `${
-        ratings.filter((rating) => rating).length
-      }/${RATING_LENGTH}`;
-      handleInputChange(event, ratingScore);
+      if (assignedSaved) {
+        const ratingScore = `${
+          ratings.filter((rating) => rating).length
+        }/${RATING_LENGTH}`;
+        handleInputChange(event, ratingScore);
+      }
     },
     [ratings]
   );

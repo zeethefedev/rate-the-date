@@ -42,7 +42,6 @@ function ResponseForm() {
     const errors = answers.map((answer) => checkError(answer));
     const allValid = errors.every((err) => err === false);
     setFormError(!allValid);
-    console.log(errors);
   }, [answers]);
 
   const handleSubmit = (event) => {

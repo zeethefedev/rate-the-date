@@ -44,14 +44,15 @@ function YesNoQuestion(props) {
             <button
               disabled={mode === FORM_MODE.QUESTION}
               onClick={handleYesClickedRigged}
+              autoFocus={inputValue === "yes"}
             >
               {yesLabel}
             </button>
             <MovingButton
-              inputValue
               questionIndex={index}
               disabled={mode === FORM_MODE.QUESTION}
               label={noLabel}
+              autoFocus={inputValue === "no"}
             />
           </div>
         ) : (
@@ -59,12 +60,14 @@ function YesNoQuestion(props) {
             <button
               disabled={mode === FORM_MODE.QUESTION}
               onClick={handleYesClicked}
+              autoFocus={inputValue === "yes"}
             >
               {yesLabel}
             </button>
             <button
               disabled={mode === FORM_MODE.QUESTION}
               onClick={handleNoClicked}
+              autoFocus={inputValue === "no"}
             >
               {noLabel}
             </button>

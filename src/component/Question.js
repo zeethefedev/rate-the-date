@@ -103,6 +103,7 @@ function Question({
     } else if (question.type === "rating") {
       newInput = { value: ratings, touched: true };
     }
+
     if (mode === FORM_MODE.QUESTION || mode === FORM_MODE.PREVIEW) {
       dispatch(changePreview({ index: index, answer: newInput.value }));
     } else {
