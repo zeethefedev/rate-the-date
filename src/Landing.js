@@ -58,15 +58,9 @@ function Landing() {
             required
             error={error}
             mode={FORM_MODE.RESPONSE}
+            buttonLabel="Go to form"
+            onButtonClick={goToForm}
           />
-          <button
-            className="secondary-button secondary-button-red"
-            disabled={!formId.value}
-            onClick={goToForm}
-            style={{ marginBottom: error ? 22 : 0 }}
-          >
-            Go to form
-          </button>
         </form>
       )}
     </div>

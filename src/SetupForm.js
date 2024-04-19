@@ -19,6 +19,7 @@ import LoadingOverlay from "./component/LoadingOverlay";
 import "./style/Form.css";
 import "./style/Question.css";
 import "./style/SetupForm.css";
+import Dialog from "./component/Dialog";
 
 function SetupForm() {
   const dispatch = useDispatch();
@@ -74,6 +75,14 @@ function SetupForm() {
   // const handleTest = () => {
   //   dispatch(fetchForms());
   // };
+  const [openDialog, setOpenDialog] = useState(false);
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
 
   const handlePostForm = () => {
     dispatch(postForm(questions));
@@ -99,14 +108,19 @@ function SetupForm() {
                 />
                 View as User
               </label>
-              <button className="primary-button-red" onClick={handlePostForm}>
+              <button className="primary-button-red" onClick={handleOpenDialog}>
                 Submit Form
               </button>
+              <Dialog
+                open={openDialog}
+                handleYesClicked={handlePostForm}
+                handleNoClicked={handleCloseDialog}
+              />
               {formLoading && <div>Loading...</div>}
             </div>
             <div className="container question-editor">
               <h1>Set Up</h1>
-              <form className="setup-form-question">
+              <form className={`setup-form-question ${viewMode}-form`}>
                 {questions.map((question, index) => (
                   <div key={index}>
                     <Question

@@ -75,9 +75,7 @@ function YesNoQuestion(props) {
           </div>
         )}
         {yesClicked && <div>{yesResponse}</div>}
-        {error && mode === FORM_MODE.RESPONSE && (
-          <div>{errorMessage || INITIAL.ERROR_MESSAGE}</div>
-        )}
+        {error && <div>{errorMessage || INITIAL.ERROR_MESSAGE}</div>}
       </div>
       {editInput}
     </div>

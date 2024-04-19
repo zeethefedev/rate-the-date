@@ -228,8 +228,15 @@ label {
   color: var(--red-text);
 }
 
-.secondary-button-red:hover {
+.secondary-button-red:hover,
+.secondary-button-red:focus {
   box-shadow: 2px 2px var(--red-text);
+}
+
+.primary-button:disabled,
+.secondary-button:disabled {
+  box-shadow: none;
+  transform: none;
 }
 
 .primary-button:disabled {

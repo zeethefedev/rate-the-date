@@ -93,6 +93,14 @@ function Question({
     }
   };
 
+  const showError = () => {
+    if (mode === FORM_MODE.QUESTION) {
+      return true;
+    } else {
+      return question.required && inputError();
+    }
+  };
+
   const handleInputChange = (event, ratings) => {
     let newInput =
       mode === FORM_MODE.QUESTION || mode === FORM_MODE.PREVIEW
@@ -178,7 +186,7 @@ function Question({
           inputValue={inputValue()}
           handleInputChange={handleInputChange}
           editInput={editInput}
-          error={question.required && inputError()}
+          error={showError()}
           errorMessage={question.errorMessage}
           placeholder={inputPlaceholder}
         />
@@ -191,7 +199,7 @@ function Question({
           inputValue={inputValue()}
           handleInputChange={handleInputChange}
           editInput={editInput}
-          error={question.required && inputError()}
+          error={showError()}
           errorMessage={question.errorMessage}
         />
       )}
@@ -206,7 +214,7 @@ function Question({
           editInput={editInput}
           handleYesClicked={handleYesClicked}
           handleNoClicked={handleNoClicked}
-          error={question.required && inputError()}
+          error={showError()}
           errorMessage={question.errorMessage}
         />
       )}
