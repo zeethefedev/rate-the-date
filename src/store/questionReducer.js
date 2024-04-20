@@ -38,7 +38,9 @@ export const questionSlice = createSlice({
               value: questionData.value,
               required: questionData.required,
               rigged: questionData.rigged,
-              errorMessage: questionData.errorMessage,
+              errorMessage: questionData.required
+                ? questionData.errorMessage
+                : "",
             }
           : question
       );

@@ -28,10 +28,16 @@
   width: 75%;
 }
 
+.response-form-question,
 .setup-form-question {
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+.response-form-question button,
+.setup-form-question button {
+  margin: auto;
 }
 
 /* rating question */
@@ -46,4 +52,8 @@
 .button-wrapper {
   display: flex;
   gap: 4px;
+}
+
+.chosen {
+  background-color: var(--yellow);
 }

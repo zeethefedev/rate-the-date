@@ -23,7 +23,7 @@ code {
   --background: #fff1ce;
   --disabled: #b1b1b1;
   --disabled-text: #676767;
-  word-break: break-all;
+  word-wrap: break-all;
 }
 
 h1 {
@@ -34,13 +34,13 @@ h1 {
 }
 
 h2 {
-  font-size: 32px;
+  font-size: 28px;
   line-height: 1em;
   font-weight: 800;
 }
 
 h3 {
-  font-size: 16px;
+  font-size: 24px;
   line-height: 20px;
   font-weight: 800;
 }
@@ -70,9 +70,9 @@ h3 {
 }
 
 .helpertext {
-  font-size: 12px;
-  line-height: 12px;
-  font-weight: 100;
+  font-size: 14px;
+  line-height: 14px;
+  font-weight: 400;
 }
 
 .button-text {
@@ -121,6 +121,10 @@ li {
   font-size: 16px;
   line-height: 16px;
   font-weight: 800;
+}
+
+button {
+  max-width: 250px;
 }
 
 select {

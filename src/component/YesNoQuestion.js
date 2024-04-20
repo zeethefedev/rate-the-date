@@ -35,11 +35,11 @@ function YesNoQuestion(props) {
   return (
     <div className="field-wrapper">
       <div className="form-wrapper">
-        <h1>
+        <h3>
           {questionValue}
           {required && <span>*</span>}
           {rigged && <span>#</span>}
-        </h1>
+        </h3>
         {rigged ? (
           <div className="button-wrapper">
             <button
@@ -61,7 +61,9 @@ function YesNoQuestion(props) {
         ) : (
           <div className="button-wrapper">
             <button
-              className="secondary-button"
+              className={`secondary-button secondary-button-red ${
+                inputValue === "yes" ? "chosen" : ""
+              }`}
               disabled={mode === FORM_MODE.QUESTION}
               onClick={handleYesClicked}
               autoFocus={inputValue === "yes"}
@@ -69,7 +71,9 @@ function YesNoQuestion(props) {
               {yesLabel}
             </button>
             <button
-              className="secondary-button"
+              className={`secondary-button secondary-button-red ${
+                inputValue === "no" ? "chosen" : ""
+              }`}
               disabled={mode === FORM_MODE.QUESTION}
               onClick={handleNoClicked}
               autoFocus={inputValue === "no"}
@@ -79,7 +83,11 @@ function YesNoQuestion(props) {
           </div>
         )}
         {yesClicked && <div>{yesResponse}</div>}
-        {error && <div>{errorMessage || INITIAL.ERROR_MESSAGE}</div>}
+        {error && (
+          <div className="helpertext">
+            {errorMessage || INITIAL.ERROR_MESSAGE}
+          </div>
+        )}
       </div>
       {editInput}
     </div>

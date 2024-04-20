@@ -18,7 +18,6 @@ function EditQuestionDialog(props) {
                   <label>
                     Enter your question:{" "}
                     <input
-                      className="input-text"
                       type="text"
                       value={question.value}
                       placeholder="enter your question"
@@ -54,8 +53,9 @@ function EditQuestionDialog(props) {
                     Enter your error message:{" "}
                     <input
                       type="text"
+                      disabled={!question.required}
                       value={question.errorMessage}
-                      placeholder="enter your error message"
+                      placeholder="eg: Please enter a valid answerewe"
                       onChange={(event) =>
                         handleChangeQuestion(event, "errorMessage")
                       }

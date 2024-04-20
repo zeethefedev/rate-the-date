@@ -13,7 +13,7 @@ function TextInput(props) {
     editInput,
     mode,
     error,
-    errorMessage = "please enter a valid answer",
+    errorMessage,
     placeholder,
     buttonLabel,
     onButtonClick,
@@ -23,10 +23,10 @@ function TextInput(props) {
     <div key={index} className="field-wrapper">
       <div className="form-wrapper">
         <label>
-          <h1>
+          <h3>
             {questionValue}
             {required && <span>*</span>}
-          </h1>
+          </h3>
           <div className="input-wrapper">
             <input
               type="text"
@@ -47,7 +47,11 @@ function TextInput(props) {
             )}
           </div>
         </label>
-        {error && <div>{errorMessage || INITIAL.ERROR_MESSAGE}</div>}
+        {error && (
+          <div className="helpertext">
+            {errorMessage || INITIAL.ERROR_MESSAGE}
+          </div>
+        )}
       </div>
       {editInput}
     </div>

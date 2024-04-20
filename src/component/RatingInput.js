@@ -13,7 +13,7 @@ function RatingInput(props) {
     editInput,
     mode,
     error,
-    errorMessage = "please enter a valid answer",
+    errorMessage,
   } = props;
 
   const [ratings, setRatings] = useState(Array(RATING_LENGTH).fill(false));
@@ -57,22 +57,27 @@ function RatingInput(props) {
   return (
     <div key={index} className="field-wrapper">
       <div className="form-wrapper">
-        <h1>
+        <h3>
           {questionValue}
           {required && <span>*</span>}
-        </h1>
+        </h3>
         <div className="star-wrapper">
           {ratings.map((rating, index) => (
             <div key={index} onClick={() => handleClickStar(index)}>
               <SVGIcon
                 icon={rating ? "star-checked" : "star-unchecked"}
-                // checked={rating}
+                width="24px"
+                height="24px"
                 disabled={mode === FORM_MODE.QUESTION}
               />
             </div>
           ))}
         </div>
-        {error && <div>{errorMessage || INITIAL.ERROR_MESSAGE}</div>}
+        {error && (
+          <div className="helpertext">
+            {errorMessage || INITIAL.ERROR_MESSAGE}
+          </div>
+        )}
       </div>
       {editInput}
     </div>

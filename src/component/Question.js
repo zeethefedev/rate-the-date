@@ -62,7 +62,7 @@ function EditQuestionComponent(props) {
     } else {
       setShowButtonGroup(false);
     }
-  }, [dimensions]);
+  }, [dimensions, openDialog]);
 
   return (
     <div className="edit-question-wrapper">
@@ -131,7 +131,7 @@ function Question({
 
   const showError = () => {
     if (mode === FORM_MODE.QUESTION) {
-      return true;
+      return question.required;
     } else {
       return question.required && inputError();
     }

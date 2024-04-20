@@ -9,6 +9,8 @@ import { setAnswers, validateAnswers } from "./store/responseReducer";
 import Result from "./component/Result";
 import LoadingOverlay from "./component/LoadingOverlay";
 
+import "./style/Form.css";
+
 function ResponseForm() {
   //response/4848
   const { id } = useParams();
@@ -60,24 +62,26 @@ function ResponseForm() {
         <div>
           <LoadingOverlay open={formLoading} />
           <h1>Response Form</h1>
-          <form>
-            {answers && (
-              <div>
-                {answers.map((question, index) => (
-                  <div key={index}>
-                    <Question
-                      index={index}
-                      mode={FORM_MODE.RESPONSE}
-                      question={question}
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
-            <button disabled={formError} onClick={handleSubmit}>
-              Submit Answers
-            </button>
-          </form>
+          {answers && (
+            <form className="container response-form-question">
+              {answers.map((question, index) => (
+                <div key={index}>
+                  <Question
+                    index={index}
+                    mode={FORM_MODE.RESPONSE}
+                    question={question}
+                  />
+                </div>
+              ))}
+              <button
+                className="primary-button primary-button-red"
+                disabled={formError}
+                onClick={handleSubmit}
+              >
+                Submit Answers
+              </button>
+            </form>
+          )}
         </div>
       )}
     </div>

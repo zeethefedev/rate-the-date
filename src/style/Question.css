@@ -1,6 +1,7 @@
 .checkbox-label {
   flex-direction: row;
   gap: 8px;
+  text-align: left;
 }
 
 .field-wrapper {
@@ -13,6 +14,7 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
+  gap: 4px;
 }
 
 .question-form .form-wrapper {
