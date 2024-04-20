@@ -95,6 +95,7 @@ function SetupForm() {
       ) : (
         <div>
           <LoadingOverlay open={formLoading} />
+          <h1>Set Up</h1>
           <div className="setup-form-wrapper">
             <div className="container form-editor">
               {/* <button onClick={handleTest}>Test api</button> */}
@@ -119,7 +120,6 @@ function SetupForm() {
               {formLoading && <div>Loading...</div>}
             </div>
             <div className="container question-editor">
-              <h1>Set Up</h1>
               <form className={`setup-form-question ${viewMode}-form`}>
                 {questions.map((question, index) => (
                   <div key={index}>

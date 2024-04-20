@@ -9,7 +9,13 @@ const randomCoordinates = (width, height) => {
   const y = (Math.floor(Math.random() * 101) / 150) * width;
   return { x, y };
 };
-function MovingButton({ questionIndex, label, disabled, autoFocus }) {
+function MovingButton({
+  buttonStyle = "primary-button",
+  questionIndex,
+  label,
+  disabled,
+  autoFocus,
+}) {
   const dispatch = useDispatch();
   const [position, setPosition] = useState("relative");
   const [display, setDisplay] = useState("block");
@@ -65,7 +71,7 @@ function MovingButton({ questionIndex, label, disabled, autoFocus }) {
 
   return (
     <button
-      className="moving-button"
+      className={`moving-button ${buttonStyle}`}
       style={{
         position: position,
         display: display,

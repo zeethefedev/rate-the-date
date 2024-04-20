@@ -43,6 +43,7 @@ function YesNoQuestion(props) {
         {rigged ? (
           <div className="button-wrapper">
             <button
+              className="secondary-button"
               disabled={mode === FORM_MODE.QUESTION}
               onClick={handleYesClickedRigged}
               autoFocus={inputValue === "yes"}
@@ -50,6 +51,7 @@ function YesNoQuestion(props) {
               {yesLabel}
             </button>
             <MovingButton
+              buttonStyle="secondary-button"
               questionIndex={index}
               disabled={mode === FORM_MODE.QUESTION}
               label={noLabel}
@@ -59,6 +61,7 @@ function YesNoQuestion(props) {
         ) : (
           <div className="button-wrapper">
             <button
+              className="secondary-button"
               disabled={mode === FORM_MODE.QUESTION}
               onClick={handleYesClicked}
               autoFocus={inputValue === "yes"}
@@ -66,6 +69,7 @@ function YesNoQuestion(props) {
               {yesLabel}
             </button>
             <button
+              className="secondary-button"
               disabled={mode === FORM_MODE.QUESTION}
               onClick={handleNoClicked}
               autoFocus={inputValue === "no"}

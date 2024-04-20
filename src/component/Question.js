@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TextInput from "./TextInput";
 import YesNoQuestion from "./YesNoQuestion";
 import RatingInput from "./RatingInput";
@@ -6,10 +6,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { FORM_MODE } from "../utils/constant";
 import { changePreview, changeQuestion } from "../store/questionReducer";
 import { changeAnswers } from "../store/responseReducer";
-
 import SVGIcon from "./SVGIcon";
-import "../style/Question.css";
 import EditQuestionDialog from "./EditQuestionDialog";
+
+import "../style/Question.css";
 
 function ButtonGroup({
   showMoveUp,
@@ -20,17 +20,25 @@ function ButtonGroup({
   handleOpenEditDialog,
 }) {
   return (
-    <div>
-      <button onClick={handleRemoveQuestion}>
+    <div className="edit-button-group">
+      <button className="secondary-button" onClick={handleRemoveQuestion}>
         <SVGIcon icon="delete" />
       </button>
-      <button onClick={handleMoveQuestionUp} disabled={!showMoveUp}>
+      <button
+        className="secondary-button"
+        onClick={handleMoveQuestionUp}
+        disabled={!showMoveUp}
+      >
         <SVGIcon icon="up" />
       </button>
-      <button onClick={handleMoveQuestionDown} disabled={!showMoveDown}>
+      <button
+        className="secondary-button"
+        onClick={handleMoveQuestionDown}
+        disabled={!showMoveDown}
+      >
         <SVGIcon icon="down" />
       </button>
-      <button onClick={handleOpenEditDialog}>
+      <button className="secondary-button" onClick={handleOpenEditDialog}>
         <SVGIcon icon="edit" />
       </button>
     </div>
@@ -40,6 +48,37 @@ function ButtonGroup({
 function EditQuestionComponent(props) {
   const { openDialog, question, handleChangeQuestion, handleCloseEditDialog } =
     props;
+
+  const [showButtonGroup, setShowButtonGroup] = useState(false);
+  const handleToggleButtonGroup = (event) => {
+    event.preventDefault();
+    setShowButtonGroup(!showButtonGroup);
+  };
+
+  const [dimensions, setDimensions] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  const handleResize = () => {
+    setDimensions({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize, false);
+  }, []);
+
+  useEffect(() => {
+    if (dimensions.width >= 992) {
+      setShowButtonGroup(true);
+    } else {
+      setShowButtonGroup(false);
+    }
+  }, [dimensions]);
+
   return (
     <div className="edit-question-wrapper">
       <EditQuestionDialog
@@ -48,7 +87,19 @@ function EditQuestionComponent(props) {
         handleChangeQuestion={handleChangeQuestion}
         handleCloseEditDialog={handleCloseEditDialog}
       />
-      <ButtonGroup {...props} />
+      <div className="edit-menu-group">
+        <button
+          className="secondary-button edit-menu-button"
+          onClick={handleToggleButtonGroup}
+        >
+          <SVGIcon icon="menu" />
+        </button>
+        {showButtonGroup && (
+          <div>
+            <ButtonGroup {...props} />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

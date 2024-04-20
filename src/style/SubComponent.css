@@ -1,3 +1,9 @@
+.icon-wrappper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .loading-overlay-wrapper {
   width: 100vw;
   height: 100vh;

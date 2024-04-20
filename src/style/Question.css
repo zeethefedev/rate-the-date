@@ -27,9 +27,56 @@
 
 .edit-question-wrapper {
   display: flex;
-  /* gap: 8px; */
+  gap: 8px;
   flex-wrap: nowrap;
   width: 30%;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-end;
+}
+
+.edit-button-group {
+  display: flex;
+  gap: 4px;
+}
+
+.edit-menu-group {
+  display: flex;
+  flex-direction: column;
+  margin-top: 40px;
+  gap: 8px;
+}
+
+.edit-menu-button {
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .edit-button-group {
+    flex-direction: column;
+    position: absolute;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  .edit-menu-button {
+    display: none;
+  }
+
+  .edit-button-group {
+    flex-direction: row;
+    position: relative;
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
 }
