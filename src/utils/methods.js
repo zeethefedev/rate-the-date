@@ -33,3 +33,12 @@ export const saveToStorage = (key, value, mode = FORM_MODE.QUESTION) => {
   }
   window.sessionStorage.setItem(mode.toUpperCase(), JSON.stringify(newForm));
 };
+
+export const saveFirstLoadToStorage = (value) => {
+  window.sessionStorage.setItem("FIRSTLOADED", value);
+};
+
+export const getFirstLoadFromStorage = () => {
+  const item = window.sessionStorage.getItem("FIRSTLOADED");
+  return item;
+};

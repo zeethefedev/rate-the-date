@@ -4,7 +4,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { fetchFormById, updateForm } from "./api/response.thunk";
 import Question from "./component/Question";
 import { FORM_MODE } from "./utils/constant";
-import { getFromStorage } from "./utils/methods";
+import {
+  getFirstLoadFromStorage,
+  getFromStorage,
+  saveFirstLoadToStorage,
+} from "./utils/methods";
 import { setAnswers, validateAnswers } from "./store/responseReducer";
 import Result from "./component/Result";
 import LoadingOverlay from "./component/LoadingOverlay";
@@ -21,18 +25,26 @@ function ResponseForm() {
   const formLoading = useSelector((state) => state.responseReducer.loading);
   const formSubmitted = useSelector((state) => state.responseReducer.submitted);
   const [formError, setFormError] = useState(true);
+  const firstLoaded = getFirstLoadFromStorage();
 
   useEffect(() => {
-    dispatch(fetchFormById(id))
-      .unwrap()
-      .then(() => {
-        if (savedData && savedData.responses) {
-          dispatch(setAnswers(savedData.responses));
-        }
-      })
-      .catch((error) => {
-        navigate("/error");
-      });
+    if (!firstLoaded) {
+      dispatch(fetchFormById(id))
+        .unwrap()
+        .then(() => {
+          if (savedData && savedData.responses) {
+            dispatch(setAnswers(savedData.responses));
+          }
+          saveFirstLoadToStorage(true);
+        })
+        .catch((error) => {
+          navigate("/error");
+        });
+    } else {
+      if (savedData && savedData.responses) {
+        dispatch(setAnswers(savedData.responses));
+      }
+    }
   }, []);
 
   const checkError = (answer) => {
