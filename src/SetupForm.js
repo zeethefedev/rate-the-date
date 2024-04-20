@@ -9,6 +9,7 @@ import {
   removeQuestion,
   setQuestions,
   validatePreview,
+  setDimensions,
 } from "./store/questionReducer";
 import Question from "./component/Question";
 import Result from "./component/Result";
@@ -31,8 +32,16 @@ function SetupForm() {
     (state) => state.questionReducer.responseFormLink
   );
   const [viewMode, setViewMode] = useState(FORM_MODE.QUESTION);
+  const [openDialog, setOpenDialog] = useState(false);
+  const body = document.getElementsByTagName("body");
+
+  const handleResize = () => {
+    dispatch(setDimensions());
+  };
 
   useEffect(() => {
+    window.addEventListener("resize", handleResize, false);
+
     if (savedData && savedData.questions) {
       dispatch(setQuestions(savedData.questions));
     }
@@ -75,12 +84,17 @@ function SetupForm() {
   // const handleTest = () => {
   //   dispatch(fetchForms());
   // };
-  const [openDialog, setOpenDialog] = useState(false);
   const handleOpenDialog = () => {
+    if (body) {
+      body[0].style.overflow = "hidden";
+    }
     setOpenDialog(true);
   };
 
   const handleCloseDialog = () => {
+    if (body) {
+      body[0].style.overflow = "visible";
+    }
     setOpenDialog(false);
   };
 
@@ -93,7 +107,7 @@ function SetupForm() {
       {formSubmitted ? (
         <Result formLink={responseFormLink} />
       ) : (
-        <div>
+        <div id="scroll-wrapper">
           <LoadingOverlay open={formLoading} />
           <h1>Set Up</h1>
           <div className="setup-form-wrapper">

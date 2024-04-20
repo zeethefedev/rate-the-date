@@ -7,7 +7,7 @@ function EditQuestionDialog(props) {
   return (
     <div>
       {open && (
-        <div className="dialog-overlay-wrapper">
+        <div className="dialog-overlay-wrapper" style={{ top: window.scrollY }}>
           <div className="dialog-overlay">
             <div className="dialog-overlay-content">
               <button className="close-button" onClick={handleCloseEditDialog}>

@@ -49,27 +49,12 @@ function EditQuestionComponent(props) {
   const { openDialog, question, handleChangeQuestion, handleCloseEditDialog } =
     props;
 
+  const dimensions = useSelector((state) => state.questionReducer.dimensions);
   const [showButtonGroup, setShowButtonGroup] = useState(false);
   const handleToggleButtonGroup = (event) => {
     event.preventDefault();
     setShowButtonGroup(!showButtonGroup);
   };
-
-  const [dimensions, setDimensions] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  });
-
-  const handleResize = () => {
-    setDimensions({
-      width: window.innerWidth,
-      height: window.innerHeight,
-    });
-  };
-
-  useEffect(() => {
-    window.addEventListener("resize", handleResize, false);
-  }, []);
 
   useEffect(() => {
     if (dimensions.width >= 992) {
@@ -192,13 +177,20 @@ function Question({
     }
   };
 
+  const body = document.getElementsByTagName("body");
   const [openDialog, setOpenDialog] = useState(false);
   const handleOpenEditDialog = (event) => {
     event.preventDefault();
+    if (body) {
+      body[0].style.overflow = "hidden";
+    }
     setOpenDialog(true);
   };
 
   const handleCloseEditDialog = () => {
+    if (body) {
+      body[0].style.overflow = "visible";
+    }
     setOpenDialog(false);
   };
 

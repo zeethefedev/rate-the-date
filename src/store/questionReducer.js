@@ -8,6 +8,7 @@ import {
 } from "./method.reducer";
 
 const initialState = {
+  dimensions: { width: window.innerWidth, height: window.innerHeight },
   questions: SETUP_FORM_INITIAL,
   preview: [],
   loading: false,
@@ -19,6 +20,12 @@ export const questionSlice = createSlice({
   name: "questions",
   initialState,
   reducers: {
+    setDimensions: (state) => {
+      state.dimensions = {
+        width: window.innerWidth,
+        height: window.innerHeight,
+      };
+    },
     setQuestions: (state, action) => {
       state.questions = action.payload;
     },
@@ -157,6 +164,7 @@ export const questionSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
+  setDimensions,
   setQuestions,
   changeQuestion,
   addQuestion,
