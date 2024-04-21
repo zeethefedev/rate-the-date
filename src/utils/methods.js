@@ -42,3 +42,11 @@ export const getFirstLoadFromStorage = () => {
   const item = window.sessionStorage.getItem("FIRSTLOADED");
   return item;
 };
+
+export const clearStorage = (key) => {
+  if (key) {
+    sessionStorage.removeItem(key);
+  } else {
+    sessionStorage.clear();
+  }
+};

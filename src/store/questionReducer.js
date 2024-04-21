@@ -1,19 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { SETUP_FORM_INITIAL } from "../utils/constant";
+import { FORM_MODE, SETUP_FORM_INITIAL } from "../utils/constant";
 import { fetchForms, postForm } from "../api/question.thunk";
 import {
   getNoClickedCount,
   replaceQuestion,
   saveQuestionsToStorage,
 } from "./method.reducer";
+import { clearStorage } from "../utils/methods";
 
 const initialState = {
   dimensions: { width: window.innerWidth, height: window.innerHeight },
   questions: SETUP_FORM_INITIAL,
   preview: [],
   loading: false,
-  submitted: false,
-  responseFormLink: "",
+  submitted: true, // config
+  responseFormLink: "http://www.sample.org/head", //config
 };
 
 export const questionSlice = createSlice({
@@ -143,6 +144,8 @@ export const questionSlice = createSlice({
       saveQuestionsToStorage(state.questions);
     },
     resetQuestionForm: (state) => {
+      clearStorage(FORM_MODE.QUESTION.toUpperCase());
+      state.questions = SETUP_FORM_INITIAL;
       state.loading = false;
       state.submitted = false;
     },

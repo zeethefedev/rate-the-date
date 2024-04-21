@@ -6,36 +6,47 @@ import { resetQuestionForm } from "../store/questionReducer";
 import { resetResponseForm } from "../store/responseReducer";
 import { useNavigate } from "react-router-dom";
 
-function QuestionFormResult({ formLink, handleMakeAnotherClick }) {
-  return (
-    <div>
-      {formLink && (
-        <div>
-          <div>Here is your link:</div>
-          <a href={formLink}>Click here</a>
-        </div>
-      )}
-      <button onClick={handleMakeAnotherClick}>Make another form</button>
-    </div>
-  );
-}
-
-function ResponseFormResult({ handleEdit, handleMakeClick }) {
-  return (
-    <div>
-      <button onClick={handleEdit}>Go back and edit your answer</button>
-      <button onClick={handleMakeClick}>Make a form</button>
-    </div>
-  );
-}
-
-function Result({ mode = FORM_MODE.QUESTION, heading, formLink }) {
+function QuestionFormResult({ formLink }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleMakeAnotherClick = () => {
     dispatch(resetQuestionForm());
   };
+
+  const handleAnswerForm = () => {
+    navigate("/");
+  };
+
+  return (
+    <div className="result-content">
+      {formLink && (
+        <div>
+          <div>Here is your link:</div>
+          <a href={formLink}>Click here</a>
+        </div>
+      )}
+      <div className="result-button-group">
+        <button
+          className="primary-button primary-button-red"
+          onClick={handleMakeAnotherClick}
+        >
+          Make another form
+        </button>
+        <button
+          className="primary-button primary-button-yellow"
+          onClick={handleAnswerForm}
+        >
+          Answer a form
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function ResponseFormResult() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleEdit = () => {
     dispatch(resetResponseForm());
@@ -46,18 +57,21 @@ function Result({ mode = FORM_MODE.QUESTION, heading, formLink }) {
   };
 
   return (
+    <div>
+      <button onClick={handleEdit}>Go back and edit your answer</button>
+      <button onClick={handleMakeClick}>Make a form</button>
+    </div>
+  );
+}
+
+function Result({ mode = FORM_MODE.QUESTION, heading, formLink }) {
+  return (
     <div className="result-wrapper">
       <h1>{heading || "Form submitted"}</h1>
       {mode === FORM_MODE.QUESTION ? (
-        <QuestionFormResult
-          formLink={formLink}
-          handleMakeAnotherClick={handleMakeAnotherClick}
-        />
+        <QuestionFormResult formLink={formLink} />
       ) : (
-        <ResponseFormResult
-          handleEdit={handleEdit}
-          handleMakeClick={handleMakeClick}
-        />
+        <ResponseFormResult />
       )}
     </div>
   );

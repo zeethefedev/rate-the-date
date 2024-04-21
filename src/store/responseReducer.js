@@ -5,7 +5,7 @@ import { saveResponsesToStorage, getNoClickedCount } from "./method.reducer";
 const initialState = {
   responses: [],
   loading: false,
-  submitted: false,
+  submitted: true, //config
   errorMessage: "",
 };
 
