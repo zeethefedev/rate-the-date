@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import TextInput from "./component/TextInput";
 import { FORM_MODE } from "./utils/constant";
 
@@ -7,11 +7,9 @@ import "./style/Landing.css";
 
 function Landing() {
   const navigate = useNavigate();
-  const [showInput, setShowInput] = useState(false);
-  const [formId, setFormId] = useState({
-    value: "",
-    touched: false,
-  });
+  const location = useLocation();
+  const [showInput, setShowInput] = useState(location.state?.showInput);
+  const [formId, setFormId] = useState({ value: "", touched: false });
   const [error, setError] = useState(false);
 
   useEffect(() => {

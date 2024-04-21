@@ -10,12 +10,12 @@ function QuestionFormResult({ formLink }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleMakeAnotherClick = () => {
+  const handleMakeAnother = () => {
     dispatch(resetQuestionForm());
   };
 
   const handleAnswerForm = () => {
-    navigate("/");
+    navigate("/", { state: { showInput: true } });
   };
 
   return (
@@ -29,7 +29,7 @@ function QuestionFormResult({ formLink }) {
       <div className="result-button-group">
         <button
           className="primary-button primary-button-red"
-          onClick={handleMakeAnotherClick}
+          onClick={handleMakeAnother}
         >
           Make another form
         </button>
@@ -52,14 +52,35 @@ function ResponseFormResult() {
     dispatch(resetResponseForm());
   };
 
-  const handleMakeClick = () => {
+  const handleMakeForm = () => {
+    dispatch(resetQuestionForm());
     navigate("/question");
   };
 
+  const handleAnswerForm = () => {
+    navigate("/", { state: { showInput: true } });
+  };
+
   return (
-    <div>
-      <button onClick={handleEdit}>Go back and edit your answer</button>
-      <button onClick={handleMakeClick}>Make a form</button>
+    <div className="result-button-group">
+      <button
+        className="primary-button primary-button-red"
+        onClick={handleEdit}
+      >
+        Edit your answer
+      </button>
+      <button
+        className="primary-button primary-button-yellow"
+        onClick={handleMakeForm}
+      >
+        Make a form
+      </button>
+      <button
+        className="primary-button primary-button-green"
+        onClick={handleAnswerForm}
+      >
+        Answer another form
+      </button>
     </div>
   );
 }

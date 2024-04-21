@@ -235,6 +235,10 @@ a {
   background-color: var(--yellow);
 }
 
+.primary-button-green {
+  background-color: var(--green);
+}
+
 .secondary-button-red {
   border-color: var(--red-text);
   color: var(--red-text);
