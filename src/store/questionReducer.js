@@ -41,6 +41,9 @@ export const questionSlice = createSlice({
               errorMessage: questionData.required
                 ? questionData.errorMessage
                 : "",
+              // placeholder: questionData.placeholder,
+              yesLabel: questionData.yesLabel,
+              noLabel: questionData.noLabel,
             }
           : question
       );

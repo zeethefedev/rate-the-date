@@ -18,6 +18,8 @@ export const getFormData = (rawData) => {
       rigged: question.rigged,
       errorMessage: question.errorMessage,
       noClickedCount: question.noClickedCount,
+      yesLabel: question.yesLabel,
+      noLabel: question.noLabel,
       response: question.response,
     })),
   };

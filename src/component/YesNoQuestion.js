@@ -8,7 +8,7 @@ import "../style/Question.css";
 
 function YesNoQuestion(props) {
   const {
-    questionValue = INITIAL.YES_NO_QUESTION,
+    questionValue,
     inputValue,
     required,
     index,
@@ -19,8 +19,8 @@ function YesNoQuestion(props) {
     handleNoClicked,
     error,
     errorMessage,
-    yesLabel = INITIAL.YES_BUTTON,
-    noLabel = INITIAL.NO_BUTTON,
+    yesLabel,
+    noLabel,
     yesResponse = "Come Closer",
   } = props;
   const dispatch = useDispatch();
@@ -48,13 +48,13 @@ function YesNoQuestion(props) {
               onClick={handleYesClickedRigged}
               autoFocus={inputValue === "yes"}
             >
-              {yesLabel}
+              {yesLabel || INITIAL.YES_BUTTON}
             </button>
             <MovingButton
               buttonStyle="secondary-button"
               questionIndex={index}
               disabled={mode === FORM_MODE.QUESTION}
-              label={noLabel}
+              label={noLabel || INITIAL.NO_BUTTON}
               autoFocus={inputValue === "no"}
             />
           </div>
@@ -68,7 +68,7 @@ function YesNoQuestion(props) {
               onClick={handleYesClicked}
               autoFocus={inputValue === "yes"}
             >
-              {yesLabel}
+              {yesLabel || INITIAL.YES_BUTTON}
             </button>
             <button
               className={`secondary-button secondary-button-red ${
@@ -78,7 +78,7 @@ function YesNoQuestion(props) {
               onClick={handleNoClicked}
               autoFocus={inputValue === "no"}
             >
-              {noLabel}
+              {noLabel || INITIAL.NO_BUTTON}
             </button>
           </div>
         )}

@@ -5,7 +5,7 @@ import "../style/Question.css";
 
 function TextInput(props) {
   const {
-    questionValue = INITIAL.TEXT_QUESTION,
+    questionValue,
     inputValue,
     handleInputChange,
     required,

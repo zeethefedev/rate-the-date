@@ -30,6 +30,8 @@ export const SETUP_FORM_INITIAL = [
     value: "yes no question",
     required: false,
     rigged: false,
+    yesLabel: INITIAL.YES_BUTTON,
+    noLabel: INITIAL.NO_BUTTON,
     preview: { answer: "", touched: false },
   },
 ];

@@ -61,6 +61,42 @@ function EditQuestionDialog(props) {
                       }
                     />
                   </label>
+                  {/* {question.type === "text" && (
+                    <label>
+                      Enter your placeholder:{" "}
+                      <input
+                        type="text"
+                        value={question.placeholder}
+                        onChange={(event) =>
+                          handleChangeQuestion(event, "placeholder")
+                        }
+                      />
+                    </label>
+                  )} */}
+                  {question.type === "yesno" && (
+                    <div>
+                      <label>
+                        Enter your yes label:{" "}
+                        <input
+                          type="text"
+                          value={question.yesLabel}
+                          onChange={(event) =>
+                            handleChangeQuestion(event, "yesLabel")
+                          }
+                        />
+                      </label>
+                      <label>
+                        Enter your no label:{" "}
+                        <input
+                          type="text"
+                          value={question.noLabel}
+                          onChange={(event) =>
+                            handleChangeQuestion(event, "noLabel")
+                          }
+                        />
+                      </label>
+                    </div>
+                  )}
                 </div>
                 <button
                   className="secondary-button secondary-button-red"

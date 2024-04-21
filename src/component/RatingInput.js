@@ -5,7 +5,7 @@ import { FORM_MODE, INITIAL } from "../utils/constant";
 const RATING_LENGTH = 5;
 function RatingInput(props) {
   const {
-    questionValue = INITIAL.RATING_QUESTION,
+    questionValue,
     inputValue,
     handleInputChange,
     required,

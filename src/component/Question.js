@@ -93,7 +93,6 @@ function Question({
   index,
   question,
   mode = FORM_MODE.QUESTION,
-  inputPlaceholder,
   handleRemoveQuestion,
   handleMoveQuestionUp,
   handleMoveQuestionDown,
@@ -157,12 +156,16 @@ function Question({
   };
 
   const handleChangeQuestion = (event, mode) => {
+    const textFields = [
+      "value",
+      "errorMessage",
+      "placeholder",
+      "yesLabel",
+      "noLabel",
+    ];
     const questionData = {
       ...question,
-      [mode]:
-        event.target[
-          mode === "value" || mode === "errorMessage" ? "value" : "checked"
-        ],
+      [mode]: event.target[textFields.includes(mode) ? "value" : "checked"],
     };
     dispatch(changeQuestion(questionData));
   };
@@ -231,7 +234,7 @@ function Question({
           editInput={editInput}
           error={showError()}
           errorMessage={question.errorMessage}
-          placeholder={inputPlaceholder}
+          placeholder={question.placeholder}
         />
       )}
       {question.type === "rating" && (
@@ -259,6 +262,8 @@ function Question({
           handleNoClicked={handleNoClicked}
           error={showError()}
           errorMessage={question.errorMessage}
+          yesLabel={question.yesLabel}
+          noLabel={question.noLabel}
         />
       )}
     </div>
