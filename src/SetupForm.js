@@ -135,25 +135,27 @@ function SetupForm() {
               {formLoading && <div>Loading...</div>}
             </div>
             <div className="container question-editor">
-              <form className={`setup-form-question ${viewMode}-form`}>
-                {questions.map((question, index) => (
-                  <div key={index}>
-                    <Question
-                      index={index}
-                      mode={viewMode}
-                      question={question}
-                      handleRemoveQuestion={(event) =>
-                        handleRemoveQuestion(event, index)
-                      }
-                      handleMoveQuestionUp={(event) =>
-                        handleMoveQuestionUp(event, index)
-                      }
-                      handleMoveQuestionDown={(event) =>
-                        handleMoveQuestionDown(event, index)
-                      }
-                    />
-                  </div>
-                ))}
+              <form className={`question-form-wrapper ${viewMode}-form`}>
+                <div className="setup-form-question">
+                  {questions.map((question, index) => (
+                    <div key={index}>
+                      <Question
+                        index={index}
+                        mode={viewMode}
+                        question={question}
+                        handleRemoveQuestion={(event) =>
+                          handleRemoveQuestion(event, index)
+                        }
+                        handleMoveQuestionUp={(event) =>
+                          handleMoveQuestionUp(event, index)
+                        }
+                        handleMoveQuestionDown={(event) =>
+                          handleMoveQuestionDown(event, index)
+                        }
+                      />
+                    </div>
+                  ))}
+                </div>
                 {viewMode === FORM_MODE.PREVIEW && (
                   <button onClick={handleSubmit}>Submit Answers</button>
                 )}

@@ -28,6 +28,13 @@
   width: 75%;
 }
 
+.response-form-wrapper,
+.question-form-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
 .response-form-question,
 .setup-form-question {
   display: flex;
@@ -35,8 +42,8 @@
   gap: 16px;
 }
 
-.response-form-question button,
-.setup-form-question button {
+.response-form-wrapper button,
+.question-form-wrapper button {
   margin: auto;
 }
 

@@ -75,16 +75,18 @@ function ResponseForm() {
           <LoadingOverlay open={formLoading} />
           <h1>Response Form</h1>
           {answers && (
-            <form className="container response-form-question">
-              {answers.map((question, index) => (
-                <div key={index}>
-                  <Question
-                    index={index}
-                    mode={FORM_MODE.RESPONSE}
-                    question={question}
-                  />
-                </div>
-              ))}
+            <form className="container response-form-wrapper">
+              <div className="response-form-question">
+                {answers.map((question, index) => (
+                  <div key={index}>
+                    <Question
+                      index={index}
+                      mode={FORM_MODE.RESPONSE}
+                      question={question}
+                    />
+                  </div>
+                ))}
+              </div>
               <button
                 className="primary-button primary-button-red"
                 disabled={formError}
