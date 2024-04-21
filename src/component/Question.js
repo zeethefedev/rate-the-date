@@ -177,6 +177,16 @@ function Question({
     }
   };
 
+  const handleNoClicked = (event) => {
+    event.preventDefault();
+    if (mode === FORM_MODE.QUESTION || mode === FORM_MODE.PREVIEW) {
+      dispatch(changePreview({ index: index, answer: "no" }));
+    } else {
+      //response mode
+      dispatch(changeAnswers({ index: index, value: "no" }));
+    }
+  };
+
   const body = document.getElementsByTagName("body");
   const [openDialog, setOpenDialog] = useState(false);
   const handleOpenEditDialog = (event) => {
@@ -192,16 +202,6 @@ function Question({
       body[0].style.overflow = "visible";
     }
     setOpenDialog(false);
-  };
-
-  const handleNoClicked = (event) => {
-    event.preventDefault();
-    if (mode === FORM_MODE.QUESTION || mode === FORM_MODE.PREVIEW) {
-      dispatch(changePreview({ index: index, answer: "no" }));
-    } else {
-      //response mode
-      dispatch(changeAnswers({ index: index, value: "no" }));
-    }
   };
 
   const editInput = mode === FORM_MODE.QUESTION && (

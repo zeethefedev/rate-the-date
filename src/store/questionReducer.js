@@ -36,7 +36,7 @@ export const questionSlice = createSlice({
           ? {
               ...question,
               value: questionData.value,
-              required: questionData.required,
+              required: questionData.required || questionData.rigged,
               rigged: questionData.rigged,
               errorMessage: questionData.required
                 ? questionData.errorMessage
