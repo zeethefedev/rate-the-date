@@ -23,7 +23,7 @@ function TextInput(props) {
     <div key={index} className="field-wrapper">
       <div className="form-wrapper">
         <label>
-          <h3>
+          <h3 className="input-label">
             {questionValue}
             {required && <span>*</span>}
           </h3>

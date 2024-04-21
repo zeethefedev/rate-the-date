@@ -35,7 +35,7 @@ function YesNoQuestion(props) {
   return (
     <div className="field-wrapper">
       <div className="form-wrapper">
-        <h3>
+        <h3 className="input-label">
           {questionValue}
           {required && <span>*</span>}
           {rigged && <span>#</span>}

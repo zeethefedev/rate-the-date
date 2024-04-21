@@ -17,14 +17,23 @@
   gap: 4px;
 }
 
-.question-form .form-wrapper {
-  width: 70%;
-}
-
 .input-wrapper {
   display: flex;
   gap: 8px;
   justify-content: center;
+}
+
+.question-form .form-wrapper {
+  width: 70%;
+  align-items: flex-start;
+}
+
+.question-form .input-wrapper {
+  justify-content: flex-start;
+}
+
+.question-form .input-label {
+  text-align: left;
 }
 
 .edit-question-wrapper {
