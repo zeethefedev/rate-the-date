@@ -157,7 +157,12 @@ function SetupForm() {
                   ))}
                 </div>
                 {viewMode === FORM_MODE.PREVIEW && (
-                  <button onClick={handleSubmit}>Submit Answers</button>
+                  <div className="button-with-helpertext">
+                    <button onClick={handleSubmit}>Submit Answers</button>
+                    <div className="helpertext">
+                      This will not send any data
+                    </div>
+                  </div>
                 )}
               </form>
             </div>

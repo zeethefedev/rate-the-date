@@ -74,7 +74,7 @@ function RatingInput(props) {
           ))}
         </div>
         {error && (
-          <div className="helpertext">
+          <div className="error-text">
             {errorMessage || INITIAL.ERROR_MESSAGE}
           </div>
         )}

@@ -76,6 +76,13 @@ h3 {
   font-weight: 400;
 }
 
+.error-text {
+  font-size: 14px;
+  line-height: 14px;
+  font-weight: 400;
+  color: var(--red-text);
+}
+
 .button-text {
   font-size: 16px;
   line-height: 16px;
@@ -283,10 +290,22 @@ a:active {
   color: var(--disabled);
 }
 
+.button-with-helpertext {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 .button-group {
   display: flex;
   justify-content: center;
   gap: 8px;
+}
+
+/* custom error message */
+.error-message-wrapper {
+  display: flex;
+  gap: 4px;
 }
 
 /* Extra small devices (phones, 600px and down) */

@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { changeAnswers } from "../store/responseReducer";
 
 import "../style/Question.css";
+import { changePreview } from "../store/questionReducer";
 
 function YesNoQuestion(props) {
   const {
@@ -28,7 +29,11 @@ function YesNoQuestion(props) {
 
   const handleYesClickedRigged = (event) => {
     event?.preventDefault();
-    dispatch(changeAnswers({ index: index, value: "yes" }));
+    if (mode === FORM_MODE.RESPONSE) {
+      dispatch(changeAnswers({ index: index, value: "yes" }));
+    } else {
+      dispatch(changePreview({ index: index, value: "yes" }));
+    }
     setYesClicked(true);
   };
 
@@ -82,9 +87,9 @@ function YesNoQuestion(props) {
             </button>
           </div>
         )}
-        {yesClicked && <div>{yesResponse}</div>}
-        {error && (
-          <div className="helpertext">
+        {yesClicked && mode !== FORM_MODE.QUESTION && <div>{yesResponse}</div>}
+        {error && !yesClicked && (
+          <div className="error-text">
             {errorMessage || INITIAL.ERROR_MESSAGE}
           </div>
         )}

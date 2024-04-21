@@ -2,6 +2,7 @@ import React from "react";
 import { FORM_MODE, INITIAL } from "../utils/constant";
 
 import "../style/Question.css";
+import SVGIcon from "./SVGIcon";
 
 function TextInput(props) {
   const {
@@ -48,7 +49,8 @@ function TextInput(props) {
           </div>
         </label>
         {error && (
-          <div className="helpertext">
+          <div className="error-text error-message-wrapper">
+            <SVGIcon icon="error" />
             {errorMessage || INITIAL.ERROR_MESSAGE}
           </div>
         )}
