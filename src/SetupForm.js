@@ -33,6 +33,7 @@ function SetupForm() {
   );
   const [viewMode, setViewMode] = useState(FORM_MODE.QUESTION);
   const [openDialog, setOpenDialog] = useState(false);
+  const [formMessage, setFormMessage] = useState("This will not send any data");
   const body = document.getElementsByTagName("body");
 
   const handleResize = () => {
@@ -79,6 +80,12 @@ function SetupForm() {
   const handleSubmit = (event) => {
     event.preventDefault();
     dispatch(validatePreview());
+
+    const errors = questions.map((question) => checkError(question));
+    const allValid = errors.every((err) => err === false);
+    if (allValid) {
+      setFormMessage("Form submitted");
+    }
   };
 
   // const handleTest = () => {
@@ -101,6 +108,11 @@ function SetupForm() {
 
   const handlePostForm = () => {
     dispatch(postForm(questions));
+  };
+
+  const checkError = (question) => {
+    const error = !!(question.required && !question.preview.answer);
+    return error;
   };
 
   return (
@@ -159,9 +171,7 @@ function SetupForm() {
                 {viewMode === FORM_MODE.PREVIEW && (
                   <div className="button-with-helpertext">
                     <button onClick={handleSubmit}>Submit Answers</button>
-                    <div className="helpertext">
-                      This will not send any data
-                    </div>
+                    <div className="helpertext">{formMessage}</div>
                   </div>
                 )}
               </form>

@@ -6,6 +6,7 @@ import { changeAnswers } from "../store/responseReducer";
 
 import "../style/Question.css";
 import { changePreview } from "../store/questionReducer";
+import SVGIcon from "./SVGIcon";
 
 function YesNoQuestion(props) {
   const {
@@ -32,7 +33,7 @@ function YesNoQuestion(props) {
     if (mode === FORM_MODE.RESPONSE) {
       dispatch(changeAnswers({ index: index, value: "yes" }));
     } else {
-      dispatch(changePreview({ index: index, value: "yes" }));
+      dispatch(changePreview({ index: index, answer: "yes" }));
     }
     setYesClicked(true);
   };
@@ -89,7 +90,8 @@ function YesNoQuestion(props) {
         )}
         {yesClicked && mode !== FORM_MODE.QUESTION && <div>{yesResponse}</div>}
         {error && !yesClicked && (
-          <div className="error-text">
+          <div className="error-text error-message-wrapper">
+            <SVGIcon icon="error" />
             {errorMessage || INITIAL.ERROR_MESSAGE}
           </div>
         )}
