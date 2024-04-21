@@ -37,9 +37,9 @@ function Landing() {
   };
 
   return (
-    <div className="landing-wrapper">
+    <div className="wrapper">
       <h1>Welcome to RTD</h1>
-      <div className="landing-button-group">
+      <div className="button-group">
         <button className="red" onClick={handleMakeForm}>
           Make a new form
         </button>

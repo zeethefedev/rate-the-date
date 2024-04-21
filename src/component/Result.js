@@ -1,10 +1,11 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { FORM_MODE } from "../utils/constant";
-import "../style/Result.css";
 import { resetQuestionForm } from "../store/questionReducer";
 import { resetResponseForm } from "../store/responseReducer";
 import { useNavigate } from "react-router-dom";
+
+import "../style/Result.css";
 
 function QuestionFormResult({ formLink }) {
   const navigate = useNavigate();
@@ -22,11 +23,13 @@ function QuestionFormResult({ formLink }) {
     <div className="result-content">
       {formLink && (
         <div>
-          <div>Here is your link:</div>
-          <a href={formLink}>Click here</a>
+          <div className="bodytext-l">Here is your link:</div>
+          <a className="bodytext-l" href={formLink}>
+            {formLink}
+          </a>
         </div>
       )}
-      <div className="result-button-group">
+      <div className="button-group">
         <button
           className="primary-button primary-button-red"
           onClick={handleMakeAnother}
@@ -62,7 +65,7 @@ function ResponseFormResult() {
   };
 
   return (
-    <div className="result-button-group">
+    <div className="button-group">
       <button
         className="primary-button primary-button-red"
         onClick={handleEdit}
@@ -87,7 +90,7 @@ function ResponseFormResult() {
 
 function Result({ mode = FORM_MODE.QUESTION, heading, formLink }) {
   return (
-    <div className="result-wrapper">
+    <div className="wrapper">
       <h1>{heading || "Form submitted"}</h1>
       {mode === FORM_MODE.QUESTION ? (
         <QuestionFormResult formLink={formLink} />

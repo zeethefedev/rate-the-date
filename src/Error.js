@@ -1,5 +1,4 @@
 import React from "react";
-import "./style/SubComponent.css";
 import { useNavigate } from "react-router-dom";
 
 function Error({ errorMessage }) {
@@ -9,7 +8,7 @@ function Error({ errorMessage }) {
   };
 
   return (
-    <div className="error-wrapper">
+    <div className="wrapper">
       <h1>Error</h1>
       <div>{errorMessage}</div>
       <button

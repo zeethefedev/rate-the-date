@@ -18,7 +18,7 @@ function Dialog(props) {
           <div className="dialog-overlay">
             <div className="dialog-overlay-content">
               <h1>{message}</h1>
-              <div className="dialog-button-group">
+              <div className="button-group">
                 <button onClick={handleYesClicked}>{yesLabel}</button>
                 <button onClick={handleNoClicked}>{noLabel}</button>
               </div>

@@ -13,8 +13,8 @@ const initialState = {
   questions: SETUP_FORM_INITIAL,
   preview: [],
   loading: false,
-  submitted: true, // config
-  responseFormLink: "http://www.sample.org/head", //config
+  submitted: false,
+  responseFormLink: "",
 };
 
 export const questionSlice = createSlice({
