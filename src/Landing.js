@@ -33,7 +33,10 @@ function Landing() {
 
   const goToForm = (event) => {
     event.preventDefault();
-    navigate(`/response/${formId.value}`);
+    setFormId({ ...formId, touched: true });
+    if (formId.value) {
+      navigate(`/response/${formId.value}`);
+    }
   };
 
   return (

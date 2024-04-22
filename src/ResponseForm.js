@@ -25,17 +25,14 @@ function ResponseForm() {
   const formLoading = useSelector((state) => state.responseReducer.loading);
   const formSubmitted = useSelector((state) => state.responseReducer.submitted);
   const [formError, setFormError] = useState(true);
-  const firstLoaded = getFirstLoadFromStorage();
+  const firstLoad = getFirstLoadFromStorage();
 
   useEffect(() => {
-    if (!firstLoaded) {
+    if (firstLoad !== id) {
       dispatch(fetchFormById(id))
         .unwrap()
         .then(() => {
-          if (savedData && savedData.responses) {
-            dispatch(setAnswers(savedData.responses));
-          }
-          saveFirstLoadToStorage(true);
+          saveFirstLoadToStorage(id);
         })
         .catch((error) => {
           navigate("/error");

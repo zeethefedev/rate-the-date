@@ -1,13 +1,14 @@
 import React from "react";
 import { ICONS } from "../utils/icon";
-import "../style/SubComponent.css";
 import { toElement } from "../utils/methods";
+
+import "../style/SubComponent.css";
 
 function SVGIcon({
   icon,
   strokeColor = "currentColor",
-  height = "24",
-  width = "24",
+  height = "16",
+  width = "16",
   disabled,
 }) {
   const currentIcon = ICONS.find((ic) => ic.name === icon);

@@ -65,7 +65,7 @@ function ResponseFormResult() {
   };
 
   return (
-    <div className="button-group">
+    <div className="button-group column-button-group">
       <button
         className="primary-button primary-button-red"
         onClick={handleEdit}
