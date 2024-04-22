@@ -85,6 +85,8 @@ function SetupForm() {
     const allValid = errors.every((err) => err === false);
     if (allValid) {
       setFormMessage("Form submitted");
+    } else {
+      setFormMessage("Form has error, check again");
     }
   };
 
