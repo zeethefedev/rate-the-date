@@ -19,7 +19,6 @@ import LoadingOverlay from "./component/LoadingOverlay";
 
 import "./style/Form.css";
 import "./style/Question.css";
-import "./style/SetupForm.css";
 import Dialog from "./component/Dialog";
 
 function SetupForm() {
