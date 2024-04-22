@@ -75,7 +75,7 @@ function RatingInput(props) {
         </div>
         {error && (
           <div className="error-text error-message-wrapper">
-            <SVGIcon icon="error" />
+            <SVGIcon icon="error" height="1em" width="1em" />
             {errorMessage || INITIAL.ERROR_MESSAGE}
           </div>
         )}

@@ -1,4 +1,5 @@
 import { FORM_MODE } from "./constant";
+import parse from "html-react-parser";
 
 export function sortArrayOfObjectsByIndex(array, index) {
   return array.sort((a, b) => (a[index] > b[index] ? 1 : -1));
@@ -49,4 +50,8 @@ export const clearStorage = (key) => {
   } else {
     sessionStorage.clear();
   }
+};
+
+export const toElement = (elementString) => {
+  return parse(elementString);
 };

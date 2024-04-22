@@ -1,12 +1,13 @@
 import React from "react";
 import { ICONS } from "../utils/icon";
 import "../style/SubComponent.css";
+import { toElement } from "../utils/methods";
 
 function SVGIcon({
   icon,
-  color = "currentColor",
-  height = "1em",
-  width = "1em",
+  strokeColor = "currentColor",
+  height = "24",
+  width = "24",
   disabled,
 }) {
   const currentIcon = ICONS.find((ic) => ic.name === icon);
@@ -21,20 +22,17 @@ function SVGIcon({
     >
       {currentIcon && (
         <svg
-          viewBox={currentIcon.viewBox || "0 0 1024 1024"}
-          fill={disabled ? "gray" : color}
+          xmlns="http://www.w3.org/2000/svg"
           height={height}
           width={width}
+          viewBox="0 0 24 24"
+          fill={disabled ? "none" : currentIcon.fill || "none"}
+          stroke={disabled ? "gray" : strokeColor}
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         >
-          {currentIcon.path.length > 1 ? (
-            <g fill={disabled ? "gray" : color} fillRule={currentIcon.fillRule}>
-              {currentIcon.path.map((p) => (
-                <path d={p} />
-              ))}
-            </g>
-          ) : (
-            <path fillRule={currentIcon.fillRule} d={currentIcon.path[0]} />
-          )}
+          {toElement(currentIcon.rendered)}
         </svg>
       )}
     </div>
