@@ -21,6 +21,60 @@ import "./style/Form.css";
 import "./style/Question.css";
 import Dialog from "./component/Dialog";
 
+function FormEditor({ checkedViewMode, handleChangeViewMode, handlePostForm }) {
+  const dimensions = useSelector((state) => state.questionReducer.dimensions);
+  const [showMenu, setShowMenu] = useState(dimensions.width > 600);
+  const [openDialog, setOpenDialog] = useState(false);
+  const body = document.getElementsByTagName("body");
+
+  const handleToggleMenu = () => {
+    setShowMenu(!showMenu);
+  };
+
+  const handleOpenDialog = () => {
+    if (body) {
+      body[0].style.overflow = "hidden";
+    }
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    if (body) {
+      body[0].style.overflow = "visible";
+    }
+    setOpenDialog(false);
+  };
+  return (
+    <div className="form-editor">
+      <div className="container">
+        <button onClick={handleToggleMenu}>{showMenu ? "Hide" : "Show"}</button>
+        {showMenu && (
+          <div className="form-editor-content">
+            <DropdownMenu options={MENU_OPTIONS} />
+            <label className="checkbox-label">
+              <input
+                type="checkbox"
+                id="required"
+                checked={checkedViewMode}
+                onChange={handleChangeViewMode}
+              />
+              View as User
+            </label>
+            <button className="primary-button-red" onClick={handleOpenDialog}>
+              Submit Form
+            </button>
+          </div>
+        )}
+      </div>
+      <Dialog
+        open={openDialog}
+        handleYesClicked={handlePostForm}
+        handleNoClicked={handleCloseDialog}
+      />
+    </div>
+  );
+}
+
 function SetupForm() {
   const dispatch = useDispatch();
   const savedData = getFromStorage(FORM_MODE.QUESTION);
@@ -31,9 +85,7 @@ function SetupForm() {
     (state) => state.questionReducer.responseFormLink
   );
   const [viewMode, setViewMode] = useState(FORM_MODE.QUESTION);
-  const [openDialog, setOpenDialog] = useState(false);
   const [formMessage, setFormMessage] = useState("This will not send any data");
-  const body = document.getElementsByTagName("body");
 
   const handleResize = () => {
     dispatch(setDimensions());
@@ -89,24 +141,6 @@ function SetupForm() {
     }
   };
 
-  // const handleTest = () => {
-  //   dispatch(fetchForms());
-  // };
-
-  const handleOpenDialog = () => {
-    if (body) {
-      body[0].style.overflow = "hidden";
-    }
-    setOpenDialog(true);
-  };
-
-  const handleCloseDialog = () => {
-    if (body) {
-      body[0].style.overflow = "visible";
-    }
-    setOpenDialog(false);
-  };
-
   const handlePostForm = () => {
     dispatch(postForm(questions));
   };
@@ -121,32 +155,15 @@ function SetupForm() {
       {formSubmitted ? (
         <Result formLink={responseFormLink} />
       ) : (
-        <div id="scroll-wrapper">
+        <div className="setup-form-page" id="scroll-wrapper">
           <LoadingOverlay open={formLoading} />
           <h1>Set Up</h1>
           <div className="setup-form-wrapper">
-            <div className="container form-editor">
-              {/* <button onClick={handleTest}>Test api</button> */}
-              <DropdownMenu options={MENU_OPTIONS} />
-              <label className="checkbox-label">
-                <input
-                  type="checkbox"
-                  id="required"
-                  checked={viewMode === FORM_MODE.PREVIEW}
-                  onChange={handleChangeViewMode}
-                />
-                View as User
-              </label>
-              <button className="primary-button-red" onClick={handleOpenDialog}>
-                Submit Form
-              </button>
-              <Dialog
-                open={openDialog}
-                handleYesClicked={handlePostForm}
-                handleNoClicked={handleCloseDialog}
-              />
-              {formLoading && <div>Loading...</div>}
-            </div>
+            <FormEditor
+              checkedViewMode={viewMode === FORM_MODE.PREVIEW}
+              handleChangeViewMode={handleChangeViewMode}
+              handlePostForm={handlePostForm}
+            />
             <div className="container question-editor">
               <form className={`question-form-wrapper ${viewMode}-form`}>
                 <div className="setup-form-question">

@@ -5,11 +5,16 @@
 }
 
 .form-editor {
-  width: 25%;
   display: flex;
   flex-direction: column;
   gap: 24px;
   background-color: var(--background);
+}
+
+.form-editor-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 .dropdown-button {
@@ -68,19 +73,30 @@
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
+  .setup-form-wrapper {
+    flex-direction: column;
+  }
+
   .form-editor {
-    position: absolute;
-    bottom: 0;
+    position: fixed;
+    bottom: -40px;
+    left: 0;
     z-index: 1;
+    width: 100%;
   }
 
   .question-editor {
-    width: 100%;
+    width: auto;
+    height: 50vh;
+    overflow: scroll;
   }
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
+  .form-editor {
+    width: 25%;
+  }
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
