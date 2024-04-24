@@ -46,14 +46,26 @@ function ButtonGroup({
 }
 
 function EditQuestionComponent(props) {
-  const { openDialog, question, handleChangeQuestion, handleCloseEditDialog } =
-    props;
+  const {
+    openDialog,
+    question,
+    handleChangeQuestion,
+    handleCloseEditDialog,
+    handleRemoveQuestion,
+    handleMoveQuestionUp,
+    handleMoveQuestionDown,
+  } = props;
 
   const dimensions = useSelector((state) => state.questionReducer.dimensions);
+  const clickout = useSelector(
+    (state) => state.questionReducer.clickoutFormEditor
+  );
   const [showButtonGroup, setShowButtonGroup] = useState(false);
   const handleToggleButtonGroup = (event) => {
     event.preventDefault();
-    setShowButtonGroup(!showButtonGroup);
+    if (clickout) {
+      setShowButtonGroup(!showButtonGroup);
+    }
   };
 
   useEffect(() => {
@@ -63,6 +75,12 @@ function EditQuestionComponent(props) {
       setShowButtonGroup(false);
     }
   }, [dimensions, openDialog]);
+
+  useEffect(() => {
+    if (showButtonGroup) {
+      setShowButtonGroup(false);
+    }
+  }, [handleRemoveQuestion, handleMoveQuestionUp, handleMoveQuestionDown]);
 
   return (
     <div className="edit-question-wrapper">
@@ -80,7 +98,7 @@ function EditQuestionComponent(props) {
           <SVGIcon icon="menu" />
         </button>
         {showButtonGroup && (
-          <div>
+          <div className="edit-button-group-wrapper">
             <ButtonGroup {...props} />
           </div>
         )}

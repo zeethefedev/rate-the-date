@@ -85,9 +85,14 @@
     width: 100%;
   }
 
+  .form-editor-container {
+    max-height: 180px;
+    overflow: scroll;
+  }
+
   .question-editor {
     width: auto;
-    height: 50vh;
+    /* height: 80vh; */
     overflow: scroll;
   }
 }

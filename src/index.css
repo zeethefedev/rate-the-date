@@ -290,6 +290,22 @@ a:active {
   color: var(--disabled);
 }
 
+.tetriary-button {
+  border-color: transparent;
+}
+
+.tetriary-button:hover,
+.tetriary-button:focus {
+  box-shadow: none;
+  transform: none;
+}
+
+.tetriary-button:disabled {
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--disabled);
+}
+
 .button-with-helpertext {
   display: flex;
   flex-direction: column;

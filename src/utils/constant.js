@@ -1,3 +1,10 @@
+export const BREAKPOINT = {
+  MOBILE: 600,
+  SMALL: 769,
+  MEDIUM: 992,
+  LARGE: 1200,
+};
+
 export const INITIAL = {
   TEXT_QUESTION: "What's on your mind?",
   RATING_QUESTION: "Rate this date from bad to great",

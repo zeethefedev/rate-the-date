@@ -10,6 +10,8 @@ import { clearStorage } from "../utils/methods";
 
 const initialState = {
   dimensions: { width: window.innerWidth, height: window.innerHeight },
+  changeFlag: "",
+  clickoutFormEditor: false,
   questions: SETUP_FORM_INITIAL,
   preview: [],
   loading: false,
@@ -27,8 +29,12 @@ export const questionSlice = createSlice({
         height: window.innerHeight,
       };
     },
+    setClickoutFormEditor: (state, action) => {
+      state.clickoutFormEditor = action.payload;
+    },
     setQuestions: (state, action) => {
       state.questions = action.payload;
+      state.changeFlag = "";
     },
     changeQuestion: (state, action) => {
       const questionData = action.payload;
@@ -50,6 +56,7 @@ export const questionSlice = createSlice({
       );
       state.questions = newQuestions;
       saveQuestionsToStorage(newQuestions);
+      state.changeFlag = "";
     },
     addQuestion: (state, action) => {
       const newQuestion = {
@@ -61,6 +68,7 @@ export const questionSlice = createSlice({
       const newQuestions = [...state.questions, newQuestion];
       state.questions = newQuestions;
       saveQuestionsToStorage(state.questions);
+      state.changeFlag = "ADD";
     },
     removeQuestion: (state, action) => {
       const newQuestions = state.questions.filter(
@@ -74,6 +82,7 @@ export const questionSlice = createSlice({
 
       state.questions = newQuestionIndex;
       saveQuestionsToStorage(state.questions);
+      state.changeFlag = "REMOVE";
     },
     moveQuestionUp: (state, action) => {
       const currentQuestion = state.questions.find(
@@ -91,6 +100,7 @@ export const questionSlice = createSlice({
 
       state.questions = newQuestionsReplace;
       saveQuestionsToStorage(state.questions);
+      state.changeFlag = "MOVE_UP";
     },
     moveQuestionDown: (state, action) => {
       const currentQuestion = state.questions.find(
@@ -108,6 +118,7 @@ export const questionSlice = createSlice({
 
       state.questions = newQuestionsReplace;
       saveQuestionsToStorage(state.questions);
+      state.changeFlag = "MOVE_DOWN";
     },
     changePreview: (state, action) => {
       const previewData = action.payload;
@@ -124,12 +135,14 @@ export const questionSlice = createSlice({
       );
       state.questions = newQuestions;
       saveQuestionsToStorage(state.questions);
+      state.changeFlag = "";
     },
     setNoClickedCount: (state, action) => {
       const questionData = action.payload;
       const newQuestions = getNoClickedCount(state.questions, questionData);
       state.questions = newQuestions;
       saveQuestionsToStorage(state.questions);
+      state.changeFlag = "";
     },
     validatePreview: (state) => {
       //set touched = true
@@ -142,12 +155,14 @@ export const questionSlice = createSlice({
       }));
       state.questions = newQuestions;
       saveQuestionsToStorage(state.questions);
+      state.changeFlag = "";
     },
     resetQuestionForm: (state) => {
       clearStorage(FORM_MODE.QUESTION.toUpperCase());
       state.questions = SETUP_FORM_INITIAL;
       state.loading = false;
       state.submitted = false;
+      state.changeFlag = "";
     },
   },
   extraReducers: (builder) => {
@@ -173,6 +188,7 @@ export const questionSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {
   setDimensions,
+  setClickoutFormEditor,
   setQuestions,
   changeQuestion,
   addQuestion,
