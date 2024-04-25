@@ -3,8 +3,6 @@ import { baseUrl } from "./constant.api";
 
 //GET BY ID
 export const fetchFormApi = (Id) => {
-  const api = `${baseUrl}/form/${Id}`;
-  debugger;
   return axios.get(`${baseUrl}/form/${Id}`);
 };
 

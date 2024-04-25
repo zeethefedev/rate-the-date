@@ -25,6 +25,7 @@ import SVGIcon from "./component/SVGIcon";
 
 function FormEditor(props) {
   const {
+    isMobile,
     checkedViewMode,
     handleChangeViewMode,
     handlePostForm,
@@ -32,18 +33,16 @@ function FormEditor(props) {
   } = props;
   //responsive break point
   const dispatch = useDispatch();
-  const dimensions = useSelector((state) => state.questionReducer.dimensions);
   const clickout = useSelector(
     (state) => state.questionReducer.clickoutFormEditor
   );
-  const isMobile = dimensions.width < BREAKPOINT.MOBILE;
   const [showMenu, setShowMenu] = useState(!isMobile);
   const [openDialog, setOpenDialog] = useState(false);
   const body = document.getElementsByTagName("body");
 
   useEffect(() => {
     setShowMenu(!isMobile);
-  }, [dimensions]);
+  }, [isMobile]);
 
   const handleToggleMenu = () => {
     setShowMenu(!showMenu);
@@ -74,32 +73,34 @@ function FormEditor(props) {
 
   useEffect(() => {
     console.log(clickout);
-    setShowMenu(!clickout);
+    isMobile && setShowMenu(!clickout);
   }, [clickout]);
 
   return (
     <div ref={formRef} className="form-editor">
-      <div className="container form-editor-container">
+      <div className="container form-editor-container hide-scrollbar">
         {isMobile && (
           <button className="tetriary-button" onClick={handleToggleMenu}>
             {showMenu ? <SVGIcon icon="down" /> : <SVGIcon icon="up" />}
           </button>
         )}
         {showMenu && (
-          <div className="form-editor-content">
-            <DropdownMenu options={MENU_OPTIONS} />
-            <label className="checkbox-label">
-              <input
-                type="checkbox"
-                id="required"
-                checked={checkedViewMode}
-                onChange={handleChangeViewMode}
-              />
-              View as User
-            </label>
-            <button className="primary-button-red" onClick={handleOpenDialog}>
-              Submit Form
-            </button>
+          <div className="form-content-wrapper">
+            <div className="form-editor-content">
+              <DropdownMenu options={MENU_OPTIONS} />
+              <label className="checkbox-label">
+                <input
+                  type="checkbox"
+                  id="required"
+                  checked={checkedViewMode}
+                  onChange={handleChangeViewMode}
+                />
+                View as User
+              </label>
+              <button className="primary-button-red" onClick={handleOpenDialog}>
+                Submit Form
+              </button>
+            </div>
           </div>
         )}
       </div>
@@ -116,7 +117,7 @@ function SetupForm() {
   const dispatch = useDispatch();
   const savedData = getFromStorage(FORM_MODE.QUESTION);
   const dimensions = useSelector((state) => state.questionReducer.dimensions);
-  const isMobile = dimensions.width < BREAKPOINT.MOBILE;
+  const isMobile = dimensions.width < BREAKPOINT.SMALL;
   const questions = useSelector((state) => state.questionReducer.questions);
   const changeFlag = useSelector((state) => state.questionReducer.changeFlag);
   const formLoading = useSelector((state) => state.questionReducer.loading);
@@ -212,14 +213,17 @@ function SetupForm() {
           <h1>Set Up</h1>
           <div className="setup-form-wrapper">
             <FormEditor
+              isMobile={isMobile}
               checkedViewMode={viewMode === FORM_MODE.PREVIEW}
               handleChangeViewMode={handleChangeViewMode}
               handlePostForm={handlePostForm}
               setQuestionEditorBottom={setQuestionEditorBottom}
             />
             <div
-              className="container question-editor"
-              style={{ height: isMobile ? "auto" : questionEditorBottom - 170 }}
+              className="container question-editor hide-scrollbar"
+              style={{
+                maxHeight: isMobile ? questionEditorBottom - 170 : "70vh",
+              }}
               onClick={() => {
                 dispatch(setClickoutFormEditor(true));
               }}

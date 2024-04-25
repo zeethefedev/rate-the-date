@@ -9,6 +9,12 @@
   flex-direction: column;
   gap: 24px;
   background-color: var(--background);
+  min-width: 180px;
+}
+
+.form-content-wrapper {
+  display: flex;
+  justify-content: center;
 }
 
 .form-editor-content {
@@ -91,21 +97,78 @@
     overflow: scroll;
   }
 
+  .form-editor-content {
+    width: 100%;
+  }
+
+  .form-editor-content button {
+    max-width: none;
+  }
+
   .question-editor {
     width: auto;
-    /* height: 80vh; */
   }
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
+  .setup-form-wrapper {
+    flex-direction: column;
+  }
+
   .form-editor {
-    width: 25%;
+    position: fixed;
+    bottom: -40px;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+  }
+
+  .form-editor-container {
+    max-height: 180px;
+    overflow: scroll;
+  }
+
+  .form-editor-content {
+    width: 100%;
+  }
+
+  .form-editor-content button {
+    max-width: none;
+  }
+
+  .question-editor {
+    width: auto;
   }
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 769px) {
+  .setup-form-wrapper {
+    flex-direction: row;
+  }
+
+  .form-editor {
+    position: relative;
+    width: 25%;
+    bottom: auto;
+  }
+
+  .form-editor-container {
+    max-height: none;
+  }
+
+  .form-editor-content {
+    width: auto;
+  }
+
+  .form-editor-content button {
+    max-width: 250px;
+  }
+
+  .question-editor {
+    width: 75%;
+  }
 }
 
 /* Large devices (laptops/desktops, 992px and up) */

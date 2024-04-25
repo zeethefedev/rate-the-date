@@ -14,7 +14,7 @@ function Dialog(props) {
   return (
     <div>
       {open && (
-        <div className="dialog-overlay-wrapper" style={{ top: window.scrollY }}>
+        <div className="overlay-wrapper" style={{ top: window.scrollY }}>
           <div className="dialog-overlay">
             <div className="dialog-overlay-content">
               <h1>{message}</h1>

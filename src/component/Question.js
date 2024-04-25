@@ -60,11 +60,15 @@ function EditQuestionComponent(props) {
   const clickout = useSelector(
     (state) => state.questionReducer.clickoutFormEditor
   );
-  const isMobile = dimensions.width < BREAKPOINT.MOBILE;
+  const isMobile = dimensions.width < BREAKPOINT.SMALL;
   const [showButtonGroup, setShowButtonGroup] = useState(!isMobile);
   const handleToggleButtonGroup = (event) => {
     event.preventDefault();
-    if (clickout) {
+    if (isMobile) {
+      if (clickout) {
+        setShowButtonGroup(!showButtonGroup);
+      }
+    } else {
       setShowButtonGroup(!showButtonGroup);
     }
   };

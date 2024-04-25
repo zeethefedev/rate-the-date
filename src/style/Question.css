@@ -7,6 +7,7 @@
 .field-wrapper {
   display: flex;
   justify-content: space-between;
+  gap: 16px;
 }
 
 .form-wrapper {
@@ -24,7 +25,6 @@
 }
 
 .question-form .form-wrapper {
-  width: 70%;
   align-items: flex-start;
 }
 
@@ -40,7 +40,6 @@
   display: flex;
   gap: 8px;
   flex-wrap: nowrap;
-  width: 30%;
   align-items: flex-start;
   justify-content: flex-end;
 }
@@ -67,6 +66,14 @@
     flex-direction: column;
     position: absolute;
   }
+
+  .edit-question-wrapper {
+    width: 30%;
+  }
+
+  .question-form .form-wrapper {
+    width: 70%;
+  }
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
@@ -90,6 +97,14 @@
   .edit-button-group {
     flex-direction: row;
     position: relative;
+  }
+
+  .edit-question-wrapper {
+    width: 30%;
+  }
+
+  .question-form .form-wrapper {
+    width: 70%;
   }
 }
 
