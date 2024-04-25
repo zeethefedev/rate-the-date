@@ -32,6 +32,7 @@
 
 .question-editor {
   width: 75%;
+  overflow: scroll;
 }
 
 .response-form-wrapper,
@@ -93,7 +94,6 @@
   .question-editor {
     width: auto;
     /* height: 80vh; */
-    overflow: scroll;
   }
 }
 

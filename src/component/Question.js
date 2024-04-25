@@ -3,7 +3,7 @@ import TextInput from "./TextInput";
 import YesNoQuestion from "./YesNoQuestion";
 import RatingInput from "./RatingInput";
 import { useSelector, useDispatch } from "react-redux";
-import { FORM_MODE } from "../utils/constant";
+import { BREAKPOINT, FORM_MODE } from "../utils/constant";
 import { changePreview, changeQuestion } from "../store/questionReducer";
 import { changeAnswers } from "../store/responseReducer";
 import SVGIcon from "./SVGIcon";
@@ -60,7 +60,8 @@ function EditQuestionComponent(props) {
   const clickout = useSelector(
     (state) => state.questionReducer.clickoutFormEditor
   );
-  const [showButtonGroup, setShowButtonGroup] = useState(false);
+  const isMobile = dimensions.width < BREAKPOINT.MOBILE;
+  const [showButtonGroup, setShowButtonGroup] = useState(!isMobile);
   const handleToggleButtonGroup = (event) => {
     event.preventDefault();
     if (clickout) {
@@ -69,15 +70,11 @@ function EditQuestionComponent(props) {
   };
 
   useEffect(() => {
-    if (dimensions.width >= 992) {
-      setShowButtonGroup(true);
-    } else {
-      setShowButtonGroup(false);
-    }
-  }, [dimensions, openDialog]);
+    setShowButtonGroup(dimensions.width > BREAKPOINT.MEDIUM);
+  }, [dimensions.width, openDialog]);
 
   useEffect(() => {
-    if (showButtonGroup) {
+    if (showButtonGroup && isMobile) {
       setShowButtonGroup(false);
     }
   }, [handleRemoveQuestion, handleMoveQuestionUp, handleMoveQuestionDown]);

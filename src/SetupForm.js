@@ -36,13 +36,13 @@ function FormEditor(props) {
   const clickout = useSelector(
     (state) => state.questionReducer.clickoutFormEditor
   );
-  const isMobile = dimensions.width > BREAKPOINT.MOBILE;
-  const [showMenu, setShowMenu] = useState(isMobile);
+  const isMobile = dimensions.width < BREAKPOINT.MOBILE;
+  const [showMenu, setShowMenu] = useState(!isMobile);
   const [openDialog, setOpenDialog] = useState(false);
   const body = document.getElementsByTagName("body");
 
   useEffect(() => {
-    setShowMenu(isMobile);
+    setShowMenu(!isMobile);
   }, [dimensions]);
 
   const handleToggleMenu = () => {
@@ -80,7 +80,7 @@ function FormEditor(props) {
   return (
     <div ref={formRef} className="form-editor">
       <div className="container form-editor-container">
-        {!isMobile && (
+        {isMobile && (
           <button className="tetriary-button" onClick={handleToggleMenu}>
             {showMenu ? <SVGIcon icon="down" /> : <SVGIcon icon="up" />}
           </button>
@@ -115,6 +115,8 @@ function FormEditor(props) {
 function SetupForm() {
   const dispatch = useDispatch();
   const savedData = getFromStorage(FORM_MODE.QUESTION);
+  const dimensions = useSelector((state) => state.questionReducer.dimensions);
+  const isMobile = dimensions.width < BREAKPOINT.MOBILE;
   const questions = useSelector((state) => state.questionReducer.questions);
   const changeFlag = useSelector((state) => state.questionReducer.changeFlag);
   const formLoading = useSelector((state) => state.questionReducer.loading);
@@ -217,7 +219,7 @@ function SetupForm() {
             />
             <div
               className="container question-editor"
-              style={{ height: questionEditorBottom - 170 }}
+              style={{ height: isMobile ? "auto" : questionEditorBottom - 170 }}
               onClick={() => {
                 dispatch(setClickoutFormEditor(true));
               }}
