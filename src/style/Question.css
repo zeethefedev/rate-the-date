@@ -66,14 +66,6 @@
     flex-direction: column;
     position: absolute;
   }
-
-  .edit-question-wrapper {
-    width: 30%;
-  }
-
-  .question-form .form-wrapper {
-    width: 70%;
-  }
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */

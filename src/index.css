@@ -42,7 +42,7 @@ h2 {
 
 h3 {
   font-size: 24px;
-  line-height: 20px;
+  line-height: 24px;
   font-weight: 800;
 }
 
@@ -331,6 +331,14 @@ a:active {
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
+  .wrapper {
+    margin-top: 200px;
+  }
+
+  .container {
+    padding: 24px;
+  }
+
   .column-button-group {
     flex-direction: column;
   }
@@ -338,6 +346,9 @@ a:active {
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
+  .wrapper {
+    margin-top: 200px;
+  }
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
@@ -346,6 +357,10 @@ a:active {
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
+  /* divided by orientation */
+  .wrapper {
+    margin-top: 100px;
+  }
 }
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */

@@ -137,11 +137,7 @@ function Question({
 
   const inputError = () => {
     if (mode === FORM_MODE.QUESTION || mode === FORM_MODE.PREVIEW) {
-      if (question.type === "rating") {
-        return preview.answer === "0/5" && preview.touched;
-      } else {
-        return !preview.answer && preview.touched;
-      }
+      return !preview.answer && preview.touched;
     } else {
       return !answer.response && answer.touched;
     }
