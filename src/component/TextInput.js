@@ -33,7 +33,7 @@ function TextInput(props) {
               type="text"
               disabled={mode === FORM_MODE.QUESTION}
               required={required}
-              value={inputValue}
+              value={mode === FORM_MODE.QUESTION ? "" : inputValue}
               onChange={handleInputChange}
               placeholder={placeholder}
             ></input>

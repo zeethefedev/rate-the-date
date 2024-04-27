@@ -140,6 +140,11 @@ function SetupForm() {
     }
   }, []);
 
+  useEffect(() => {
+    if (viewMode === FORM_MODE.PREVIEW)
+      setFormMessage("This will not send any data");
+  }, [viewMode]);
+
   const handleChangeViewMode = () => {
     if (viewMode === FORM_MODE.QUESTION) {
       setViewMode(FORM_MODE.PREVIEW);

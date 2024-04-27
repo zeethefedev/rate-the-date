@@ -21,6 +21,7 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
+  width: 100%;
 }
 
 .dropdown-button {
@@ -97,10 +98,6 @@
     overflow: scroll;
   }
 
-  .form-editor-content {
-    width: 100%;
-  }
-
   .form-editor-content button {
     max-width: none;
   }
@@ -129,10 +126,6 @@
     overflow: scroll;
   }
 
-  .form-editor-content {
-    width: 100%;
-  }
-
   .form-editor-content button {
     max-width: none;
   }
@@ -156,10 +149,6 @@
 
   .form-editor-container {
     max-height: none;
-  }
-
-  .form-editor-content {
-    width: auto;
   }
 
   .form-editor-content button {
