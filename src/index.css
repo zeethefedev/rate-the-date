@@ -120,6 +120,7 @@ ul {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  transition: all 0.1s ease-in-out;
 }
 
 button,
@@ -327,6 +328,27 @@ a:active {
 /* hide scrollbar */
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+/* animation */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  /* opacity: 1;
+  transition: opacity 0.1s ease; */
+  animation: fadeIn 0.1s;
+}
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.1s ease;
 }
 
 /* Extra small devices (phones, 600px and down) */

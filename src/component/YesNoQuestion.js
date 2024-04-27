@@ -27,6 +27,7 @@ function YesNoQuestion(props) {
   } = props;
   const dispatch = useDispatch();
   const [yesClicked, setYesClicked] = useState(false);
+  const [animation, setAnimation] = useState(true);
 
   const handleYesClickedRigged = (event) => {
     event?.preventDefault();
@@ -35,7 +36,10 @@ function YesNoQuestion(props) {
     } else {
       dispatch(changePreview({ index: index, answer: "yes" }));
     }
+
+    //with animation
     setYesClicked(true);
+    setAnimation(true);
   };
 
   return (
@@ -88,7 +92,9 @@ function YesNoQuestion(props) {
             </button>
           </div>
         )}
-        {yesClicked && mode !== FORM_MODE.QUESTION && <div>{yesResponse}</div>}
+        {yesClicked && mode !== FORM_MODE.QUESTION && (
+          <div className={animation && "fade-in"}>{yesResponse}</div>
+        )}
         {error && !yesClicked && (
           <div className="error-text error-message-wrapper">
             <SVGIcon icon="error" height="1em" width="1em" />

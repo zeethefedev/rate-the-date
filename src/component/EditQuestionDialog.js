@@ -3,11 +3,22 @@ import "../style/SubComponent.css";
 import SVGIcon from "./SVGIcon";
 
 function EditQuestionDialog(props) {
-  const { open, question, handleChangeQuestion, handleCloseEditDialog } = props;
+  const {
+    open,
+    dialogAnimation,
+    question,
+    handleChangeQuestion,
+    handleCloseEditDialog,
+  } = props;
   return (
     <div>
       {open && (
-        <div className="overlay-wrapper" style={{ top: window.scrollY }}>
+        <div
+          className={`overlay-wrapper ${
+            dialogAnimation ? "fade-in" : "fade-out"
+          }`}
+          style={{ top: window.scrollY }}
+        >
           <div className="dialog-overlay">
             <div className="dialog-overlay-content">
               <button className="close-button" onClick={handleCloseEditDialog}>

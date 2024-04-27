@@ -3,7 +3,7 @@ import TextInput from "./TextInput";
 import YesNoQuestion from "./YesNoQuestion";
 import RatingInput from "./RatingInput";
 import { useSelector, useDispatch } from "react-redux";
-import { BREAKPOINT, FORM_MODE } from "../utils/constant";
+import { ANIMATION_DELAY, BREAKPOINT, FORM_MODE } from "../utils/constant";
 import { changePreview, changeQuestion } from "../store/questionReducer";
 import { changeAnswers } from "../store/responseReducer";
 import SVGIcon from "./SVGIcon";
@@ -48,6 +48,7 @@ function ButtonGroup({
 function EditQuestionComponent(props) {
   const {
     openDialog,
+    dialogAnimation,
     question,
     handleChangeQuestion,
     handleCloseEditDialog,
@@ -62,24 +63,38 @@ function EditQuestionComponent(props) {
   );
   const isMobile = dimensions.width < BREAKPOINT.SMALL;
   const [showButtonGroup, setShowButtonGroup] = useState(!isMobile);
+  const [animation, setAnimation] = useState(true);
+
+  const handleToggleWithAnimation = (showCondition) => {
+    if (showCondition) {
+      setAnimation(true);
+      setShowButtonGroup(true);
+    } else {
+      setAnimation(false);
+      setTimeout(() => {
+        setShowButtonGroup(false);
+      }, ANIMATION_DELAY);
+    }
+  };
+
   const handleToggleButtonGroup = (event) => {
     event.preventDefault();
     if (isMobile) {
       if (clickout) {
-        setShowButtonGroup(!showButtonGroup);
+        handleToggleWithAnimation(!showButtonGroup);
       }
     } else {
-      setShowButtonGroup(!showButtonGroup);
+      handleToggleWithAnimation(!showButtonGroup);
     }
   };
 
   useEffect(() => {
-    setShowButtonGroup(dimensions.width > BREAKPOINT.MEDIUM);
+    handleToggleWithAnimation(dimensions.width > BREAKPOINT.MEDIUM);
   }, [dimensions.width, openDialog]);
 
   useEffect(() => {
     if (showButtonGroup && isMobile) {
-      setShowButtonGroup(false);
+      handleToggleWithAnimation(false);
     }
   }, [handleRemoveQuestion, handleMoveQuestionUp, handleMoveQuestionDown]);
 
@@ -87,6 +102,7 @@ function EditQuestionComponent(props) {
     <div className="edit-question-wrapper">
       <EditQuestionDialog
         open={openDialog}
+        dialogAnimation={dialogAnimation}
         question={question}
         handleChangeQuestion={handleChangeQuestion}
         handleCloseEditDialog={handleCloseEditDialog}
@@ -99,7 +115,11 @@ function EditQuestionComponent(props) {
           <SVGIcon icon="menu" />
         </button>
         {showButtonGroup && (
-          <div className="edit-button-group-wrapper">
+          <div
+            className={`edit-button-group-wrapper ${
+              animation ? "fade-in" : "fade-out"
+            }`}
+          >
             <ButtonGroup {...props} />
           </div>
         )}
@@ -207,25 +227,32 @@ function Question({
 
   const body = document.getElementsByTagName("body");
   const [openDialog, setOpenDialog] = useState(false);
+  const [dialogAnimation, setDialogAnimation] = useState(false);
   const handleOpenEditDialog = (event) => {
     event.preventDefault();
     if (body) {
       body[0].style.overflow = "hidden";
     }
     setOpenDialog(true);
+    setDialogAnimation(true);
   };
 
-  const handleCloseEditDialog = () => {
+  const handleCloseEditDialog = (event) => {
+    event.preventDefault();
     if (body) {
       body[0].style.overflow = "visible";
     }
-    setOpenDialog(false);
+    setDialogAnimation(false);
+    setTimeout(() => {
+      setOpenDialog(false);
+    }, ANIMATION_DELAY);
   };
 
   const editInput = mode === FORM_MODE.QUESTION && (
     <EditQuestionComponent
       question={question}
       openDialog={openDialog}
+      dialogAnimation={dialogAnimation}
       handleChangeQuestion={handleChangeQuestion}
       showMoveUp={question.index > 0}
       showMoveDown={question.index < questionsLength - 1}

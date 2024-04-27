@@ -1,5 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import { BREAKPOINT, FORM_MODE, MENU_OPTIONS } from "./utils/constant";
+import {
+  ANIMATION_DELAY,
+  BREAKPOINT,
+  FORM_MODE,
+  MENU_OPTIONS,
+} from "./utils/constant";
 import { useSelector } from "react-redux";
 import DropdownMenu from "./component/DropdownMenu";
 import { useDispatch } from "react-redux";
@@ -37,7 +42,9 @@ function FormEditor(props) {
     (state) => state.questionReducer.clickoutFormEditor
   );
   const [showMenu, setShowMenu] = useState(!isMobile);
+  const [animation, setAnimation] = useState(true);
   const [openDialog, setOpenDialog] = useState(false);
+  const [dialogAnimation, setDialogAnimation] = useState(false);
   const body = document.getElementsByTagName("body");
 
   useEffect(() => {
@@ -45,7 +52,16 @@ function FormEditor(props) {
   }, [isMobile]);
 
   const handleToggleMenu = () => {
-    setShowMenu(!showMenu);
+    // animation has to be triggered after mounting and before unmounting
+    if (!showMenu) {
+      setAnimation(true);
+      setShowMenu(true);
+    } else {
+      setAnimation(false);
+      setTimeout(() => {
+        setShowMenu(false);
+      }, ANIMATION_DELAY);
+    }
     dispatch(setClickoutFormEditor(false));
   };
 
@@ -54,13 +70,17 @@ function FormEditor(props) {
       body[0].style.overflow = "hidden";
     }
     setOpenDialog(true);
+    setDialogAnimation(true);
   };
 
   const handleCloseDialog = () => {
     if (body) {
       body[0].style.overflow = "visible";
     }
-    setOpenDialog(false);
+    setDialogAnimation(false);
+    setTimeout(() => {
+      setOpenDialog(false);
+    }, ANIMATION_DELAY);
   };
 
   const formRef = useRef();
@@ -72,7 +92,7 @@ function FormEditor(props) {
   }, [showMenu]);
 
   useEffect(() => {
-    console.log(clickout);
+    // console.log(clickout);
     isMobile && setShowMenu(!clickout);
   }, [clickout]);
 
@@ -85,7 +105,11 @@ function FormEditor(props) {
           </button>
         )}
         {showMenu && (
-          <div className="form-content-wrapper">
+          <div
+            className={`form-content-wrapper ${
+              animation ? "fade-in" : "fade-out"
+            }`}
+          >
             <div className="form-editor-content">
               <DropdownMenu options={MENU_OPTIONS} />
               <label className="checkbox-label">
@@ -106,6 +130,7 @@ function FormEditor(props) {
       </div>
       <Dialog
         open={openDialog}
+        dialogAnimation={dialogAnimation}
         handleYesClicked={handlePostForm}
         handleNoClicked={handleCloseDialog}
       />
@@ -119,6 +144,7 @@ function SetupForm() {
   const dimensions = useSelector((state) => state.questionReducer.dimensions);
   const isMobile = dimensions.width < BREAKPOINT.SMALL;
   const questions = useSelector((state) => state.questionReducer.questions);
+  const [questionFadeOut, setQuestionFadeOut] = useState();
   const changeFlag = useSelector((state) => state.questionReducer.changeFlag);
   const formLoading = useSelector((state) => state.questionReducer.loading);
   const formSubmitted = useSelector((state) => state.questionReducer.submitted);
@@ -156,7 +182,11 @@ function SetupForm() {
   const handleRemoveQuestion = (event, index) => {
     event.preventDefault();
     if (index !== null && index !== undefined) {
-      dispatch(removeQuestion(index));
+      setQuestionFadeOut(index);
+      setTimeout(() => {
+        dispatch(removeQuestion(index));
+        setQuestionFadeOut(); // have to reset
+      }, ANIMATION_DELAY);
     }
   };
 
@@ -208,6 +238,7 @@ function SetupForm() {
   }, [questions.length]);
 
   const [questionEditorBottom, setQuestionEditorBottom] = useState(0);
+
   return (
     <div>
       {formSubmitted ? (
@@ -236,7 +267,13 @@ function SetupForm() {
               <form className={`question-form-wrapper ${viewMode}-form`}>
                 <div className="setup-form-question">
                   {questions.map((question, index) => (
-                    <div id={`question-${index}`} key={index}>
+                    <div
+                      id={`question-${index}`}
+                      key={index}
+                      className={
+                        index !== questionFadeOut ? "fade-in" : "fade-out"
+                      }
+                    >
                       <Question
                         index={index}
                         mode={viewMode}

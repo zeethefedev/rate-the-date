@@ -1,3 +1,5 @@
+export const ANIMATION_DELAY = 100;
+
 export const BREAKPOINT = {
   MOBILE: 600,
   SMALL: 769,

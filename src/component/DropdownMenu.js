@@ -4,13 +4,23 @@ import { addQuestion } from "../store/questionReducer";
 import SVGIcon from "./SVGIcon";
 
 import "../style/Form.css";
+import { ANIMATION_DELAY } from "../utils/constant";
 
 function DropdownMenu({ options }) {
   const dispatch = useDispatch();
   const [showDropdown, setShowDropdown] = useState(false);
+  const [animation, setAnimation] = useState(true);
 
   const handleShowDropdown = () => {
-    setShowDropdown(!showDropdown);
+    if (!showDropdown) {
+      setShowDropdown(true);
+      setAnimation(true);
+    } else {
+      setAnimation(false);
+      setTimeout(() => {
+        setShowDropdown(false);
+      }, ANIMATION_DELAY);
+    }
   };
 
   const handleClickOption = (option) => {
@@ -24,7 +34,9 @@ function DropdownMenu({ options }) {
         {showDropdown ? <SVGIcon icon="up" /> : <SVGIcon icon="down" />}
       </button>
       {showDropdown && (
-        <ul className="dropdown-content">
+        <ul
+          className={`dropdown-content ${animation ? "fade-in" : "fade-out"}`}
+        >
           {options.map((option, index) => (
             <li
               key={index}

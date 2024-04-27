@@ -17,6 +17,10 @@
   justify-content: center;
 }
 
+.form-editor-container {
+  transition: all 0.1s ease-in-out;
+}
+
 .form-editor-content {
   display: flex;
   flex-direction: column;
@@ -40,6 +44,9 @@
 .question-editor {
   width: 75%;
   overflow: scroll;
+  transition: all 0.1s ease-in-out;
+  /* config */
+  /* opacity: 0; */
 }
 
 .response-form-wrapper,

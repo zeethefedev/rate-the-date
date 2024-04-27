@@ -4,6 +4,7 @@ import "../style/SubComponent.css";
 function Dialog(props) {
   const {
     open,
+    dialogAnimation,
     message = "Do you want to submit your form?",
     yesLabel = "Yes",
     noLabel = "No",
@@ -14,7 +15,12 @@ function Dialog(props) {
   return (
     <div>
       {open && (
-        <div className="overlay-wrapper" style={{ top: window.scrollY }}>
+        <div
+          className={`overlay-wrapper ${
+            dialogAnimation ? "fade-in" : "fade-out"
+          }`}
+          style={{ top: window.scrollY }}
+        >
           <div className="dialog-overlay">
             <div className="dialog-overlay-content">
               <h1>{message}</h1>
