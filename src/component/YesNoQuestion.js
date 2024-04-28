@@ -23,7 +23,7 @@ function YesNoQuestion(props) {
     errorMessage,
     yesLabel,
     noLabel,
-    yesResponse = "Come Closer",
+    yesResponse,
   } = props;
   const dispatch = useDispatch();
   const [yesClicked, setYesClicked] = useState(false);
@@ -93,7 +93,9 @@ function YesNoQuestion(props) {
           </div>
         )}
         {yesClicked && mode !== FORM_MODE.QUESTION && (
-          <div className={animation && "fade-in"}>{yesResponse}</div>
+          <div className={animation && "fade-in"}>
+            {yesResponse || INITIAL.YES_RESPONSE}
+          </div>
         )}
         {error && !yesClicked && (
           <div className="error-text error-message-wrapper">

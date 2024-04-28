@@ -206,6 +206,15 @@ function SetupForm() {
       setFormMessage("Form submitted");
     } else {
       setFormMessage("Form has error, check again");
+
+      // scroll into view first error element
+      const firstError = errors.indexOf(errors.find((err) => err));
+      const errorQuestionElement = document.getElementById(
+        `question-${firstError}`
+      );
+      if (errorQuestionElement) {
+        errorQuestionElement.scrollIntoView({ behavior: "smooth" });
+      }
     }
   };
 

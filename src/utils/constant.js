@@ -14,6 +14,7 @@ export const INITIAL = {
   YES_BUTTON: "Yes",
   NO_BUTTON: "No",
   ERROR_MESSAGE: "Please enter a valid answer",
+  YES_RESPONSE: "Come Closer",
 };
 
 export const SETUP_FORM_INITIAL = [

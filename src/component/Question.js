@@ -197,6 +197,7 @@ function Question({
       "placeholder",
       "yesLabel",
       "noLabel",
+      "yesResponse",
     ];
     const questionData = {
       ...question,
@@ -306,6 +307,7 @@ function Question({
           errorMessage={question.errorMessage}
           yesLabel={question.yesLabel}
           noLabel={question.noLabel}
+          yesResponse={question.yesResponse}
         />
       )}
     </div>

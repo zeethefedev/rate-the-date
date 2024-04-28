@@ -20,6 +20,7 @@ export const getFormData = (rawData) => {
       noClickedCount: question.noClickedCount,
       yesLabel: question.yesLabel,
       noLabel: question.noLabel,
+      yesResponse: question.yesResponse,
       response: question.response,
     })),
   };

@@ -106,6 +106,17 @@ function EditQuestionDialog(props) {
                           }
                         />
                       </label>
+                      <label>
+                        Enter your yes messsage (rigged):{" "}
+                        <input
+                          type="text"
+                          value={question.yesResponse}
+                          disabled={!question.rigged}
+                          onChange={(event) =>
+                            handleChangeQuestion(event, "yesResponse")
+                          }
+                        />
+                      </label>
                     </div>
                   )}
                 </div>

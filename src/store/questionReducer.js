@@ -51,6 +51,7 @@ export const questionSlice = createSlice({
               // placeholder: questionData.placeholder,
               yesLabel: questionData.yesLabel,
               noLabel: questionData.noLabel,
+              yesResponse: questionData.yesResponse,
             }
           : question
       );
