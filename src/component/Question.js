@@ -63,28 +63,15 @@ function EditQuestionComponent(props) {
   );
   const isMobile = dimensions.width < BREAKPOINT.SMALL;
   const [showButtonGroup, setShowButtonGroup] = useState(!isMobile);
-  const [animation, setAnimation] = useState(true);
-
-  const handleToggleWithAnimation = (showCondition) => {
-    if (showCondition) {
-      setAnimation(true);
-      setShowButtonGroup(true);
-    } else {
-      setAnimation(false);
-      setTimeout(() => {
-        setShowButtonGroup(false);
-      }, ANIMATION_DELAY);
-    }
-  };
 
   const handleToggleButtonGroup = (event) => {
     event.preventDefault();
     if (isMobile) {
       if (clickout) {
-        handleToggleWithAnimation(!showButtonGroup);
+        setShowButtonGroup(!showButtonGroup);
       }
     } else {
-      handleToggleWithAnimation(!showButtonGroup);
+      setShowButtonGroup(!showButtonGroup);
     }
   };
 
@@ -94,7 +81,7 @@ function EditQuestionComponent(props) {
 
   useEffect(() => {
     if (showButtonGroup && isMobile) {
-      handleToggleWithAnimation(false);
+      setShowButtonGroup(false);
     }
   }, [handleRemoveQuestion, handleMoveQuestionUp, handleMoveQuestionDown]);
 
@@ -115,11 +102,7 @@ function EditQuestionComponent(props) {
           <SVGIcon icon="menu" />
         </button>
         {showButtonGroup && (
-          <div
-            className={`edit-button-group-wrapper ${
-              animation ? "fade-in" : "fade-out"
-            }`}
-          >
+          <div className="edit-button-group-wrapper">
             <ButtonGroup {...props} />
           </div>
         )}
