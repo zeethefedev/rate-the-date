@@ -17,6 +17,9 @@ function RatingInput(props) {
   } = props;
 
   const [ratings, setRatings] = useState(Array(RATING_LENGTH).fill(false));
+  const [hoverRatings, setHoverRating] = useState(
+    Array(RATING_LENGTH).fill(false)
+  );
   const [assignedSaved, setAssignedSaved] = useState(false);
 
   useEffect(() => {
@@ -42,6 +45,17 @@ function RatingInput(props) {
     }
   };
 
+  const handleHoverStar = (index) => {
+    if (mode === FORM_MODE.RESPONSE || mode === FORM_MODE.PREVIEW) {
+      const checkedRating = Array(index + 1).fill(true);
+      const uncheckedRating = Array(RATING_LENGTH - index - 1).fill(false);
+      setHoverRating([...checkedRating, ...uncheckedRating]);
+      if (index === 0 && hoverRatings.filter((rating) => rating).length === 1) {
+        setHoverRating([!hoverRatings[0], ...hoverRatings.slice(1)]);
+      }
+    }
+  };
+
   useEffect(
     (event) => {
       if (assignedSaved) {
@@ -62,8 +76,14 @@ function RatingInput(props) {
           {required && <span>*</span>}
         </h3>
         <div className="star-wrapper">
-          {ratings.map((rating, index) => (
-            <div key={index} onClick={() => handleClickStar(index)}>
+          {hoverRatings.map((rating, index) => (
+            <div
+              key={index}
+              // className="clickable"
+              // onClick={() => handleClickStar(index)}
+              onMouseEnter={() => handleHoverStar(index)}
+              // onMouseLeave={} //reset
+            >
               <SVGIcon
                 icon={rating ? "star-checked" : "star-unchecked"}
                 width="24px"
