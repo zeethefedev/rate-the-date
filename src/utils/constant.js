@@ -14,6 +14,8 @@ export const INITIAL = {
   YES_BUTTON: "Yes",
   NO_BUTTON: "No",
   ERROR_MESSAGE: "Please enter a valid answer",
+  SUCCESS_MESSAGE: "Success",
+  INFO_MESSAGE: "",
   YES_RESPONSE: "Come Closer",
 };
 

@@ -1,8 +1,8 @@
 import React from "react";
-import { FORM_MODE, INITIAL } from "../utils/constant";
+import { FORM_MODE } from "../utils/constant";
 
 import "../style/Question.css";
-import SVGIcon from "./SVGIcon";
+import Message from "./ErrorMessage";
 
 function TextInput(props) {
   const {
@@ -48,12 +48,7 @@ function TextInput(props) {
             )}
           </div>
         </label>
-        {error && (
-          <div className="error-text error-message-wrapper">
-            <SVGIcon icon="error" height="1em" width="1em" />
-            {errorMessage || INITIAL.ERROR_MESSAGE}
-          </div>
-        )}
+        {error && <Message mode="error" message={errorMessage} />}
       </div>
       {editInput}
     </div>

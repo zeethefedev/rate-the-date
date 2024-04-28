@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SVGIcon from "./SVGIcon";
-import { FORM_MODE, INITIAL } from "../utils/constant";
+import { FORM_MODE } from "../utils/constant";
+import Message from "./ErrorMessage";
 
 const RATING_LENGTH = 5;
 function RatingInput(props) {
@@ -92,12 +93,7 @@ function RatingInput(props) {
             </div>
           ))}
         </div>
-        {error && (
-          <div className="error-text error-message-wrapper">
-            <SVGIcon icon="error" height="1em" width="1em" />
-            {errorMessage || INITIAL.ERROR_MESSAGE}
-          </div>
-        )}
+        {error && <Message mode="error" message={errorMessage} />}
       </div>
       {editInput}
     </div>

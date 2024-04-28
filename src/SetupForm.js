@@ -27,6 +27,7 @@ import Dialog from "./component/Dialog";
 import "./style/Form.css";
 import "./style/Question.css";
 import SVGIcon from "./component/SVGIcon";
+import Message from "./component/ErrorMessage";
 
 function FormEditor(props) {
   const { isMobile, checkedViewMode, handleChangeViewMode, handlePostForm } =
@@ -144,7 +145,10 @@ function SetupForm() {
     (state) => state.questionReducer.responseFormLink
   );
   const [viewMode, setViewMode] = useState(FORM_MODE.QUESTION);
-  const [formMessage, setFormMessage] = useState("This will not send any data");
+  const [formMessage, setFormMessage] = useState({
+    message: "This will not send any data",
+    mode: "info",
+  });
 
   const handleResize = () => {
     dispatch(setDimensions());
@@ -160,7 +164,7 @@ function SetupForm() {
 
   useEffect(() => {
     if (viewMode === FORM_MODE.PREVIEW)
-      setFormMessage("This will not send any data");
+      setFormMessage({ message: "This will not send any data", mode: "info" });
   }, [viewMode]);
 
   const handleChangeViewMode = () => {
@@ -203,9 +207,9 @@ function SetupForm() {
     const errors = questions.map((question) => checkError(question));
     const allValid = errors.every((err) => err === false);
     if (allValid) {
-      setFormMessage("Form submitted");
+      setFormMessage({ message: "Form submitted", mode: "success" });
     } else {
-      setFormMessage("Form has error, check again");
+      setFormMessage({ message: "Form has error, check again", mode: "error" });
 
       // scroll into view first error element
       const firstError = errors.indexOf(errors.find((err) => err));
@@ -288,10 +292,16 @@ function SetupForm() {
                 </div>
                 {viewMode === FORM_MODE.PREVIEW && (
                   <div className="button-with-helpertext">
-                    <button className="submit-button" onClick={handleSubmit}>
+                    <button
+                      className="secondary-button secondary-button-red submit-button"
+                      onClick={handleSubmit}
+                    >
                       Submit Answers
                     </button>
-                    <div className="helpertext">{formMessage}</div>
+                    <Message
+                      mode={formMessage.mode}
+                      message={formMessage.message}
+                    />
                   </div>
                 )}
               </form>

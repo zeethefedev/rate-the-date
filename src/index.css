@@ -78,13 +78,6 @@ h3 {
   font-weight: 400;
 }
 
-.error-text {
-  font-size: 14px;
-  line-height: 14px;
-  font-weight: 400;
-  color: var(--red-text);
-}
-
 .button-text {
   font-size: 16px;
   line-height: 16px;
@@ -313,6 +306,7 @@ a:active {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  align-items: center;
 }
 
 .button-group {
@@ -322,7 +316,11 @@ a:active {
 }
 
 /* custom error message */
-.error-message-wrapper {
+.error-text {
+  color: var(--red-text);
+}
+
+.message-wrapper {
   display: flex;
   gap: 4px;
 }

@@ -6,7 +6,7 @@ import { changeAnswers } from "../store/responseReducer";
 
 import "../style/Question.css";
 import { changePreview } from "../store/questionReducer";
-import SVGIcon from "./SVGIcon";
+import Message from "./ErrorMessage";
 
 function YesNoQuestion(props) {
   const {
@@ -53,7 +53,9 @@ function YesNoQuestion(props) {
         {rigged ? (
           <div className="button-wrapper">
             <button
-              className="secondary-button"
+              className={`secondary-button secondary-button-red ${
+                inputValue === "yes" ? "chosen" : ""
+              }`}
               disabled={mode === FORM_MODE.QUESTION}
               onClick={handleYesClickedRigged}
               autoFocus={inputValue === "yes"}
@@ -61,7 +63,7 @@ function YesNoQuestion(props) {
               {yesLabel || INITIAL.YES_BUTTON}
             </button>
             <MovingButton
-              buttonStyle="secondary-button"
+              buttonStyle="secondary-button secondary-button-red"
               questionIndex={index}
               disabled={mode === FORM_MODE.QUESTION}
               label={noLabel || INITIAL.NO_BUTTON}
@@ -98,10 +100,7 @@ function YesNoQuestion(props) {
           </div>
         )}
         {error && !yesClicked && (
-          <div className="error-text error-message-wrapper">
-            <SVGIcon icon="error" height="1em" width="1em" />
-            {errorMessage || INITIAL.ERROR_MESSAGE}
-          </div>
+          <Message mode="error" message={errorMessage} />
         )}
       </div>
       {editInput}
