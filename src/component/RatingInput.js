@@ -27,8 +27,8 @@ function RatingInput(props) {
         ...Array(RATING_LENGTH - savedResponse).fill(false),
       ];
       setRatings(savedRatings);
-      setAssignedSaved(true);
     }
+    setAssignedSaved(true);
   }, [inputValue]);
 
   const handleClickStar = (index) => {
