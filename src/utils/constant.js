@@ -57,3 +57,43 @@ export const MENU_OPTIONS = [
   { index: 1, name: "rating", displayName: "Add Rating Field" },
   { index: 2, name: "yesno", displayName: "Add Yes No Field" },
 ];
+
+export const QUESTION_FIELDS = [
+  {
+    name: "value",
+    type: "text",
+    label: "Enter your question:",
+    placeholder: "enter your question",
+  },
+  {
+    name: "required",
+    type: "checkbox",
+    label: "Required",
+  },
+  {
+    name: "rigged",
+    type: "checkbox",
+    label: "Rigged",
+  },
+  {
+    name: "errorMessage",
+    type: "text",
+    label: "Enter your error message:",
+    placeholder: "eg: Please enter a valid answer",
+  },
+  {
+    name: "yesLabel",
+    type: "text",
+    label: "Enter your yes label:",
+  },
+  {
+    name: "noLabel",
+    type: "text",
+    label: "Enter your no label:",
+  },
+  {
+    name: "yesResponse",
+    type: "text",
+    label: "Enter your yes messsage (rigged)",
+  },
+];

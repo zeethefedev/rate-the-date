@@ -1,15 +1,45 @@
 import React from "react";
 import "../style/SubComponent.css";
 import SVGIcon from "./SVGIcon";
+import { QUESTION_FIELDS } from "../utils/constant";
+
+function DialogInput(props) {
+  const { fieldName, value, checked, disabled, handleChangeQuestion } = props;
+  const matchedField = QUESTION_FIELDS.find(
+    (field) => field.name === fieldName
+  );
+
+  return (
+    <div>
+      {matchedField && matchedField.type === "text" && (
+        <label>
+          {matchedField.label}{" "}
+          <input
+            type={matchedField.type}
+            value={value}
+            disabled={disabled}
+            placeholder={matchedField.placeholder}
+            onChange={(event) => handleChangeQuestion(event, matchedField.name)}
+          />
+        </label>
+      )}
+      {matchedField && matchedField.type === "checkbox" && (
+        <label className="checkbox-label">
+          <input
+            type={matchedField.type}
+            checked={checked}
+            disabled={disabled}
+            onChange={(event) => handleChangeQuestion(event, matchedField.name)}
+          />
+          {matchedField.label}
+        </label>
+      )}
+    </div>
+  );
+}
 
 function EditQuestionDialog(props) {
-  const {
-    open,
-    dialogAnimation,
-    question,
-    handleChangeQuestion,
-    handleCloseEditDialog,
-  } = props;
+  const { open, dialogAnimation, question, handleCloseEditDialog } = props;
   return (
     <div>
       {open && (
@@ -26,102 +56,53 @@ function EditQuestionDialog(props) {
               </button>
               <div className="dialog-overlay-form">
                 <div className="dialog-overlay-input">
-                  <label>
-                    Enter your question:{" "}
-                    <input
-                      type="text"
-                      value={question.value}
-                      placeholder="enter your question"
-                      onChange={(event) => handleChangeQuestion(event, "value")}
-                    />
-                  </label>
+                  <DialogInput
+                    {...props}
+                    fieldName="value"
+                    value={question.value}
+                  />
                   <div>
-                    <label className="checkbox-label">
-                      <input
-                        type="checkbox"
-                        id="required"
-                        checked={question.required}
-                        onChange={(event) =>
-                          handleChangeQuestion(event, "required")
-                        }
-                      />
-                      Required
-                    </label>
-                    <label className="checkbox-label">
-                      <input
-                        type="checkbox"
-                        id="rigged"
-                        checked={question.rigged}
-                        disabled={question.type !== "yesno"}
-                        onChange={(event) =>
-                          handleChangeQuestion(event, "rigged")
-                        }
-                      />
-                      Rigged
-                    </label>
-                  </div>
-                  <label>
-                    Enter your error message:{" "}
-                    <input
-                      type="text"
-                      disabled={!question.required}
-                      value={question.errorMessage}
-                      placeholder="eg: Please enter a valid answerewe"
-                      onChange={(event) =>
-                        handleChangeQuestion(event, "errorMessage")
-                      }
+                    <DialogInput
+                      {...props}
+                      fieldName="required"
+                      checked={question.required}
                     />
-                  </label>
-                  {/* {question.type === "text" && (
-                    <label>
-                      Enter your placeholder:{" "}
-                      <input
-                        type="text"
-                        value={question.placeholder}
-                        onChange={(event) =>
-                          handleChangeQuestion(event, "placeholder")
-                        }
-                      />
-                    </label>
-                  )} */}
+                    <DialogInput
+                      {...props}
+                      fieldName="rigged"
+                      checked={question.rigged}
+                      disabled={question.type !== "yesno"}
+                    />
+                  </div>
+                  <DialogInput
+                    {...props}
+                    fieldName="errorMessage"
+                    value={question.errorMessage}
+                    disabled={!question.required}
+                  />
                   {question.type === "yesno" && (
                     <div>
-                      <label>
-                        Enter your yes label:{" "}
-                        <input
-                          type="text"
-                          value={question.yesLabel}
-                          onChange={(event) =>
-                            handleChangeQuestion(event, "yesLabel")
-                          }
-                        />
-                      </label>
-                      <label>
-                        Enter your no label:{" "}
-                        <input
-                          type="text"
-                          value={question.noLabel}
-                          onChange={(event) =>
-                            handleChangeQuestion(event, "noLabel")
-                          }
-                        />
-                      </label>
-                      <label>
-                        Enter your yes messsage (rigged):{" "}
-                        <input
-                          type="text"
-                          value={question.yesResponse}
-                          disabled={!question.rigged}
-                          onChange={(event) =>
-                            handleChangeQuestion(event, "yesResponse")
-                          }
-                        />
-                      </label>
+                      <DialogInput
+                        {...props}
+                        fieldName="yesLabel"
+                        value={question.yesLabel}
+                      />
+                      <DialogInput
+                        {...props}
+                        fieldName="noLabel"
+                        value={question.noLabel}
+                      />
+                      <DialogInput
+                        {...props}
+                        fieldName="yesResponse"
+                        value={question.yesResponse}
+                        disabled={!question.rigged}
+                      />
                     </div>
                   )}
                 </div>
                 <button
-                  className="secondary-button secondary-button-red"
+                  className="secondary-button secondary-button-red submit-button"
                   onClick={handleCloseEditDialog}
                 >
                   Save

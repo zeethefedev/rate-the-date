@@ -60,5 +60,10 @@
 .dialog-overlay-input {
   display: flex;
   flex-direction: column;
+  gap: 16px;
+}
+
+.dialog-overlay-input label {
+  text-align: left;
   gap: 8px;
 }
