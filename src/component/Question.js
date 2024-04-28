@@ -89,7 +89,7 @@ function EditQuestionComponent(props) {
   };
 
   useEffect(() => {
-    handleToggleWithAnimation(dimensions.width > BREAKPOINT.MEDIUM);
+    setShowButtonGroup(dimensions.width > BREAKPOINT.MEDIUM);
   }, [dimensions.width, openDialog]);
 
   useEffect(() => {

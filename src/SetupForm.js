@@ -29,20 +29,15 @@ import "./style/Question.css";
 import SVGIcon from "./component/SVGIcon";
 
 function FormEditor(props) {
-  const {
-    isMobile,
-    checkedViewMode,
-    handleChangeViewMode,
-    handlePostForm,
-    setQuestionEditorBottom,
-  } = props;
+  const { isMobile, checkedViewMode, handleChangeViewMode, handlePostForm } =
+    props;
   //responsive break point
   const dispatch = useDispatch();
   const clickout = useSelector(
     (state) => state.questionReducer.clickoutFormEditor
   );
   const [showMenu, setShowMenu] = useState(!isMobile);
-  const [animation, setAnimation] = useState(true);
+  const [animation, setAnimation] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [dialogAnimation, setDialogAnimation] = useState(false);
   const body = document.getElementsByTagName("body");
@@ -51,9 +46,14 @@ function FormEditor(props) {
     setShowMenu(!isMobile);
   }, [isMobile]);
 
-  const handleToggleMenu = () => {
-    // animation has to be triggered after mounting and before unmounting
-    if (!showMenu) {
+  useEffect(() => {
+    if (isMobile && clickout) {
+      handleToggleWithAnimation(!clickout);
+    }
+  }, [clickout]);
+
+  const handleToggleWithAnimation = (showCondition) => {
+    if (showCondition) {
       setAnimation(true);
       setShowMenu(true);
     } else {
@@ -62,6 +62,11 @@ function FormEditor(props) {
         setShowMenu(false);
       }, ANIMATION_DELAY);
     }
+  };
+
+  const handleToggleMenu = () => {
+    // animation has to be triggered after mounting and before unmounting
+    handleToggleWithAnimation(!showMenu);
     dispatch(setClickoutFormEditor(false));
   };
 
@@ -83,21 +88,12 @@ function FormEditor(props) {
     }, ANIMATION_DELAY);
   };
 
-  const formRef = useRef();
-  useEffect(() => {
-    if (formRef) {
-      const rect = formRef.current.getBoundingClientRect();
-      setQuestionEditorBottom(rect.top);
-    }
-  }, [showMenu]);
-
-  useEffect(() => {
-    // console.log(clickout);
-    isMobile && setShowMenu(!clickout);
-  }, [clickout]);
-
   return (
-    <div ref={formRef} className="form-editor">
+    <div
+      className={`form-editor ${
+        isMobile && (animation ? "slide-up" : "slide-down")
+      }`}
+    >
       <div className="container form-editor-container hide-scrollbar">
         {isMobile && (
           <button className="tetriary-button" onClick={handleToggleMenu}>
@@ -105,11 +101,7 @@ function FormEditor(props) {
           </button>
         )}
         {showMenu && (
-          <div
-            className={`form-content-wrapper ${
-              animation ? "fade-in" : "fade-out"
-            }`}
-          >
+          <div className={`form-content-wrapper`}>
             <div className="form-editor-content">
               <DropdownMenu options={MENU_OPTIONS} />
               <label className="checkbox-label">
@@ -237,8 +229,6 @@ function SetupForm() {
     }
   }, [questions.length]);
 
-  const [questionEditorBottom, setQuestionEditorBottom] = useState(0);
-
   return (
     <div>
       {formSubmitted ? (
@@ -253,13 +243,9 @@ function SetupForm() {
               checkedViewMode={viewMode === FORM_MODE.PREVIEW}
               handleChangeViewMode={handleChangeViewMode}
               handlePostForm={handlePostForm}
-              setQuestionEditorBottom={setQuestionEditorBottom}
             />
             <div
               className="container question-editor hide-scrollbar"
-              style={{
-                maxHeight: isMobile ? questionEditorBottom - 170 : "70vh",
-              }}
               onClick={() => {
                 dispatch(setClickoutFormEditor(true));
               }}

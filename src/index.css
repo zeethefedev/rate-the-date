@@ -351,6 +351,18 @@ a:active {
   transition: opacity 0.1s ease;
 }
 
+.slide-up {
+  height: 50vh;
+  transition: height 0.1s ease;
+  /* transform: translateY(-200px); */
+}
+
+.slide-down {
+  height: 20vh;
+  transition: height 0.1s ease;
+  /* transform: translateY(200px); */
+}
+
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
   .wrapper {
