@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchFormById, updateForm } from "../api/response.thunk";
 import { saveResponsesToStorage, getNoClickedCount } from "./method.reducer";
+import { clearStorage } from "../utils/methods";
+import { FORM_MODE } from "../utils/constant";
 
 const initialState = {
   responses: [],
@@ -74,6 +76,9 @@ export const responseSlice = createSlice({
         state.loading = false;
         state.submitted = true;
         console.log("updated", action.payload);
+
+        // clear storage in case user want to create a new form
+        clearStorage(FORM_MODE.QUESTION.toUpperCase());
       });
   },
 });

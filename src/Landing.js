@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import TextInput from "./component/TextInput";
-import { ANIMATION_DELAY, FORM_MODE } from "./utils/constant";
+import { FORM_MODE } from "./utils/constant";
 
 import "./style/Landing.css";
 
@@ -9,7 +9,7 @@ function Landing() {
   const navigate = useNavigate();
   const location = useLocation();
   const [showInput, setShowInput] = useState(location.state?.showInput);
-  const [animation, setAnimation] = useState(false);
+  const [animation, setAnimation] = useState(location.state?.showInput);
   const [formId, setFormId] = useState({ value: "", touched: false });
   const [error, setError] = useState(false);
 
@@ -53,11 +53,7 @@ function Landing() {
         </button>
       </div>
       {showInput && (
-        <form
-          className={`form-id-input-wrapper ${
-            animation ? "fade-in" : "fade-out"
-          }`}
-        >
+        <form className={`form-id-input-wrapper ${animation && "fade-in"}`}>
           <TextInput
             questionValue="Fill your form id here"
             inputValue={formId.value}

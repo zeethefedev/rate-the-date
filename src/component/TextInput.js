@@ -2,7 +2,7 @@ import React from "react";
 import { FORM_MODE } from "../utils/constant";
 
 import "../style/Question.css";
-import Message from "./ErrorMessage";
+import Message from "./Message";
 
 function TextInput(props) {
   const {

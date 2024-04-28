@@ -27,7 +27,7 @@ import Dialog from "./component/Dialog";
 import "./style/Form.css";
 import "./style/Question.css";
 import SVGIcon from "./component/SVGIcon";
-import Message from "./component/ErrorMessage";
+import Message from "./component/Message";
 
 function FormEditor(props) {
   const { isMobile, checkedViewMode, handleChangeViewMode, handlePostForm } =

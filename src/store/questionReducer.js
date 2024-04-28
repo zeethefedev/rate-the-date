@@ -182,6 +182,8 @@ export const questionSlice = createSlice({
         state.responseFormLink = `/response/${formId}`;
         state.loading = false;
         state.submitted = true;
+
+        // clear storage in case user want to create a new form
         clearStorage(FORM_MODE.QUESTION.toUpperCase());
       });
   },

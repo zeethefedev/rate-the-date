@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SVGIcon from "./SVGIcon";
 import { FORM_MODE } from "../utils/constant";
-import Message from "./ErrorMessage";
+import Message from "./Message";
 
 const RATING_LENGTH = 5;
 function RatingInput(props) {

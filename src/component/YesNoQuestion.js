@@ -6,7 +6,7 @@ import { changeAnswers } from "../store/responseReducer";
 
 import "../style/Question.css";
 import { changePreview } from "../store/questionReducer";
-import Message from "./ErrorMessage";
+import Message from "./Message";
 
 function YesNoQuestion(props) {
   const {
@@ -96,7 +96,10 @@ function YesNoQuestion(props) {
         )}
         {yesClicked && mode !== FORM_MODE.QUESTION && (
           <div className={animation && "fade-in"}>
-            {yesResponse || INITIAL.YES_RESPONSE}
+            <Message
+              mode="info"
+              message={yesResponse || INITIAL.YES_RESPONSE}
+            />
           </div>
         )}
         {error && !yesClicked && (
