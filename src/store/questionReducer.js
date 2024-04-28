@@ -159,7 +159,7 @@ export const questionSlice = createSlice({
       state.changeFlag = "";
     },
     resetQuestionForm: (state) => {
-      clearStorage(FORM_MODE.QUESTION.toUpperCase());
+      // clearStorage(FORM_MODE.QUESTION.toUpperCase());
       state.questions = SETUP_FORM_INITIAL;
       state.loading = false;
       state.submitted = false;
@@ -182,6 +182,7 @@ export const questionSlice = createSlice({
         state.responseFormLink = `/response/${formId}`;
         state.loading = false;
         state.submitted = true;
+        clearStorage(FORM_MODE.QUESTION.toUpperCase());
       });
   },
 });
