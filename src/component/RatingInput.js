@@ -34,17 +34,6 @@ function RatingInput(props) {
     setAssignedSaved(true);
   }, [inputValue]);
 
-  const handleClickStar = (index) => {
-    if (mode === FORM_MODE.RESPONSE || mode === FORM_MODE.PREVIEW) {
-      const checkedRating = Array(index + 1).fill(true);
-      const uncheckedRating = Array(RATING_LENGTH - index - 1).fill(false);
-      setRatings([...checkedRating, ...uncheckedRating]);
-      if (index === 0 && ratings.filter((rating) => rating).length === 1) {
-        setRatings([!ratings[0], ...ratings.slice(1)]);
-      }
-    }
-  };
-
   const handleHoverStar = (index) => {
     if (mode === FORM_MODE.RESPONSE || mode === FORM_MODE.PREVIEW) {
       const checkedRating = Array(index + 1).fill(true);
@@ -56,6 +45,16 @@ function RatingInput(props) {
     }
   };
 
+  const resetHoverStar = () => {
+    setHoverRating(ratings);
+  };
+
+  const handleClickStar = (index) => {
+    if (mode === FORM_MODE.RESPONSE || mode === FORM_MODE.PREVIEW) {
+      setRatings(hoverRatings);
+    }
+  };
+
   useEffect(
     (event) => {
       if (assignedSaved) {
@@ -64,6 +63,7 @@ function RatingInput(props) {
         }/${RATING_LENGTH}`;
         handleInputChange(event, ratingScore);
       }
+      setHoverRating(ratings);
     },
     [ratings]
   );
@@ -79,10 +79,9 @@ function RatingInput(props) {
           {hoverRatings.map((rating, index) => (
             <div
               key={index}
-              // className="clickable"
-              // onClick={() => handleClickStar(index)}
+              onClick={() => handleClickStar(index)}
               onMouseEnter={() => handleHoverStar(index)}
-              // onMouseLeave={} //reset
+              onMouseLeave={resetHoverStar} //reset
             >
               <SVGIcon
                 icon={rating ? "star-checked" : "star-unchecked"}
