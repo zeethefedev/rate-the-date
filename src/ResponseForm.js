@@ -85,7 +85,7 @@ function ResponseForm() {
                 ))}
               </div>
               <button
-                className="primary-button primary-button-red"
+                className="primary-button primary-button-red submit-button"
                 disabled={formError}
                 onClick={handleSubmit}
               >

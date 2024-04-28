@@ -24,6 +24,8 @@ code {
   --background: #fff1ce;
   --disabled: #b1b1b1;
   --disabled-text: #676767;
+  --overlay: rgba(0, 0, 0, 0.5);
+  --border-radius: 4px;
   word-wrap: break-all;
 }
 

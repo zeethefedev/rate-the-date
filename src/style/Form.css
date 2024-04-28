@@ -65,8 +65,8 @@
   gap: 16px;
 }
 
-.response-form-wrapper button,
-.question-form-wrapper button {
+.response-form-wrapper .submit-button,
+.question-form-wrapper .submit-button {
   margin: auto;
 }
 

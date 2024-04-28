@@ -62,17 +62,31 @@
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
+  .edit-menu-button {
+    margin: 8px;
+  }
+
   .edit-button-group {
     flex-direction: column;
     position: absolute;
+    background: var(--overlay);
+    border-radius: var(--border-radius);
+    padding: 8px;
   }
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
+  .edit-menu-button {
+    margin: 8px;
+  }
+
   .edit-button-group {
     flex-direction: column;
     position: absolute;
+    background: var(--overlay);
+    border-radius: var(--border-radius);
+    padding: 8px;
   }
 }
 
@@ -89,6 +103,8 @@
   .edit-button-group {
     flex-direction: row;
     position: relative;
+    background: transparent;
+    padding: 0;
   }
 
   .edit-question-wrapper {
