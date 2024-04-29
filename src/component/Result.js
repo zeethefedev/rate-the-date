@@ -6,6 +6,7 @@ import { resetResponseForm } from "../store/responseReducer";
 import { useNavigate } from "react-router-dom";
 
 import "../style/Result.css";
+import Message from "./Message";
 
 function QuestionFormResult({ formLink }) {
   const navigate = useNavigate();
@@ -22,11 +23,12 @@ function QuestionFormResult({ formLink }) {
   return (
     <div className="result-content">
       {formLink && (
-        <div>
+        <div className="result-text">
           <div className="bodytext-l">Here is your link:</div>
           <a className="bodytext-l" href={formLink}>
-            {formLink}
+            Click here
           </a>
+          <Message message="You can copy this link and send to someone else." />
         </div>
       )}
       <div className="button-group">

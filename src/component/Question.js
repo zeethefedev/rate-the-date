@@ -121,11 +121,11 @@ function Question({
 }) {
   const dispatch = useDispatch();
   const questionsLength = useSelector(
-    (state) => state.questionReducer.questions
+    (state) => state.questionReducer?.questions
   ).length;
 
   const preview = useSelector(
-    (state) => state.questionReducer.questions[index].preview
+    (state) => state.questionReducer?.questions[index]?.preview
   );
 
   const answer = useSelector((state) => state.responseReducer.responses[index]);

@@ -3,3 +3,10 @@
   flex-direction: column;
   gap: 32px;
 }
+
+.result-text {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
