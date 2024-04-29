@@ -6,6 +6,7 @@ function LoadingOverlay({ open, message = "Loading..." }) {
     <div>
       {open && (
         <div className="overlay-wrapper fade-in">
+          <span class="loader"></span>
           <div className="loading-message">{message}</div>
         </div>
       )}
