@@ -9,8 +9,8 @@ export const BREAKPOINT = {
 
 export const INITIAL = {
   TEXT_QUESTION: "What's on your mind?",
-  RATING_QUESTION: "Rate this date from bad to great",
-  YES_NO_QUESTION: "Would you like a kiss?",
+  RATING_QUESTION: "Rate this experience from bad to great",
+  YES_NO_QUESTION: "Would you like another go?",
   YES_BUTTON: "Yes",
   NO_BUTTON: "No",
   ERROR_MESSAGE: "Please enter a valid answer",
@@ -31,7 +31,7 @@ export const SETUP_FORM_INITIAL = [
   {
     index: 1,
     type: "rating",
-    value: "rating question",
+    value: INITIAL.RATING_QUESTION,
     required: false,
     rigged: false,
     preview: { answer: "", touched: false },
@@ -39,7 +39,7 @@ export const SETUP_FORM_INITIAL = [
   {
     index: 2,
     type: "yesno",
-    value: "yes no question",
+    value: INITIAL.YES_NO_QUESTION,
     required: false,
     rigged: false,
     yesLabel: INITIAL.YES_BUTTON,
