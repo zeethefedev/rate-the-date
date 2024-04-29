@@ -45,6 +45,7 @@
   width: 75%;
   overflow: scroll;
   transition: all 0.1s ease-in-out;
+  max-height: 70vh;
 }
 
 .response-form-wrapper,
@@ -52,10 +53,6 @@
   display: flex;
   flex-direction: column;
   gap: 48px;
-}
-
-.question-form-wrapper {
-  margin-bottom: 150px;
 }
 
 .response-form-question,
@@ -113,7 +110,10 @@
 
   .question-editor {
     width: auto;
-    max-height: 60vh;
+  }
+
+  .question-form-wrapper {
+    margin-bottom: 200px;
   }
 }
 
@@ -142,7 +142,10 @@
 
   .question-editor {
     width: auto;
-    max-height: 60vh;
+  }
+
+  .question-form-wrapper {
+    margin-bottom: 200px;
   }
 }
 
@@ -169,7 +172,10 @@
 
   .question-editor {
     width: 75%;
-    max-height: 70vh;
+  }
+
+  .question-form-wrapper {
+    margin-bottom: 0;
   }
 }
 

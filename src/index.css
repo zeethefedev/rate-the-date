@@ -352,15 +352,13 @@ a:active {
 }
 
 .slide-up {
-  height: 50vh;
+  height: 40vh;
   transition: height 0.1s ease;
-  /* transform: translateY(-200px); */
 }
 
 .slide-down {
-  height: 20vh;
+  height: 15vh;
   transition: height 0.1s ease;
-  /* transform: translateY(200px); */
 }
 
 /* Extra small devices (phones, 600px and down) */
