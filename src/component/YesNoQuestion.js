@@ -48,7 +48,7 @@ function YesNoQuestion(props) {
         <h3 className="input-label">
           {questionValue}
           {required && <span>*</span>}
-          {rigged && <span>#</span>}
+          {rigged && mode !== FORM_MODE.RESPONSE && <span>#</span>}
         </h3>
         {rigged ? (
           <div className="button-wrapper">
