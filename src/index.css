@@ -245,6 +245,18 @@ a:active {
   align-items: center;
 }
 
+@media screen and (orientation: landscape) {
+  .wrapper {
+    margin-top: 100px;
+  }
+}
+
+@media screen and (orientation: portrait) {
+  .wrapper {
+    margin-top: 360px;
+  }
+}
+
 /* custom button */
 .primary-button-red {
   background-color: var(--red);
@@ -363,8 +375,16 @@ a:active {
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
-  .wrapper {
-    margin-top: 200px;
+  @media screen and (orientation: landscape) {
+    .wrapper {
+      margin-top: 40px;
+    }
+  }
+
+  @media screen and (orientation: portrait) {
+    .wrapper {
+      margin-top: 240px;
+    }
   }
 
   .container {
@@ -378,21 +398,24 @@ a:active {
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
-  .wrapper {
-    margin-top: 200px;
+  @media screen and (orientation: portrait) {
+    .wrapper {
+      margin-top: 300px;
+    }
   }
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 769px) {
+  @media screen and (orientation: portrait) {
+    .wrapper {
+      margin-top: 360px;
+    }
+  }
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
-  /* divided by orientation */
-  .wrapper {
-    margin-top: 100px;
-  }
 }
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
