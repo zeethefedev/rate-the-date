@@ -13,6 +13,7 @@ function App() {
         <Route path="question" element={<SetupForm />} />
         <Route path="response/:id" element={<ResponseForm />} />
         <Route path="error" element={<Error />} />
+        {/* push from new device */}
       </Routes>
     </div>
   );
