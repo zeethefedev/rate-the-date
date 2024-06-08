@@ -114,15 +114,13 @@ export const questionSlice = createSlice({
     },
     changePreview: (state, action) => {
       const previewData = action.payload;
+      const previewProps = {
+        answer: previewData.answer,
+        touched: true,
+      };
       const newQuestions = state.questions.map((question) =>
         question.index === previewData.index
-          ? {
-              ...question,
-              preview: {
-                answer: previewData.answer,
-                touched: true,
-              },
-            }
+          ? { ...question, ...previewProps }
           : question
       );
       state.questions = newQuestions;

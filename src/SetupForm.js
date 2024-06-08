@@ -21,13 +21,13 @@ import Result from "./component/Result";
 import { postForm } from "./api/question.thunk";
 import { getFromStorage } from "./utils/methods";
 import LoadingOverlay from "./component/LoadingOverlay";
-import Dialog from "./component/Dialog";
 
 import "./style/Form.css";
 import "./style/Question.css";
 import SVGIcon from "./component/SVGIcon";
 import Message from "./component/Message";
 import { setDimensions } from "./store/responsiveReducer";
+import ConfirmDialog from "./component/ConfirmDialog";
 
 function FormEditor(props) {
   const { isMobile, checkedViewMode, handleChangeViewMode, handlePostForm } =
@@ -121,7 +121,7 @@ function FormEditor(props) {
           </div>
         )}
       </div>
-      <Dialog
+      <ConfirmDialog
         open={openDialog}
         dialogAnimation={dialogAnimation}
         handleYesClicked={handlePostForm}

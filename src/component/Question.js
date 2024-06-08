@@ -119,6 +119,18 @@ function Question({
   handleMoveQuestionUp,
   handleMoveQuestionDown,
 }) {
+  const {
+    value,
+    type,
+    required,
+    rigged,
+    errorMessage,
+    placeholder,
+    yesLabel,
+    noLabel,
+    yesResponse,
+  } = question;
+
   const dispatch = useDispatch();
   const questionsLength = useSelector(
     (state) => state.questionReducer?.questions
@@ -150,9 +162,9 @@ function Question({
 
   const showError = () => {
     if (mode === FORM_MODE.QUESTION) {
-      return question.required;
+      return required;
     } else {
-      return question.required && inputError();
+      return required && inputError();
     }
   };
 
@@ -161,9 +173,9 @@ function Question({
       mode === FORM_MODE.QUESTION || mode === FORM_MODE.PREVIEW
         ? preview
         : answer;
-    if (question.type === "text") {
+    if (type === "text") {
       newInput = { value: event.target.value, touched: true };
-    } else if (question.type === "rating") {
+    } else if (type === "rating") {
       newInput = { value: ratings, touched: true };
     }
 
@@ -253,48 +265,48 @@ function Question({
 
   return (
     <div>
-      {question.type === "text" && (
+      {type === "text" && (
         <TextInput
           mode={mode}
-          required={question.required}
-          questionValue={question.value}
+          required={required}
+          questionValue={value}
           inputValue={inputValue()}
           handleInputChange={handleInputChange}
           editInput={editInput}
           error={showError()}
-          errorMessage={question.errorMessage}
-          placeholder={question.placeholder}
+          errorMessage={errorMessage}
+          placeholder={placeholder}
         />
       )}
-      {question.type === "rating" && (
+      {type === "rating" && (
         <RatingInput
           mode={mode}
-          required={question.required}
-          questionValue={question.value}
+          required={required}
+          questionValue={value}
           inputValue={inputValue()}
           handleInputChange={handleInputChange}
           editInput={editInput}
           error={showError()}
-          errorMessage={question.errorMessage}
+          errorMessage={errorMessage}
           isMobile={isMobile}
         />
       )}
-      {question.type === "yesno" && (
+      {type === "yesno" && (
         <YesNoQuestion
           index={index}
           mode={mode}
-          required={question.required}
-          rigged={question.rigged}
-          questionValue={question.value}
+          required={required}
+          rigged={rigged}
+          questionValue={value}
           inputValue={inputValue()}
           editInput={editInput}
           handleYesClicked={handleYesClicked}
           handleNoClicked={handleNoClicked}
           error={showError()}
-          errorMessage={question.errorMessage}
-          yesLabel={question.yesLabel}
-          noLabel={question.noLabel}
-          yesResponse={question.yesResponse}
+          errorMessage={errorMessage}
+          yesLabel={yesLabel}
+          noLabel={noLabel}
+          yesResponse={yesResponse}
         />
       )}
     </div>
