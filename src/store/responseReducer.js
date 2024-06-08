@@ -20,13 +20,13 @@ export const responseSlice = createSlice({
     },
     changeAnswers: (state, action) => {
       const answerData = action.payload;
+      const newResponseProps = {
+        response: answerData.value,
+        touched: true,
+      };
       const newResponses = state.responses.map((response) =>
         response.index === answerData.index
-          ? {
-              ...response,
-              response: answerData.value,
-              touched: true,
-            }
+          ? { ...response, ...newResponseProps }
           : response
       );
       state.responses = newResponses;

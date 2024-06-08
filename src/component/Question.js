@@ -55,13 +55,13 @@ function EditQuestionComponent(props) {
     handleRemoveQuestion,
     handleMoveQuestionUp,
     handleMoveQuestionDown,
+    dimensions,
   } = props;
 
-  const dimensions = useSelector((state) => state.questionReducer.dimensions);
+  const isMobile = dimensions.width < BREAKPOINT.SMALL;
   const clickout = useSelector(
     (state) => state.questionReducer.clickoutFormEditor
   );
-  const isMobile = dimensions.width < BREAKPOINT.SMALL;
   const [showButtonGroup, setShowButtonGroup] = useState(!isMobile);
 
   const handleToggleButtonGroup = (event) => {
@@ -129,6 +129,8 @@ function Question({
   );
 
   const answer = useSelector((state) => state.responseReducer.responses[index]);
+  const dimensions = useSelector((state) => state.responsiveReducer.dimensions);
+  const isMobile = dimensions.width < BREAKPOINT.SMALL;
 
   const inputValue = () => {
     if (mode === FORM_MODE.QUESTION || mode === FORM_MODE.PREVIEW) {
@@ -245,6 +247,7 @@ function Question({
       handleMoveQuestionDown={handleMoveQuestionDown}
       handleOpenEditDialog={handleOpenEditDialog}
       handleCloseEditDialog={handleCloseEditDialog}
+      dimensions={dimensions}
     />
   );
 
@@ -273,6 +276,7 @@ function Question({
           editInput={editInput}
           error={showError()}
           errorMessage={question.errorMessage}
+          isMobile={isMobile}
         />
       )}
       {question.type === "yesno" && (

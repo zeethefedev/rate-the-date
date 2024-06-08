@@ -11,7 +11,7 @@ function DialogInput(props) {
 
   return (
     <div>
-      {matchedField && matchedField.type === "text" && (
+      {matchedField?.type === "text" && (
         <label>
           {matchedField.label}{" "}
           <input
@@ -23,7 +23,7 @@ function DialogInput(props) {
           />
         </label>
       )}
-      {matchedField && matchedField.type === "checkbox" && (
+      {matchedField?.type === "checkbox" && (
         <label className="checkbox-label">
           <input
             type={matchedField.type}

@@ -15,6 +15,7 @@ function RatingInput(props) {
     mode,
     error,
     errorMessage,
+    isMobile,
   } = props;
 
   const [ratings, setRatings] = useState(Array(RATING_LENGTH).fill(false));
@@ -35,10 +36,15 @@ function RatingInput(props) {
     setAssignedSaved(true);
   }, [inputValue]);
 
-  const handleHoverStar = (index) => {
-    if (mode === FORM_MODE.RESPONSE || mode === FORM_MODE.PREVIEW) {
-      const checkedRating = Array(index + 1).fill(true);
-      const uncheckedRating = Array(RATING_LENGTH - index - 1).fill(false);
+  const handleChangeRatings = (index) => {
+    const checkedRating = Array(index + 1).fill(true);
+    const uncheckedRating = Array(RATING_LENGTH - index - 1).fill(false);
+    if (isMobile) {
+      setRatings([...checkedRating, ...uncheckedRating]);
+      if (index === 0 && ratings.filter((rating) => rating).length === 1) {
+        setRatings([!ratings[0], ...ratings.slice(1)]);
+      }
+    } else {
       setHoverRating([...checkedRating, ...uncheckedRating]);
       if (index === 0 && hoverRatings.filter((rating) => rating).length === 1) {
         setHoverRating([!hoverRatings[0], ...hoverRatings.slice(1)]);
@@ -46,13 +52,23 @@ function RatingInput(props) {
     }
   };
 
+  const handleHoverStar = (index) => {
+    if (!isMobile && [FORM_MODE.RESPONSE, FORM_MODE.PREVIEW].includes(mode)) {
+      handleChangeRatings(index);
+    }
+  };
+
   const resetHoverStar = () => {
-    setHoverRating(ratings);
+    !isMobile && setHoverRating(ratings);
   };
 
   const handleClickStar = (index) => {
-    if (mode === FORM_MODE.RESPONSE || mode === FORM_MODE.PREVIEW) {
-      setRatings(hoverRatings);
+    if (!isMobile) {
+      if ([FORM_MODE.RESPONSE, FORM_MODE.PREVIEW].includes(mode)) {
+        setRatings(hoverRatings);
+      }
+    } else {
+      handleChangeRatings(index);
     }
   };
 
