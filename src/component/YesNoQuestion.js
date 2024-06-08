@@ -32,9 +32,9 @@ function YesNoQuestion(props) {
   const handleYesClickedRigged = (event) => {
     event?.preventDefault();
     if (mode === FORM_MODE.RESPONSE) {
-      dispatch(changeAnswers({ index: index, value: "yes" }));
+      dispatch(changeAnswers({ index, value: "yes" }));
     } else {
-      dispatch(changePreview({ index: index, answer: "yes" }));
+      dispatch(changePreview({ index, answer: "yes" }));
     }
 
     //with animation

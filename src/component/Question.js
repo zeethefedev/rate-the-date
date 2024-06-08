@@ -19,28 +19,23 @@ function ButtonGroup({
   handleMoveQuestionDown,
   handleOpenEditDialog,
 }) {
+  const functions = [
+    { icon: "delete", onClick: handleRemoveQuestion },
+    { icon: "up", onClick: handleMoveQuestionUp, disabled: !showMoveUp },
+    { icon: "down", onClick: handleMoveQuestionDown, disabled: !showMoveDown },
+    { icon: "edit", onClick: handleOpenEditDialog },
+  ];
   return (
     <div className="edit-button-group">
-      <button className="secondary-button" onClick={handleRemoveQuestion}>
-        <SVGIcon icon="delete" />
-      </button>
-      <button
-        className="secondary-button"
-        onClick={handleMoveQuestionUp}
-        disabled={!showMoveUp}
-      >
-        <SVGIcon icon="up" />
-      </button>
-      <button
-        className="secondary-button"
-        onClick={handleMoveQuestionDown}
-        disabled={!showMoveDown}
-      >
-        <SVGIcon icon="down" />
-      </button>
-      <button className="secondary-button" onClick={handleOpenEditDialog}>
-        <SVGIcon icon="edit" />
-      </button>
+      {functions.map((func) => (
+        <button
+          className="secondary-button"
+          onClick={func.onClick}
+          disabled={func.disabled}
+        >
+          <SVGIcon icon={func.icon} />
+        </button>
+      ))}
     </div>
   );
 }
