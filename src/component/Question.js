@@ -96,33 +96,16 @@ function EditQuestionComponent(props) {
 }
 
 function Question({
-  index,
   question,
   mode = FORM_MODE.QUESTION,
   handleRemoveQuestion,
 }) {
-  const {
-    value,
-    type,
-    required,
-    rigged,
-    errorMessage,
-    placeholder,
-    yesLabel,
-    noLabel,
-    yesResponse,
-  } = question;
+  const { index, type, required, preview } = question;
 
   const dispatch = useDispatch();
-  const questionsLength = useSelector(
-    (state) => state.questionReducer?.questions
-  ).length;
 
-  const preview = useSelector(
-    (state) => state.questionReducer?.questions[index]?.preview
-  );
+  const answer = question;
 
-  const answer = useSelector((state) => state.responseReducer.responses[index]);
   const dimensions = useSelector((state) => state.responsiveReducer.dimensions);
   const isMobile = dimensions.width < BREAKPOINT.SMALL;
 
@@ -162,10 +145,10 @@ function Question({
     }
 
     if (mode === FORM_MODE.QUESTION || mode === FORM_MODE.PREVIEW) {
-      dispatch(changePreview({ index: index, answer: newInput.value }));
+      dispatch(changePreview({ index, answer: newInput.value }));
     } else {
       //response mode
-      dispatch(changeAnswers({ index: index, value: newInput.value }));
+      dispatch(changeAnswers({ index, value: newInput.value }));
     }
   };
 
@@ -188,20 +171,20 @@ function Question({
   const handleYesClicked = (event) => {
     event.preventDefault();
     if (mode === FORM_MODE.QUESTION || mode === FORM_MODE.PREVIEW) {
-      dispatch(changePreview({ index: index, answer: "yes" }));
+      dispatch(changePreview({ index, answer: "yes" }));
     } else {
       //response mode
-      dispatch(changeAnswers({ index: index, value: "yes" }));
+      dispatch(changeAnswers({ index, value: "yes" }));
     }
   };
 
   const handleNoClicked = (event) => {
     event.preventDefault();
     if (mode === FORM_MODE.QUESTION || mode === FORM_MODE.PREVIEW) {
-      dispatch(changePreview({ index: index, answer: "no" }));
+      dispatch(changePreview({ index, answer: "no" }));
     } else {
       //response mode
-      dispatch(changeAnswers({ index: index, value: "no" }));
+      dispatch(changeAnswers({ index, value: "no" }));
     }
   };
 
@@ -234,8 +217,6 @@ function Question({
       openDialog={openDialog}
       dialogAnimation={dialogAnimation}
       handleChangeQuestion={handleChangeQuestion}
-      showMoveUp={question.index > 0}
-      showMoveDown={question.index < questionsLength - 1}
       handleRemoveQuestion={handleRemoveQuestion}
       handleOpenEditDialog={handleOpenEditDialog}
       handleCloseEditDialog={handleCloseEditDialog}
@@ -248,45 +229,33 @@ function Question({
       {type === "text" && (
         <TextInput
           mode={mode}
-          required={required}
-          questionValue={value}
           inputValue={inputValue()}
           handleInputChange={handleInputChange}
           editInput={editInput}
           error={showError()}
-          errorMessage={errorMessage}
-          placeholder={placeholder}
+          question={question}
         />
       )}
       {type === "rating" && (
         <RatingInput
           mode={mode}
-          required={required}
-          questionValue={value}
           inputValue={inputValue()}
           handleInputChange={handleInputChange}
           editInput={editInput}
           error={showError()}
-          errorMessage={errorMessage}
           isMobile={isMobile}
+          question={question}
         />
       )}
       {type === "yesno" && (
         <YesNoQuestion
-          index={index}
           mode={mode}
-          required={required}
-          rigged={rigged}
-          questionValue={value}
           inputValue={inputValue()}
           editInput={editInput}
           handleYesClicked={handleYesClicked}
           handleNoClicked={handleNoClicked}
           error={showError()}
-          errorMessage={errorMessage}
-          yesLabel={yesLabel}
-          noLabel={noLabel}
-          yesResponse={yesResponse}
+          question={question}
         />
       )}
     </div>

@@ -60,7 +60,7 @@ export const responseSlice = createSlice({
       .addCase(fetchFormById.fulfilled, (state, action) => {
         state.responses = action.payload.questions.map((question, index) => ({
           ...question,
-          index: index,
+          index,
         }));
         state.loading = false;
         saveResponsesToStorage(state.responses);

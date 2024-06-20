@@ -10,21 +10,26 @@ import Message from "./Message";
 
 function YesNoQuestion(props) {
   const {
-    questionValue,
     inputValue,
-    required,
-    index,
     editInput,
     mode,
-    rigged,
     handleYesClicked,
     handleNoClicked,
     error,
+    question,
+  } = props;
+
+  const {
+    index,
+    value,
+    required,
+    rigged,
     errorMessage,
     yesLabel,
     noLabel,
     yesResponse,
-  } = props;
+  } = question;
+
   const dispatch = useDispatch();
   const [yesClicked, setYesClicked] = useState(false);
   const [animation, setAnimation] = useState(true);
@@ -46,7 +51,7 @@ function YesNoQuestion(props) {
     <div className="field-wrapper">
       <div className="form-wrapper">
         <h3 className="input-label">
-          {questionValue}
+          {value}
           {required && <span>*</span>}
           {rigged && mode !== FORM_MODE.RESPONSE && <span>#</span>}
         </h3>

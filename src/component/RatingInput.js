@@ -6,17 +6,16 @@ import Message from "./Message";
 const RATING_LENGTH = 5;
 function RatingInput(props) {
   const {
-    questionValue,
     inputValue,
     handleInputChange,
-    required,
-    index,
     editInput,
     mode,
     error,
-    errorMessage,
     isMobile,
+    question,
   } = props;
+
+  const { value, required, errorMessage } = question;
 
   const [ratings, setRatings] = useState(Array(RATING_LENGTH).fill(false));
   const [hoverRatings, setHoverRating] = useState(
@@ -86,10 +85,10 @@ function RatingInput(props) {
   );
 
   return (
-    <div key={index} className="field-wrapper">
+    <div className="field-wrapper">
       <div className="form-wrapper">
         <h3 className="input-label">
-          {questionValue}
+          {value}
           {required && <span>*</span>}
         </h3>
         <div className="star-wrapper">

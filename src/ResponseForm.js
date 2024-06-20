@@ -76,11 +76,7 @@ function ResponseForm() {
               <div className="response-form-question">
                 {answers.map((question, index) => (
                   <div key={index}>
-                    <Question
-                      index={index}
-                      mode={FORM_MODE.RESPONSE}
-                      question={question}
-                    />
+                    <Question mode={FORM_MODE.RESPONSE} question={question} />
                   </div>
                 ))}
               </div>

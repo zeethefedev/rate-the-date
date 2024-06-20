@@ -59,8 +59,9 @@ export const questionSlice = createSlice({
       state.changeFlag = "ADD";
     },
     removeQuestion: (state, action) => {
+      const questionToRemove = action.payload;
       const newQuestions = state.questions.filter(
-        (question) => question.index !== action.payload
+        (question) => question.index !== questionToRemove.index
       );
 
       const newQuestionIndex = newQuestions.map((question, index) => ({

@@ -6,26 +6,24 @@ import Message from "./Message";
 
 function TextInput(props) {
   const {
-    questionValue,
     inputValue,
     handleInputChange,
-    required,
-    index,
     editInput,
     mode,
     error,
-    errorMessage,
-    placeholder,
     buttonLabel,
     onButtonClick,
+    question,
   } = props;
 
+  const { value, required, errorMessage, placeholder } = question;
+
   return (
-    <div key={index} className="field-wrapper">
+    <div className="field-wrapper">
       <div className="form-wrapper">
         <label>
           <h3 className="input-label">
-            {questionValue}
+            {value}
             {required && <span>*</span>}
           </h3>
           <div className="input-wrapper">
