@@ -16,7 +16,7 @@ function YesNoQuestion(props) {
     handleYesClicked,
     handleNoClicked,
     error,
-    question,
+    data,
   } = props;
 
   const {
@@ -28,7 +28,7 @@ function YesNoQuestion(props) {
     yesLabel,
     noLabel,
     yesResponse,
-  } = question;
+  } = data;
 
   const dispatch = useDispatch();
   const [yesClicked, setYesClicked] = useState(false);

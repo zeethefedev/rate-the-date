@@ -12,10 +12,10 @@ function RatingInput(props) {
     mode,
     error,
     isMobile,
-    question,
+    data,
   } = props;
 
-  const { value, required, errorMessage } = question;
+  const { value, required, errorMessage } = data;
 
   const [ratings, setRatings] = useState(Array(RATING_LENGTH).fill(false));
   const [hoverRatings, setHoverRating] = useState(

@@ -271,7 +271,7 @@ function SetupForm() {
                         >
                           <Question
                             mode={viewMode}
-                            question={question}
+                            data={question}
                             handleRemoveQuestion={(e) =>
                               handleRemoveQuestion(e, question)
                             }

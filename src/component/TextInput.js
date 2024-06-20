@@ -13,10 +13,10 @@ function TextInput(props) {
     error,
     buttonLabel,
     onButtonClick,
-    question,
+    data,
   } = props;
 
-  const { value, required, errorMessage, placeholder } = question;
+  const { value, required, errorMessage, placeholder } = data;
 
   return (
     <div className="field-wrapper">
