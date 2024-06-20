@@ -22,6 +22,10 @@ function RatingInput(props) {
     Array(RATING_LENGTH).fill(false)
   );
   const [assignedSaved, setAssignedSaved] = useState(false);
+  const isResponsePreviewForm = [
+    FORM_MODE.RESPONSE,
+    FORM_MODE.PREVIEW,
+  ].includes(mode);
 
   useEffect(() => {
     if (inputValue && !assignedSaved) {
@@ -52,7 +56,7 @@ function RatingInput(props) {
   };
 
   const handleHoverStar = (index) => {
-    if (!isMobile && [FORM_MODE.RESPONSE, FORM_MODE.PREVIEW].includes(mode)) {
+    if (!isMobile && isResponsePreviewForm) {
       handleChangeRatings(index);
     }
   };
@@ -63,7 +67,7 @@ function RatingInput(props) {
 
   const handleClickStar = (index) => {
     if (!isMobile) {
-      if ([FORM_MODE.RESPONSE, FORM_MODE.PREVIEW].includes(mode)) {
+      if (isResponsePreviewForm) {
         setRatings(hoverRatings);
       }
     } else {
@@ -103,7 +107,7 @@ function RatingInput(props) {
                 icon={rating ? "star-checked" : "star-unchecked"}
                 width="24px"
                 height="24px"
-                disabled={mode === FORM_MODE.QUESTION}
+                disabled={!isResponsePreviewForm}
               />
             </div>
           ))}

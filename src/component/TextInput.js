@@ -17,6 +17,7 @@ function TextInput(props) {
   } = props;
 
   const { value, required, errorMessage, placeholder } = data;
+  const isSetupForm = mode === FORM_MODE.QUESTION;
 
   return (
     <div className="field-wrapper">
@@ -29,9 +30,9 @@ function TextInput(props) {
           <div className="input-wrapper">
             <input
               type="text"
-              disabled={mode === FORM_MODE.QUESTION}
+              disabled={isSetupForm}
               required={required}
-              value={mode === FORM_MODE.QUESTION ? "" : inputValue}
+              value={isSetupForm ? "" : inputValue}
               onChange={handleInputChange}
               placeholder={placeholder}
             ></input>
