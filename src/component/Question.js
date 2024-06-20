@@ -11,18 +11,9 @@ import EditQuestionDialog from "./EditQuestionDialog";
 
 import "../style/Question.css";
 
-function ButtonGroup({
-  showMoveUp,
-  showMoveDown,
-  handleRemoveQuestion,
-  handleMoveQuestionUp,
-  handleMoveQuestionDown,
-  handleOpenEditDialog,
-}) {
+function ButtonGroup({ handleRemoveQuestion, handleOpenEditDialog }) {
   const functions = [
     { icon: "delete", onClick: handleRemoveQuestion },
-    { icon: "up", onClick: handleMoveQuestionUp, disabled: !showMoveUp },
-    { icon: "down", onClick: handleMoveQuestionDown, disabled: !showMoveDown },
     { icon: "edit", onClick: handleOpenEditDialog },
   ];
   return (
@@ -48,8 +39,6 @@ function EditQuestionComponent(props) {
     handleChangeQuestion,
     handleCloseEditDialog,
     handleRemoveQuestion,
-    handleMoveQuestionUp,
-    handleMoveQuestionDown,
     dimensions,
   } = props;
 
@@ -78,7 +67,7 @@ function EditQuestionComponent(props) {
     if (showButtonGroup && isMobile) {
       setShowButtonGroup(false);
     }
-  }, [handleRemoveQuestion, handleMoveQuestionUp, handleMoveQuestionDown]);
+  }, [handleRemoveQuestion]);
 
   return (
     <div className="edit-question-wrapper">
@@ -111,8 +100,6 @@ function Question({
   question,
   mode = FORM_MODE.QUESTION,
   handleRemoveQuestion,
-  handleMoveQuestionUp,
-  handleMoveQuestionDown,
 }) {
   const {
     value,
@@ -250,8 +237,6 @@ function Question({
       showMoveUp={question.index > 0}
       showMoveDown={question.index < questionsLength - 1}
       handleRemoveQuestion={handleRemoveQuestion}
-      handleMoveQuestionUp={handleMoveQuestionUp}
-      handleMoveQuestionDown={handleMoveQuestionDown}
       handleOpenEditDialog={handleOpenEditDialog}
       handleCloseEditDialog={handleCloseEditDialog}
       dimensions={dimensions}
