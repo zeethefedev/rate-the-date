@@ -30,10 +30,7 @@ export const getFormData = (rawData) => {
 export const getNoClickedCount = (questions, data) => {
   return questions.map((question) =>
     question.index === data.index
-      ? {
-          ...question,
-          noClickedCount: data.noClickedCount,
-        }
+      ? { ...question, noClickedCount: data.noClickedCount }
       : question
   );
 };
@@ -41,10 +38,7 @@ export const getNoClickedCount = (questions, data) => {
 export const replaceQuestion = (questionsArray, index, newQuestion) => {
   return questionsArray.map((question) =>
     question.index === index
-      ? {
-          ...newQuestion,
-          index: question.index,
-        }
+      ? { ...newQuestion, index: question.index }
       : question
   );
 };

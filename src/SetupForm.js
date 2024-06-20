@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ANIMATION_DELAY,
   BREAKPOINT,
@@ -14,7 +14,6 @@ import {
   removeQuestion,
   setQuestions,
   validatePreview,
-  setDimensions,
   setClickoutFormEditor,
 } from "./store/questionReducer";
 import Question from "./component/Question";
@@ -22,12 +21,13 @@ import Result from "./component/Result";
 import { postForm } from "./api/question.thunk";
 import { getFromStorage } from "./utils/methods";
 import LoadingOverlay from "./component/LoadingOverlay";
-import Dialog from "./component/Dialog";
 
 import "./style/Form.css";
 import "./style/Question.css";
 import SVGIcon from "./component/SVGIcon";
 import Message from "./component/Message";
+import { setDimensions } from "./store/responsiveReducer";
+import ConfirmDialog from "./component/ConfirmDialog";
 
 function FormEditor(props) {
   const { isMobile, checkedViewMode, handleChangeViewMode, handlePostForm } =
@@ -121,7 +121,7 @@ function FormEditor(props) {
           </div>
         )}
       </div>
-      <Dialog
+      <ConfirmDialog
         open={openDialog}
         dialogAnimation={dialogAnimation}
         handleYesClicked={handlePostForm}
@@ -134,7 +134,7 @@ function FormEditor(props) {
 function SetupForm() {
   const dispatch = useDispatch();
   const savedData = getFromStorage(FORM_MODE.QUESTION);
-  const dimensions = useSelector((state) => state.questionReducer.dimensions);
+  const dimensions = useSelector((state) => state.responsiveReducer.dimensions);
   const isMobile = dimensions.width < BREAKPOINT.SMALL;
   const questions = useSelector((state) => state.questionReducer.questions);
   const [questionFadeOut, setQuestionFadeOut] = useState();
@@ -177,7 +177,7 @@ function SetupForm() {
 
   const handleRemoveQuestion = (event, index) => {
     event.preventDefault();
-    if (index !== null && index !== undefined) {
+    if (index !== null) {
       setQuestionFadeOut(index);
       setTimeout(() => {
         dispatch(removeQuestion(index));
@@ -188,14 +188,14 @@ function SetupForm() {
 
   const handleMoveQuestionUp = (event, index) => {
     event.preventDefault();
-    if (index !== null && index !== undefined) {
+    if (index !== null) {
       dispatch(moveQuestionUp(index));
     }
   };
 
   const handleMoveQuestionDown = (event, index) => {
     event.preventDefault();
-    if (index !== null && index !== undefined) {
+    if (index !== null) {
       dispatch(moveQuestionDown(index));
     }
   };

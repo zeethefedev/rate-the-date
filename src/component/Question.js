@@ -19,28 +19,23 @@ function ButtonGroup({
   handleMoveQuestionDown,
   handleOpenEditDialog,
 }) {
+  const functions = [
+    { icon: "delete", onClick: handleRemoveQuestion },
+    { icon: "up", onClick: handleMoveQuestionUp, disabled: !showMoveUp },
+    { icon: "down", onClick: handleMoveQuestionDown, disabled: !showMoveDown },
+    { icon: "edit", onClick: handleOpenEditDialog },
+  ];
   return (
     <div className="edit-button-group">
-      <button className="secondary-button" onClick={handleRemoveQuestion}>
-        <SVGIcon icon="delete" />
-      </button>
-      <button
-        className="secondary-button"
-        onClick={handleMoveQuestionUp}
-        disabled={!showMoveUp}
-      >
-        <SVGIcon icon="up" />
-      </button>
-      <button
-        className="secondary-button"
-        onClick={handleMoveQuestionDown}
-        disabled={!showMoveDown}
-      >
-        <SVGIcon icon="down" />
-      </button>
-      <button className="secondary-button" onClick={handleOpenEditDialog}>
-        <SVGIcon icon="edit" />
-      </button>
+      {functions.map((func) => (
+        <button
+          className="secondary-button"
+          onClick={func.onClick}
+          disabled={func.disabled}
+        >
+          <SVGIcon icon={func.icon} />
+        </button>
+      ))}
     </div>
   );
 }
@@ -55,13 +50,13 @@ function EditQuestionComponent(props) {
     handleRemoveQuestion,
     handleMoveQuestionUp,
     handleMoveQuestionDown,
+    dimensions,
   } = props;
 
-  const dimensions = useSelector((state) => state.questionReducer.dimensions);
+  const isMobile = dimensions.width < BREAKPOINT.SMALL;
   const clickout = useSelector(
     (state) => state.questionReducer.clickoutFormEditor
   );
-  const isMobile = dimensions.width < BREAKPOINT.SMALL;
   const [showButtonGroup, setShowButtonGroup] = useState(!isMobile);
 
   const handleToggleButtonGroup = (event) => {
@@ -119,6 +114,18 @@ function Question({
   handleMoveQuestionUp,
   handleMoveQuestionDown,
 }) {
+  const {
+    value,
+    type,
+    required,
+    rigged,
+    errorMessage,
+    placeholder,
+    yesLabel,
+    noLabel,
+    yesResponse,
+  } = question;
+
   const dispatch = useDispatch();
   const questionsLength = useSelector(
     (state) => state.questionReducer?.questions
@@ -129,6 +136,8 @@ function Question({
   );
 
   const answer = useSelector((state) => state.responseReducer.responses[index]);
+  const dimensions = useSelector((state) => state.responsiveReducer.dimensions);
+  const isMobile = dimensions.width < BREAKPOINT.SMALL;
 
   const inputValue = () => {
     if (mode === FORM_MODE.QUESTION || mode === FORM_MODE.PREVIEW) {
@@ -148,9 +157,9 @@ function Question({
 
   const showError = () => {
     if (mode === FORM_MODE.QUESTION) {
-      return question.required;
+      return required;
     } else {
-      return question.required && inputError();
+      return required && inputError();
     }
   };
 
@@ -159,9 +168,9 @@ function Question({
       mode === FORM_MODE.QUESTION || mode === FORM_MODE.PREVIEW
         ? preview
         : answer;
-    if (question.type === "text") {
+    if (type === "text") {
       newInput = { value: event.target.value, touched: true };
-    } else if (question.type === "rating") {
+    } else if (type === "rating") {
       newInput = { value: ratings, touched: true };
     }
 
@@ -245,52 +254,54 @@ function Question({
       handleMoveQuestionDown={handleMoveQuestionDown}
       handleOpenEditDialog={handleOpenEditDialog}
       handleCloseEditDialog={handleCloseEditDialog}
+      dimensions={dimensions}
     />
   );
 
   return (
     <div>
-      {question.type === "text" && (
+      {type === "text" && (
         <TextInput
           mode={mode}
-          required={question.required}
-          questionValue={question.value}
+          required={required}
+          questionValue={value}
           inputValue={inputValue()}
           handleInputChange={handleInputChange}
           editInput={editInput}
           error={showError()}
-          errorMessage={question.errorMessage}
-          placeholder={question.placeholder}
+          errorMessage={errorMessage}
+          placeholder={placeholder}
         />
       )}
-      {question.type === "rating" && (
+      {type === "rating" && (
         <RatingInput
           mode={mode}
-          required={question.required}
-          questionValue={question.value}
+          required={required}
+          questionValue={value}
           inputValue={inputValue()}
           handleInputChange={handleInputChange}
           editInput={editInput}
           error={showError()}
-          errorMessage={question.errorMessage}
+          errorMessage={errorMessage}
+          isMobile={isMobile}
         />
       )}
-      {question.type === "yesno" && (
+      {type === "yesno" && (
         <YesNoQuestion
           index={index}
           mode={mode}
-          required={question.required}
-          rigged={question.rigged}
-          questionValue={question.value}
+          required={required}
+          rigged={rigged}
+          questionValue={value}
           inputValue={inputValue()}
           editInput={editInput}
           handleYesClicked={handleYesClicked}
           handleNoClicked={handleNoClicked}
           error={showError()}
-          errorMessage={question.errorMessage}
-          yesLabel={question.yesLabel}
-          noLabel={question.noLabel}
-          yesResponse={question.yesResponse}
+          errorMessage={errorMessage}
+          yesLabel={yesLabel}
+          noLabel={noLabel}
+          yesResponse={yesResponse}
         />
       )}
     </div>

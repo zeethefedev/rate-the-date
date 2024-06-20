@@ -9,7 +9,6 @@ import {
 import { clearStorage } from "../utils/methods";
 
 const initialState = {
-  dimensions: { width: window.innerWidth, height: window.innerHeight },
   changeFlag: "",
   clickoutFormEditor: false,
   questions: SETUP_FORM_INITIAL,
@@ -23,12 +22,6 @@ export const questionSlice = createSlice({
   name: "questions",
   initialState,
   reducers: {
-    setDimensions: (state) => {
-      state.dimensions = {
-        width: window.innerWidth,
-        height: window.innerHeight,
-      };
-    },
     setClickoutFormEditor: (state, action) => {
       state.clickoutFormEditor = action.payload;
     },
@@ -38,21 +31,19 @@ export const questionSlice = createSlice({
     },
     changeQuestion: (state, action) => {
       const questionData = action.payload;
+      const newQuestionProps = {
+        value: questionData.value,
+        required: questionData.required || questionData.rigged,
+        rigged: questionData.rigged,
+        errorMessage: questionData.required ? questionData.errorMessage : "",
+        // placeholder: questionData.placeholder,
+        yesLabel: questionData.yesLabel,
+        noLabel: questionData.noLabel,
+        yesResponse: questionData.yesResponse,
+      };
       const newQuestions = state.questions.map((question) =>
         question.index === questionData.index
-          ? {
-              ...question,
-              value: questionData.value,
-              required: questionData.required || questionData.rigged,
-              rigged: questionData.rigged,
-              errorMessage: questionData.required
-                ? questionData.errorMessage
-                : "",
-              // placeholder: questionData.placeholder,
-              yesLabel: questionData.yesLabel,
-              noLabel: questionData.noLabel,
-              yesResponse: questionData.yesResponse,
-            }
+          ? { ...question, ...newQuestionProps }
           : question
       );
       state.questions = newQuestions;
@@ -123,15 +114,13 @@ export const questionSlice = createSlice({
     },
     changePreview: (state, action) => {
       const previewData = action.payload;
+      const previewProps = {
+        answer: previewData.answer,
+        touched: true,
+      };
       const newQuestions = state.questions.map((question) =>
         question.index === previewData.index
-          ? {
-              ...question,
-              preview: {
-                answer: previewData.answer,
-                touched: true,
-              },
-            }
+          ? { ...question, ...previewProps }
           : question
       );
       state.questions = newQuestions;
@@ -169,7 +158,7 @@ export const questionSlice = createSlice({
   extraReducers: (builder) => {
     builder
       //GET - test
-      .addCase(fetchForms.fulfilled, (state, action) => {
+      .addCase(fetchForms.fulfilled, (action) => {
         console.log(action.payload);
       })
       //POST
@@ -191,7 +180,6 @@ export const questionSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
-  setDimensions,
   setClickoutFormEditor,
   setQuestions,
   changeQuestion,

@@ -32,9 +32,9 @@ function YesNoQuestion(props) {
   const handleYesClickedRigged = (event) => {
     event?.preventDefault();
     if (mode === FORM_MODE.RESPONSE) {
-      dispatch(changeAnswers({ index: index, value: "yes" }));
+      dispatch(changeAnswers({ index, value: "yes" }));
     } else {
-      dispatch(changePreview({ index: index, answer: "yes" }));
+      dispatch(changePreview({ index, answer: "yes" }));
     }
 
     //with animation
@@ -72,26 +72,19 @@ function YesNoQuestion(props) {
           </div>
         ) : (
           <div className="button-wrapper">
-            <button
-              className={`secondary-button secondary-button-red ${
-                inputValue === "yes" ? "chosen" : ""
-              }`}
-              disabled={mode === FORM_MODE.QUESTION}
-              onClick={handleYesClicked}
-              autoFocus={inputValue === "yes"}
-            >
-              {yesLabel || INITIAL.YES_BUTTON}
-            </button>
-            <button
-              className={`secondary-button secondary-button-red ${
-                inputValue === "no" ? "chosen" : ""
-              }`}
-              disabled={mode === FORM_MODE.QUESTION}
-              onClick={handleNoClicked}
-              autoFocus={inputValue === "no"}
-            >
-              {noLabel || INITIAL.NO_BUTTON}
-            </button>
+            {["yes", "no"].map((value) => (
+              <button
+                className={`secondary-button secondary-button-red ${
+                  inputValue === value ? "chosen" : ""
+                }`}
+                disabled={mode === FORM_MODE.QUESTION}
+                onClick={value === "yes" ? handleYesClicked : handleNoClicked}
+                autoFocus={inputValue === value}
+              >
+                {(value === "yes" ? yesLabel : noLabel) ||
+                  INITIAL[`${value.toUpperCase()}_BUTTON`]}
+              </button>
+            ))}
           </div>
         )}
         {yesClicked && mode !== FORM_MODE.QUESTION && (
