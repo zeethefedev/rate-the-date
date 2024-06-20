@@ -102,30 +102,24 @@ function EditQuestionComponent(props) {
 function Question({ data, mode = FORM.QUESTION, handleRemoveQuestion }) {
   const isSetupForm = [FORM.QUESTION, FORM.PREVIEW].includes(mode);
   const { index, type, required, preview, response } = data;
-  const { answer, touched } = isSetupForm ? preview : data;
+  const { value, touched } = isSetupForm ? preview : data;
 
   const dispatch = useDispatch();
   const dimensions = useSelector((state) => state.responsiveReducer.dimensions);
   const isMobile = dimensions.width < BREAKPOINT.SMALL;
 
-  const inputValue = isSetupForm ? answer : response;
+  const inputValue = isSetupForm ? value : response;
   const inputError = !inputValue && touched;
   const showError = required && (mode === FORM.QUESTION || !!inputError);
 
   const handleInputChange = (event, ratings) => {
-    let newInput = isSetupForm ? preview : answer;
+    let newValue = isSetupForm ? preview : value;
     if (type === "text") {
-      newInput = { value: event.target.value, touched: true };
+      newValue = event.target.value;
     } else if (type === "rating") {
-      newInput = { value: ratings, touched: true };
+      newValue = ratings;
     }
-
-    if (isSetupForm) {
-      dispatch(changePreview({ index, answer: newInput.value }));
-    } else {
-      //response mode
-      dispatch(changeAnswers({ index, value: newInput.value }));
-    }
+    handleChangeResponse({ index, value: newValue });
   };
 
   const handleChangeQuestion = (event, mode) => {
@@ -146,21 +140,20 @@ function Question({ data, mode = FORM.QUESTION, handleRemoveQuestion }) {
 
   const handleYesClicked = (event) => {
     event.preventDefault();
-    if (isSetupForm) {
-      dispatch(changePreview({ index, answer: "yes" }));
-    } else {
-      //response mode
-      dispatch(changeAnswers({ index, value: "yes" }));
-    }
+    handleChangeResponse({ index, value: "yes" });
   };
 
   const handleNoClicked = (event) => {
     event.preventDefault();
+    handleChangeResponse({ index, value: "no" });
+  };
+
+  const handleChangeResponse = (newInput) => {
     if (isSetupForm) {
-      dispatch(changePreview({ index, answer: "no" }));
+      dispatch(changePreview(newInput));
     } else {
       //response mode
-      dispatch(changeAnswers({ index, value: "no" }));
+      dispatch(changeAnswers(newInput));
     }
   };
 

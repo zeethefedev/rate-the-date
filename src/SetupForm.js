@@ -215,7 +215,7 @@ function SetupForm() {
   };
 
   const checkError = (question) => {
-    const error = !!(question.required && !question.preview.answer);
+    const error = !!(question.required && !question.preview.value);
     return error;
   };
 

@@ -85,7 +85,7 @@ export const questionSlice = createSlice({
     changePreview: (state, action) => {
       const previewData = action.payload;
       const previewProps = {
-        answer: previewData.answer,
+        value: previewData.value,
         touched: true,
       };
       const newQuestions = state.questions.map((question) =>
