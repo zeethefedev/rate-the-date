@@ -3,7 +3,11 @@ import TextInput from "./TextInput";
 import YesNoQuestion from "./YesNoQuestion";
 import RatingInput from "./RatingInput";
 import { useSelector, useDispatch } from "react-redux";
-import { ANIMATION_DELAY, BREAKPOINT, FORM_MODE } from "../utils/constant";
+import {
+  ANIMATION_DELAY,
+  BREAKPOINT,
+  FORM_MODE as FORM,
+} from "../utils/constant";
 import { changePreview, changeQuestion } from "../store/questionReducer";
 import { changeAnswers } from "../store/responseReducer";
 import SVGIcon from "./SVGIcon";
@@ -95,78 +99,27 @@ function EditQuestionComponent(props) {
   );
 }
 
-function Question({
-  index,
-  question,
-  mode = FORM_MODE.QUESTION,
-  handleRemoveQuestion,
-}) {
-  const {
-    value,
-    type,
-    required,
-    rigged,
-    errorMessage,
-    placeholder,
-    yesLabel,
-    noLabel,
-    yesResponse,
-  } = question;
+function Question({ data, mode = FORM.QUESTION, handleRemoveQuestion }) {
+  const isSetupForm = [FORM.QUESTION, FORM.PREVIEW].includes(mode);
+  const { index, type, required, preview, response } = data;
+  const { value, touched } = isSetupForm ? preview : data;
 
   const dispatch = useDispatch();
-  const questionsLength = useSelector(
-    (state) => state.questionReducer?.questions
-  ).length;
-
-  const preview = useSelector(
-    (state) => state.questionReducer?.questions[index]?.preview
-  );
-
-  const answer = useSelector((state) => state.responseReducer.responses[index]);
   const dimensions = useSelector((state) => state.responsiveReducer.dimensions);
   const isMobile = dimensions.width < BREAKPOINT.SMALL;
 
-  const inputValue = () => {
-    if (mode === FORM_MODE.QUESTION || mode === FORM_MODE.PREVIEW) {
-      return preview.answer;
-    } else {
-      return answer.response;
-    }
-  };
-
-  const inputError = () => {
-    if (mode === FORM_MODE.QUESTION || mode === FORM_MODE.PREVIEW) {
-      return !preview.answer && preview.touched;
-    } else {
-      return !answer.response && answer.touched;
-    }
-  };
-
-  const showError = () => {
-    if (mode === FORM_MODE.QUESTION) {
-      return required;
-    } else {
-      return required && inputError();
-    }
-  };
+  const inputValue = isSetupForm ? value : response;
+  const inputError = !inputValue && touched;
+  const showError = required && (mode === FORM.QUESTION || !!inputError);
 
   const handleInputChange = (event, ratings) => {
-    let newInput =
-      mode === FORM_MODE.QUESTION || mode === FORM_MODE.PREVIEW
-        ? preview
-        : answer;
+    let newValue = isSetupForm ? preview : value;
     if (type === "text") {
-      newInput = { value: event.target.value, touched: true };
+      newValue = event.target.value;
     } else if (type === "rating") {
-      newInput = { value: ratings, touched: true };
+      newValue = ratings;
     }
-
-    if (mode === FORM_MODE.QUESTION || mode === FORM_MODE.PREVIEW) {
-      dispatch(changePreview({ index: index, answer: newInput.value }));
-    } else {
-      //response mode
-      dispatch(changeAnswers({ index: index, value: newInput.value }));
-    }
+    handleChangeResponse({ index, value: newValue });
   };
 
   const handleChangeQuestion = (event, mode) => {
@@ -179,7 +132,7 @@ function Question({
       "yesResponse",
     ];
     const questionData = {
-      ...question,
+      ...data,
       [mode]: event.target[textFields.includes(mode) ? "value" : "checked"],
     };
     dispatch(changeQuestion(questionData));
@@ -187,21 +140,20 @@ function Question({
 
   const handleYesClicked = (event) => {
     event.preventDefault();
-    if (mode === FORM_MODE.QUESTION || mode === FORM_MODE.PREVIEW) {
-      dispatch(changePreview({ index: index, answer: "yes" }));
-    } else {
-      //response mode
-      dispatch(changeAnswers({ index: index, value: "yes" }));
-    }
+    handleChangeResponse({ index, value: "yes" });
   };
 
   const handleNoClicked = (event) => {
     event.preventDefault();
-    if (mode === FORM_MODE.QUESTION || mode === FORM_MODE.PREVIEW) {
-      dispatch(changePreview({ index: index, answer: "no" }));
+    handleChangeResponse({ index, value: "no" });
+  };
+
+  const handleChangeResponse = (newInput) => {
+    if (isSetupForm) {
+      dispatch(changePreview(newInput));
     } else {
       //response mode
-      dispatch(changeAnswers({ index: index, value: "no" }));
+      dispatch(changeAnswers(newInput));
     }
   };
 
@@ -228,14 +180,12 @@ function Question({
     }, ANIMATION_DELAY);
   };
 
-  const editInput = mode === FORM_MODE.QUESTION && (
+  const editInput = mode === FORM.QUESTION && (
     <EditQuestionComponent
-      question={question}
+      question={data}
       openDialog={openDialog}
       dialogAnimation={dialogAnimation}
       handleChangeQuestion={handleChangeQuestion}
-      showMoveUp={question.index > 0}
-      showMoveDown={question.index < questionsLength - 1}
       handleRemoveQuestion={handleRemoveQuestion}
       handleOpenEditDialog={handleOpenEditDialog}
       handleCloseEditDialog={handleCloseEditDialog}
@@ -248,45 +198,33 @@ function Question({
       {type === "text" && (
         <TextInput
           mode={mode}
-          required={required}
-          questionValue={value}
-          inputValue={inputValue()}
+          inputValue={inputValue}
           handleInputChange={handleInputChange}
           editInput={editInput}
-          error={showError()}
-          errorMessage={errorMessage}
-          placeholder={placeholder}
+          error={showError}
+          data={data}
         />
       )}
       {type === "rating" && (
         <RatingInput
           mode={mode}
-          required={required}
-          questionValue={value}
-          inputValue={inputValue()}
+          inputValue={inputValue}
           handleInputChange={handleInputChange}
           editInput={editInput}
-          error={showError()}
-          errorMessage={errorMessage}
+          error={showError}
           isMobile={isMobile}
+          data={data}
         />
       )}
       {type === "yesno" && (
         <YesNoQuestion
-          index={index}
           mode={mode}
-          required={required}
-          rigged={rigged}
-          questionValue={value}
-          inputValue={inputValue()}
+          inputValue={inputValue}
           editInput={editInput}
           handleYesClicked={handleYesClicked}
           handleNoClicked={handleNoClicked}
-          error={showError()}
-          errorMessage={errorMessage}
-          yesLabel={yesLabel}
-          noLabel={noLabel}
-          yesResponse={yesResponse}
+          error={showError}
+          data={data}
         />
       )}
     </div>

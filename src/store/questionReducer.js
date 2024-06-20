@@ -59,8 +59,9 @@ export const questionSlice = createSlice({
       state.changeFlag = "ADD";
     },
     removeQuestion: (state, action) => {
+      const questionToRemove = action.payload;
       const newQuestions = state.questions.filter(
-        (question) => question.index !== action.payload
+        (question) => question.index !== questionToRemove.index
       );
 
       const newQuestionIndex = newQuestions.map((question, index) => ({
@@ -84,7 +85,7 @@ export const questionSlice = createSlice({
     changePreview: (state, action) => {
       const previewData = action.payload;
       const previewProps = {
-        answer: previewData.answer,
+        value: previewData.value,
         touched: true,
       };
       const newQuestions = state.questions.map((question) =>
@@ -119,7 +120,6 @@ export const questionSlice = createSlice({
       state.changeFlag = "";
     },
     resetQuestionForm: (state) => {
-      // clearStorage(FORM_MODE.QUESTION.toUpperCase());
       state.questions = SETUP_FORM_INITIAL;
       state.loading = false;
       state.submitted = false;

@@ -10,31 +10,39 @@ import Message from "./Message";
 
 function YesNoQuestion(props) {
   const {
-    questionValue,
     inputValue,
-    required,
-    index,
     editInput,
     mode,
-    rigged,
     handleYesClicked,
     handleNoClicked,
     error,
+    data,
+  } = props;
+
+  const {
+    index,
+    value,
+    required,
+    rigged,
     errorMessage,
     yesLabel,
     noLabel,
     yesResponse,
-  } = props;
+  } = data;
+
   const dispatch = useDispatch();
   const [yesClicked, setYesClicked] = useState(false);
   const [animation, setAnimation] = useState(true);
+  const isResponseForm = mode === FORM_MODE.RESPONSE;
+  const isSetupForm = mode === FORM_MODE.QUESTION;
 
   const handleYesClickedRigged = (event) => {
     event?.preventDefault();
-    if (mode === FORM_MODE.RESPONSE) {
-      dispatch(changeAnswers({ index, value: "yes" }));
+    const newInput = { index, value: "yes" };
+    if (isResponseForm) {
+      dispatch(changeAnswers(newInput));
     } else {
-      dispatch(changePreview({ index, answer: "yes" }));
+      dispatch(changePreview(newInput));
     }
 
     //with animation
@@ -46,9 +54,9 @@ function YesNoQuestion(props) {
     <div className="field-wrapper">
       <div className="form-wrapper">
         <h3 className="input-label">
-          {questionValue}
+          {value}
           {required && <span>*</span>}
-          {rigged && mode !== FORM_MODE.RESPONSE && <span>#</span>}
+          {rigged && !isResponseForm && <span>#</span>}
         </h3>
         {rigged ? (
           <div className="button-wrapper">
@@ -56,7 +64,7 @@ function YesNoQuestion(props) {
               className={`secondary-button secondary-button-red ${
                 inputValue === "yes" ? "chosen" : ""
               }`}
-              disabled={mode === FORM_MODE.QUESTION}
+              disabled={isSetupForm}
               onClick={handleYesClickedRigged}
               autoFocus={inputValue === "yes"}
             >
@@ -65,7 +73,7 @@ function YesNoQuestion(props) {
             <MovingButton
               buttonStyle="secondary-button secondary-button-red"
               questionIndex={index}
-              disabled={mode === FORM_MODE.QUESTION}
+              disabled={isSetupForm}
               label={noLabel || INITIAL.NO_BUTTON}
               autoFocus={inputValue === "no"}
             />
@@ -77,7 +85,7 @@ function YesNoQuestion(props) {
                 className={`secondary-button secondary-button-red ${
                   inputValue === value ? "chosen" : ""
                 }`}
-                disabled={mode === FORM_MODE.QUESTION}
+                disabled={isSetupForm}
                 onClick={value === "yes" ? handleYesClicked : handleNoClicked}
                 autoFocus={inputValue === value}
               >
@@ -87,7 +95,7 @@ function YesNoQuestion(props) {
             ))}
           </div>
         )}
-        {yesClicked && mode !== FORM_MODE.QUESTION && (
+        {yesClicked && !isSetupForm && (
           <div className={animation && "fade-in"}>
             <Message
               mode="info"

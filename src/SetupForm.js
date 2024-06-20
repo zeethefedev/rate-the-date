@@ -175,15 +175,13 @@ function SetupForm() {
     }
   };
 
-  const handleRemoveQuestion = (event, index) => {
+  const handleRemoveQuestion = (event, question) => {
     event.preventDefault();
-    if (index !== null) {
-      setQuestionFadeOut(index);
-      setTimeout(() => {
-        dispatch(removeQuestion(index));
-        setQuestionFadeOut(); // have to reset
-      }, ANIMATION_DELAY);
-    }
+    setQuestionFadeOut(question);
+    setTimeout(() => {
+      dispatch(removeQuestion(question));
+      setQuestionFadeOut(); // have to reset
+    }, ANIMATION_DELAY);
   };
 
   const handleReorderQuestion = (newOrder) => {
@@ -217,7 +215,7 @@ function SetupForm() {
   };
 
   const checkError = (question) => {
-    const error = !!(question.required && !question.preview.answer);
+    const error = !!(question.required && !question.preview.value);
     return error;
   };
 
@@ -260,21 +258,22 @@ function SetupForm() {
                     onReorder={handleReorderQuestion}
                     values={questions}
                   >
-                    {questions.map((question, index) => (
+                    {questions.map((question) => (
                       <Reorder.Item value={question} id={question.index}>
                         <div
-                          id={`question-${index}`}
-                          key={index}
+                          id={`question-${question.index}`}
+                          key={question.index}
                           className={
-                            index !== questionFadeOut ? "fade-in" : "fade-out"
+                            question !== questionFadeOut
+                              ? "fade-in"
+                              : "fade-out"
                           }
                         >
                           <Question
-                            index={question.index}
                             mode={viewMode}
-                            question={question}
-                            handleRemoveQuestion={(event) =>
-                              handleRemoveQuestion(event, index)
+                            data={question}
+                            handleRemoveQuestion={(e) =>
+                              handleRemoveQuestion(e, question)
                             }
                           />
                         </div>
