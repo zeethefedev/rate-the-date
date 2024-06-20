@@ -1,11 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { FORM_MODE, SETUP_FORM_INITIAL } from "../utils/constant";
 import { fetchForms, postForm } from "../api/question.thunk";
-import {
-  getNoClickedCount,
-  replaceQuestion,
-  saveQuestionsToStorage,
-} from "./method.reducer";
+import { getNoClickedCount, saveQuestionsToStorage } from "./method.reducer";
 import { clearStorage } from "../utils/methods";
 
 const initialState = {
@@ -76,41 +72,14 @@ export const questionSlice = createSlice({
       saveQuestionsToStorage(state.questions);
       state.changeFlag = "REMOVE";
     },
-    moveQuestionUp: (state, action) => {
-      const currentQuestion = state.questions.find(
-        (question) => question.index === action.payload
-      );
-      const aboveQuestion = state.questions.find(
-        (question) => question.index === action.payload - 1
-      );
-
-      const newQuestionsReplace = replaceQuestion(
-        replaceQuestion(state.questions, action.payload, aboveQuestion),
-        action.payload - 1,
-        currentQuestion
-      );
-
-      state.questions = newQuestionsReplace;
+    reorderQuestions: (state, action) => {
+      state.changeFlag = "REORDER";
+      const newQuestions = action.payload.map((question, index) => ({
+        ...question,
+        index,
+      }));
+      state.questions = newQuestions;
       saveQuestionsToStorage(state.questions);
-      state.changeFlag = "MOVE_UP";
-    },
-    moveQuestionDown: (state, action) => {
-      const currentQuestion = state.questions.find(
-        (question) => question.index === action.payload
-      );
-      const belowQuestion = state.questions.find(
-        (question) => question.index === action.payload + 1
-      );
-
-      const newQuestionsReplace = replaceQuestion(
-        replaceQuestion(state.questions, action.payload, belowQuestion),
-        action.payload + 1,
-        currentQuestion
-      );
-
-      state.questions = newQuestionsReplace;
-      saveQuestionsToStorage(state.questions);
-      state.changeFlag = "MOVE_DOWN";
     },
     changePreview: (state, action) => {
       const previewData = action.payload;
@@ -120,10 +89,12 @@ export const questionSlice = createSlice({
       };
       const newQuestions = state.questions.map((question) =>
         question.index === previewData.index
-          ? { ...question, ...previewProps }
+          ? { ...question, preview: previewProps }
           : question
       );
       state.questions = newQuestions;
+      console.log(newQuestions);
+      console.log(action.payload);
       saveQuestionsToStorage(state.questions);
       state.changeFlag = "";
     },
@@ -185,8 +156,7 @@ export const {
   changeQuestion,
   addQuestion,
   removeQuestion,
-  moveQuestionUp,
-  moveQuestionDown,
+  reorderQuestions,
   changePreview,
   setNoClickedCount,
   validatePreview,
