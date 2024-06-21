@@ -6,23 +6,26 @@ import Message from "./Message";
 const RATING_LENGTH = 5;
 function RatingInput(props) {
   const {
-    questionValue,
     inputValue,
     handleInputChange,
-    required,
-    index,
     editInput,
     mode,
     error,
-    errorMessage,
     isMobile,
+    data,
   } = props;
+
+  const { value, required, errorMessage } = data;
 
   const [ratings, setRatings] = useState(Array(RATING_LENGTH).fill(false));
   const [hoverRatings, setHoverRating] = useState(
     Array(RATING_LENGTH).fill(false)
   );
   const [assignedSaved, setAssignedSaved] = useState(false);
+  const isResponsePreviewForm = [
+    FORM_MODE.RESPONSE,
+    FORM_MODE.PREVIEW,
+  ].includes(mode);
 
   useEffect(() => {
     if (inputValue && !assignedSaved) {
@@ -53,7 +56,7 @@ function RatingInput(props) {
   };
 
   const handleHoverStar = (index) => {
-    if (!isMobile && [FORM_MODE.RESPONSE, FORM_MODE.PREVIEW].includes(mode)) {
+    if (!isMobile && isResponsePreviewForm) {
       handleChangeRatings(index);
     }
   };
@@ -64,7 +67,7 @@ function RatingInput(props) {
 
   const handleClickStar = (index) => {
     if (!isMobile) {
-      if ([FORM_MODE.RESPONSE, FORM_MODE.PREVIEW].includes(mode)) {
+      if (isResponsePreviewForm) {
         setRatings(hoverRatings);
       }
     } else {
@@ -86,10 +89,10 @@ function RatingInput(props) {
   );
 
   return (
-    <div key={index} className="field-wrapper">
+    <div className="field-wrapper">
       <div className="form-wrapper">
         <h3 className="input-label">
-          {questionValue}
+          {value}
           {required && <span>*</span>}
         </h3>
         <div className="star-wrapper">
@@ -104,7 +107,7 @@ function RatingInput(props) {
                 icon={rating ? "star-checked" : "star-unchecked"}
                 width="24px"
                 height="24px"
-                disabled={mode === FORM_MODE.QUESTION}
+                disabled={!isResponsePreviewForm}
               />
             </div>
           ))}

@@ -74,13 +74,9 @@ function ResponseForm() {
           {answers && (
             <form className="container response-form-wrapper">
               <div className="response-form-question">
-                {answers.map((question, index) => (
+                {answers.map((answer, index) => (
                   <div key={index}>
-                    <Question
-                      index={index}
-                      mode={FORM_MODE.RESPONSE}
-                      question={question}
-                    />
+                    <Question mode={FORM_MODE.RESPONSE} data={answer} />
                   </div>
                 ))}
               </div>

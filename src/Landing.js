@@ -55,10 +55,9 @@ function Landing() {
       {showInput && (
         <form className={`form-id-input-wrapper ${animation && "fade-in"}`}>
           <TextInput
-            questionValue="Fill your form id here"
+            data={{ value: "Fill your form id here", required: true }}
             inputValue={formId.value}
             handleInputChange={(event) => handleFormIdChange(event)}
-            required
             error={error}
             mode={FORM_MODE.RESPONSE}
             buttonLabel="Go to form"

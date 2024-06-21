@@ -9,12 +9,11 @@ import { useSelector } from "react-redux";
 import DropdownMenu from "./component/DropdownMenu";
 import { useDispatch } from "react-redux";
 import {
-  moveQuestionDown,
-  moveQuestionUp,
   removeQuestion,
   setQuestions,
   validatePreview,
   setClickoutFormEditor,
+  reorderQuestions,
 } from "./store/questionReducer";
 import Question from "./component/Question";
 import Result from "./component/Result";
@@ -28,6 +27,7 @@ import SVGIcon from "./component/SVGIcon";
 import Message from "./component/Message";
 import { setDimensions } from "./store/responsiveReducer";
 import ConfirmDialog from "./component/ConfirmDialog";
+import { Reorder } from "framer-motion";
 
 function FormEditor(props) {
   const { isMobile, checkedViewMode, handleChangeViewMode, handlePostForm } =
@@ -41,7 +41,6 @@ function FormEditor(props) {
   const [animation, setAnimation] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [dialogAnimation, setDialogAnimation] = useState(false);
-  const body = document.getElementsByTagName("body");
 
   useEffect(() => {
     setShowMenu(!isMobile);
@@ -72,17 +71,11 @@ function FormEditor(props) {
   };
 
   const handleOpenDialog = () => {
-    if (body) {
-      body[0].style.overflow = "hidden";
-    }
     setOpenDialog(true);
     setDialogAnimation(true);
   };
 
   const handleCloseDialog = () => {
-    if (body) {
-      body[0].style.overflow = "visible";
-    }
     setDialogAnimation(false);
     setTimeout(() => {
       setOpenDialog(false);
@@ -144,6 +137,7 @@ function SetupForm() {
   const responseFormLink = useSelector(
     (state) => state.questionReducer.responseFormLink
   );
+  const dragEnabled = useSelector((state) => state.questionReducer.dragEnabled);
   const [viewMode, setViewMode] = useState(FORM_MODE.QUESTION);
   const [formMessage, setFormMessage] = useState({
     message: "This will not send any data",
@@ -175,29 +169,17 @@ function SetupForm() {
     }
   };
 
-  const handleRemoveQuestion = (event, index) => {
+  const handleRemoveQuestion = (event, question) => {
     event.preventDefault();
-    if (index !== null) {
-      setQuestionFadeOut(index);
-      setTimeout(() => {
-        dispatch(removeQuestion(index));
-        setQuestionFadeOut(); // have to reset
-      }, ANIMATION_DELAY);
-    }
+    setQuestionFadeOut(question);
+    setTimeout(() => {
+      dispatch(removeQuestion(question));
+      setQuestionFadeOut(); // have to reset
+    }, ANIMATION_DELAY);
   };
 
-  const handleMoveQuestionUp = (event, index) => {
-    event.preventDefault();
-    if (index !== null) {
-      dispatch(moveQuestionUp(index));
-    }
-  };
-
-  const handleMoveQuestionDown = (event, index) => {
-    event.preventDefault();
-    if (index !== null) {
-      dispatch(moveQuestionDown(index));
-    }
+  const handleReorderQuestion = (newOrder) => {
+    dispatch(reorderQuestions(newOrder));
   };
 
   const handleSubmit = (event) => {
@@ -227,7 +209,7 @@ function SetupForm() {
   };
 
   const checkError = (question) => {
-    const error = !!(question.required && !question.preview.answer);
+    const error = !!(question.required && !question.preview.value);
     return error;
   };
 
@@ -265,30 +247,37 @@ function SetupForm() {
             >
               <form className={`question-form-wrapper ${viewMode}-form`}>
                 <div className="setup-form-question">
-                  {questions.map((question, index) => (
-                    <div
-                      id={`question-${index}`}
-                      key={index}
-                      className={
-                        index !== questionFadeOut ? "fade-in" : "fade-out"
-                      }
-                    >
-                      <Question
-                        index={index}
-                        mode={viewMode}
-                        question={question}
-                        handleRemoveQuestion={(event) =>
-                          handleRemoveQuestion(event, index)
-                        }
-                        handleMoveQuestionUp={(event) =>
-                          handleMoveQuestionUp(event, index)
-                        }
-                        handleMoveQuestionDown={(event) =>
-                          handleMoveQuestionDown(event, index)
-                        }
-                      />
-                    </div>
-                  ))}
+                  <Reorder.Group
+                    axis="y"
+                    onReorder={handleReorderQuestion}
+                    values={questions}
+                  >
+                    {questions.map((question) => (
+                      <Reorder.Item
+                        value={question}
+                        id={question.index}
+                        dragListener={dragEnabled}
+                      >
+                        <div
+                          id={`question-${question.index}`}
+                          key={question.index}
+                          className={
+                            question !== questionFadeOut
+                              ? "fade-in"
+                              : "fade-out"
+                          }
+                        >
+                          <Question
+                            mode={viewMode}
+                            data={question}
+                            handleRemoveQuestion={(e) =>
+                              handleRemoveQuestion(e, question)
+                            }
+                          />
+                        </div>
+                      </Reorder.Item>
+                    ))}
+                  </Reorder.Group>
                 </div>
                 {viewMode === FORM_MODE.PREVIEW && (
                   <div className="button-with-helpertext">

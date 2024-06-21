@@ -1,11 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, isAnyOf } from "@reduxjs/toolkit";
 import { FORM_MODE, SETUP_FORM_INITIAL } from "../utils/constant";
 import { fetchForms, postForm } from "../api/question.thunk";
-import {
-  getNoClickedCount,
-  replaceQuestion,
-  saveQuestionsToStorage,
-} from "./method.reducer";
+import { getNoClickedCount, saveQuestionsToStorage } from "./method.reducer";
 import { clearStorage } from "../utils/methods";
 
 const initialState = {
@@ -16,6 +12,7 @@ const initialState = {
   loading: false,
   submitted: false,
   responseFormLink: "",
+  dragEnabled: true,
 };
 
 export const questionSlice = createSlice({
@@ -47,8 +44,8 @@ export const questionSlice = createSlice({
           : question
       );
       state.questions = newQuestions;
-      saveQuestionsToStorage(newQuestions);
       state.changeFlag = "";
+      saveQuestionsToStorage(newQuestions);
     },
     addQuestion: (state, action) => {
       const newQuestion = {
@@ -59,80 +56,54 @@ export const questionSlice = createSlice({
       };
       const newQuestions = [...state.questions, newQuestion];
       state.questions = newQuestions;
-      saveQuestionsToStorage(state.questions);
       state.changeFlag = "ADD";
+      saveQuestionsToStorage(state.questions);
     },
     removeQuestion: (state, action) => {
+      const questionToRemove = action.payload;
       const newQuestions = state.questions.filter(
-        (question) => question.index !== action.payload
+        (question) => question.index !== questionToRemove.index
       );
 
       const newQuestionIndex = newQuestions.map((question, index) => ({
         ...question,
-        index: index,
+        index,
       }));
 
       state.questions = newQuestionIndex;
-      saveQuestionsToStorage(state.questions);
       state.changeFlag = "REMOVE";
-    },
-    moveQuestionUp: (state, action) => {
-      const currentQuestion = state.questions.find(
-        (question) => question.index === action.payload
-      );
-      const aboveQuestion = state.questions.find(
-        (question) => question.index === action.payload - 1
-      );
-
-      const newQuestionsReplace = replaceQuestion(
-        replaceQuestion(state.questions, action.payload, aboveQuestion),
-        action.payload - 1,
-        currentQuestion
-      );
-
-      state.questions = newQuestionsReplace;
       saveQuestionsToStorage(state.questions);
-      state.changeFlag = "MOVE_UP";
     },
-    moveQuestionDown: (state, action) => {
-      const currentQuestion = state.questions.find(
-        (question) => question.index === action.payload
-      );
-      const belowQuestion = state.questions.find(
-        (question) => question.index === action.payload + 1
-      );
-
-      const newQuestionsReplace = replaceQuestion(
-        replaceQuestion(state.questions, action.payload, belowQuestion),
-        action.payload + 1,
-        currentQuestion
-      );
-
-      state.questions = newQuestionsReplace;
+    reorderQuestions: (state, action) => {
+      const newQuestions = action.payload.map((question, index) => ({
+        ...question,
+        index,
+      }));
+      state.questions = newQuestions;
+      state.changeFlag = "REORDER";
       saveQuestionsToStorage(state.questions);
-      state.changeFlag = "MOVE_DOWN";
     },
     changePreview: (state, action) => {
       const previewData = action.payload;
       const previewProps = {
-        answer: previewData.answer,
+        value: previewData.value,
         touched: true,
       };
       const newQuestions = state.questions.map((question) =>
         question.index === previewData.index
-          ? { ...question, ...previewProps }
+          ? { ...question, preview: previewProps }
           : question
       );
       state.questions = newQuestions;
-      saveQuestionsToStorage(state.questions);
       state.changeFlag = "";
+      saveQuestionsToStorage(state.questions);
     },
     setNoClickedCount: (state, action) => {
       const questionData = action.payload;
       const newQuestions = getNoClickedCount(state.questions, questionData);
       state.questions = newQuestions;
-      saveQuestionsToStorage(state.questions);
       state.changeFlag = "";
+      saveQuestionsToStorage(state.questions);
     },
     validatePreview: (state) => {
       //set touched = true
@@ -144,29 +115,25 @@ export const questionSlice = createSlice({
         },
       }));
       state.questions = newQuestions;
-      saveQuestionsToStorage(state.questions);
       state.changeFlag = "";
+      saveQuestionsToStorage(state.questions);
     },
     resetQuestionForm: (state) => {
-      // clearStorage(FORM_MODE.QUESTION.toUpperCase());
       state.questions = SETUP_FORM_INITIAL;
       state.loading = false;
       state.submitted = false;
       state.changeFlag = "";
     },
+    setDragEvent: (state, action) => {
+      state.dragEnabled = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
       //GET - test
-      .addCase(fetchForms.fulfilled, (action) => {
-        console.log(action.payload);
-      })
+      .addCase(fetchForms.fulfilled, (action) => {})
       //POST
-      .addCase(postForm.pending, (state) => {
-        state.loading = true;
-      })
       .addCase(postForm.fulfilled, (state, action) => {
-        console.log(action.payload);
         const formId = action.payload._id;
         state.responseFormLink = `/response/${formId}`;
         state.loading = false;
@@ -174,6 +141,9 @@ export const questionSlice = createSlice({
 
         // clear storage in case user want to create a new form
         clearStorage(FORM_MODE.QUESTION.toUpperCase());
+      })
+      .addMatcher(isAnyOf(fetchForms.pending, postForm.pending), (state) => {
+        state.loading = true;
       });
   },
 });
@@ -185,12 +155,12 @@ export const {
   changeQuestion,
   addQuestion,
   removeQuestion,
-  moveQuestionUp,
-  moveQuestionDown,
+  reorderQuestions,
   changePreview,
   setNoClickedCount,
   validatePreview,
   resetQuestionForm,
+  setDragEvent,
 } = questionSlice.actions;
 
 export default questionSlice.reducer;

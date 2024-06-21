@@ -26,7 +26,7 @@ export const SETUP_FORM_INITIAL = [
     value: INITIAL.TEXT_QUESTION,
     required: false,
     rigged: false,
-    preview: { answer: "", touched: false },
+    preview: { value: "", touched: false },
   },
   {
     index: 1,
@@ -34,7 +34,7 @@ export const SETUP_FORM_INITIAL = [
     value: INITIAL.RATING_QUESTION,
     required: false,
     rigged: false,
-    preview: { answer: "", touched: false },
+    preview: { value: "", touched: false },
   },
   {
     index: 2,
@@ -44,7 +44,7 @@ export const SETUP_FORM_INITIAL = [
     rigged: false,
     yesLabel: INITIAL.YES_BUTTON,
     noLabel: INITIAL.NO_BUTTON,
-    preview: { answer: "", touched: false },
+    preview: { value: "", touched: false },
   },
 ];
 
