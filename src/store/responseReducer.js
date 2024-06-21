@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, isAnyOf } from "@reduxjs/toolkit";
 import { fetchFormById, updateForm } from "../api/response.thunk";
 import { saveResponsesToStorage, getNoClickedCount } from "./method.reducer";
 import { clearStorage } from "../utils/methods";
@@ -54,9 +54,6 @@ export const responseSlice = createSlice({
   extraReducers: (builder) => {
     builder
       //GET
-      .addCase(fetchFormById.pending, (state) => {
-        state.loading = true;
-      })
       .addCase(fetchFormById.fulfilled, (state, action) => {
         state.responses = action.payload.questions.map((question, index) => ({
           ...question,
@@ -65,21 +62,20 @@ export const responseSlice = createSlice({
         state.loading = false;
         saveResponsesToStorage(state.responses);
       })
-      .addCase(fetchFormById.rejected, (state) => {
-        console.log("failed");
-      })
       //PATCH
-      .addCase(updateForm.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(updateForm.fulfilled, (state, action) => {
+      .addCase(updateForm.fulfilled, (state) => {
         state.loading = false;
         state.submitted = true;
-        console.log("updated", action.payload);
 
         // clear storage in case user want to create a new form
         clearStorage(FORM_MODE.QUESTION.toUpperCase());
-      });
+      })
+      .addMatcher(
+        isAnyOf(fetchFormById.pending, updateForm.pending),
+        (state) => {
+          state.loading = true;
+        }
+      );
   },
 });
 

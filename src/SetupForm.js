@@ -41,7 +41,6 @@ function FormEditor(props) {
   const [animation, setAnimation] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [dialogAnimation, setDialogAnimation] = useState(false);
-  const body = document.getElementsByTagName("body");
 
   useEffect(() => {
     setShowMenu(!isMobile);
@@ -72,17 +71,11 @@ function FormEditor(props) {
   };
 
   const handleOpenDialog = () => {
-    if (body) {
-      body[0].style.overflow = "hidden";
-    }
     setOpenDialog(true);
     setDialogAnimation(true);
   };
 
   const handleCloseDialog = () => {
-    if (body) {
-      body[0].style.overflow = "visible";
-    }
     setDialogAnimation(false);
     setTimeout(() => {
       setOpenDialog(false);

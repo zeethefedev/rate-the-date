@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, isAnyOf } from "@reduxjs/toolkit";
 import { FORM_MODE, SETUP_FORM_INITIAL } from "../utils/constant";
 import { fetchForms, postForm } from "../api/question.thunk";
 import { getNoClickedCount, saveQuestionsToStorage } from "./method.reducer";
@@ -43,8 +43,8 @@ export const questionSlice = createSlice({
           : question
       );
       state.questions = newQuestions;
-      saveQuestionsToStorage(newQuestions);
       state.changeFlag = "";
+      saveQuestionsToStorage(newQuestions);
     },
     addQuestion: (state, action) => {
       const newQuestion = {
@@ -55,8 +55,8 @@ export const questionSlice = createSlice({
       };
       const newQuestions = [...state.questions, newQuestion];
       state.questions = newQuestions;
-      saveQuestionsToStorage(state.questions);
       state.changeFlag = "ADD";
+      saveQuestionsToStorage(state.questions);
     },
     removeQuestion: (state, action) => {
       const questionToRemove = action.payload;
@@ -66,20 +66,20 @@ export const questionSlice = createSlice({
 
       const newQuestionIndex = newQuestions.map((question, index) => ({
         ...question,
-        index: index,
+        index,
       }));
 
       state.questions = newQuestionIndex;
-      saveQuestionsToStorage(state.questions);
       state.changeFlag = "REMOVE";
+      saveQuestionsToStorage(state.questions);
     },
     reorderQuestions: (state, action) => {
-      state.changeFlag = "REORDER";
       const newQuestions = action.payload.map((question, index) => ({
         ...question,
         index,
       }));
       state.questions = newQuestions;
+      state.changeFlag = "REORDER";
       saveQuestionsToStorage(state.questions);
     },
     changePreview: (state, action) => {
@@ -94,17 +94,15 @@ export const questionSlice = createSlice({
           : question
       );
       state.questions = newQuestions;
-      console.log(newQuestions);
-      console.log(action.payload);
-      saveQuestionsToStorage(state.questions);
       state.changeFlag = "";
+      saveQuestionsToStorage(state.questions);
     },
     setNoClickedCount: (state, action) => {
       const questionData = action.payload;
       const newQuestions = getNoClickedCount(state.questions, questionData);
       state.questions = newQuestions;
-      saveQuestionsToStorage(state.questions);
       state.changeFlag = "";
+      saveQuestionsToStorage(state.questions);
     },
     validatePreview: (state) => {
       //set touched = true
@@ -116,8 +114,8 @@ export const questionSlice = createSlice({
         },
       }));
       state.questions = newQuestions;
-      saveQuestionsToStorage(state.questions);
       state.changeFlag = "";
+      saveQuestionsToStorage(state.questions);
     },
     resetQuestionForm: (state) => {
       state.questions = SETUP_FORM_INITIAL;
@@ -129,15 +127,9 @@ export const questionSlice = createSlice({
   extraReducers: (builder) => {
     builder
       //GET - test
-      .addCase(fetchForms.fulfilled, (action) => {
-        console.log(action.payload);
-      })
+      .addCase(fetchForms.fulfilled, (action) => {})
       //POST
-      .addCase(postForm.pending, (state) => {
-        state.loading = true;
-      })
       .addCase(postForm.fulfilled, (state, action) => {
-        console.log(action.payload);
         const formId = action.payload._id;
         state.responseFormLink = `/response/${formId}`;
         state.loading = false;
@@ -145,6 +137,9 @@ export const questionSlice = createSlice({
 
         // clear storage in case user want to create a new form
         clearStorage(FORM_MODE.QUESTION.toUpperCase());
+      })
+      .addMatcher(isAnyOf(fetchForms.pending, postForm.pending), (state) => {
+        state.loading = true;
       });
   },
 });

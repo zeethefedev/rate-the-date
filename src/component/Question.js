@@ -157,23 +157,16 @@ function Question({ data, mode = FORM.QUESTION, handleRemoveQuestion }) {
     }
   };
 
-  const body = document.getElementsByTagName("body");
   const [openDialog, setOpenDialog] = useState(false);
   const [dialogAnimation, setDialogAnimation] = useState(false);
   const handleOpenEditDialog = (event) => {
     event.preventDefault();
-    if (body) {
-      body[0].style.overflow = "hidden";
-    }
     setOpenDialog(true);
     setDialogAnimation(true);
   };
 
   const handleCloseEditDialog = (event) => {
     event.preventDefault();
-    if (body) {
-      body[0].style.overflow = "visible";
-    }
     setDialogAnimation(false);
     setTimeout(() => {
       setOpenDialog(false);
