@@ -8,7 +8,7 @@ import {
   BREAKPOINT,
   FORM_MODE as FORM,
 } from "../utils/constant";
-import { changePreview, changeQuestion } from "../store/questionReducer";
+import { changePreview, setDragEvent } from "../store/questionReducer";
 import { changeAnswers } from "../store/responseReducer";
 import SVGIcon from "./SVGIcon";
 import EditQuestionDialog from "./EditQuestionDialog";
@@ -40,7 +40,6 @@ function EditQuestionComponent(props) {
     openDialog,
     dialogAnimation,
     question,
-    handleChangeQuestion,
     handleCloseEditDialog,
     handleRemoveQuestion,
     dimensions,
@@ -79,7 +78,6 @@ function EditQuestionComponent(props) {
         open={openDialog}
         dialogAnimation={dialogAnimation}
         question={question}
-        handleChangeQuestion={handleChangeQuestion}
         handleCloseEditDialog={handleCloseEditDialog}
       />
       <div className="edit-menu-group">
@@ -122,22 +120,6 @@ function Question({ data, mode = FORM.QUESTION, handleRemoveQuestion }) {
     handleChangeResponse({ index, value: newValue });
   };
 
-  const handleChangeQuestion = (event, mode) => {
-    const textFields = [
-      "value",
-      "errorMessage",
-      "placeholder",
-      "yesLabel",
-      "noLabel",
-      "yesResponse",
-    ];
-    const questionData = {
-      ...data,
-      [mode]: event.target[textFields.includes(mode) ? "value" : "checked"],
-    };
-    dispatch(changeQuestion(questionData));
-  };
-
   const handleYesClicked = (event) => {
     event.preventDefault();
     handleChangeResponse({ index, value: "yes" });
@@ -162,6 +144,7 @@ function Question({ data, mode = FORM.QUESTION, handleRemoveQuestion }) {
   const handleOpenEditDialog = (event) => {
     event.preventDefault();
     setOpenDialog(true);
+    dispatch(setDragEvent(false));
     setDialogAnimation(true);
   };
 
@@ -171,6 +154,7 @@ function Question({ data, mode = FORM.QUESTION, handleRemoveQuestion }) {
     setTimeout(() => {
       setOpenDialog(false);
     }, ANIMATION_DELAY);
+    dispatch(setDragEvent(true));
   };
 
   const editInput = mode === FORM.QUESTION && (
@@ -178,7 +162,6 @@ function Question({ data, mode = FORM.QUESTION, handleRemoveQuestion }) {
       question={data}
       openDialog={openDialog}
       dialogAnimation={dialogAnimation}
-      handleChangeQuestion={handleChangeQuestion}
       handleRemoveQuestion={handleRemoveQuestion}
       handleOpenEditDialog={handleOpenEditDialog}
       handleCloseEditDialog={handleCloseEditDialog}

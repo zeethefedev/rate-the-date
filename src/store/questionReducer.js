@@ -12,6 +12,7 @@ const initialState = {
   loading: false,
   submitted: false,
   responseFormLink: "",
+  dragEnabled: true,
 };
 
 export const questionSlice = createSlice({
@@ -123,6 +124,9 @@ export const questionSlice = createSlice({
       state.submitted = false;
       state.changeFlag = "";
     },
+    setDragEvent: (state, action) => {
+      state.dragEnabled = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -156,6 +160,7 @@ export const {
   setNoClickedCount,
   validatePreview,
   resetQuestionForm,
+  setDragEvent,
 } = questionSlice.actions;
 
 export default questionSlice.reducer;

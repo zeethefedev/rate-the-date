@@ -137,6 +137,7 @@ function SetupForm() {
   const responseFormLink = useSelector(
     (state) => state.questionReducer.responseFormLink
   );
+  const dragEnabled = useSelector((state) => state.questionReducer.dragEnabled);
   const [viewMode, setViewMode] = useState(FORM_MODE.QUESTION);
   const [formMessage, setFormMessage] = useState({
     message: "This will not send any data",
@@ -252,7 +253,11 @@ function SetupForm() {
                     values={questions}
                   >
                     {questions.map((question) => (
-                      <Reorder.Item value={question} id={question.index}>
+                      <Reorder.Item
+                        value={question}
+                        id={question.index}
+                        dragListener={dragEnabled}
+                      >
                         <div
                           id={`question-${question.index}`}
                           key={question.index}
